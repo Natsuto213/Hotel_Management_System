@@ -5,19 +5,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Grand Hotel</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/homeStyle.css"/>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/homeStyle.css"/>
     </head>
     <body>
         <header class="main-header">
             <div class="container">
-                <a href="MainController" class="logo" action = "home">Grand Hotel</a>
+                <a href="MainController?action=home" class="logo">Grand Hotel</a>
                 <nav class="main-nav">
-                    <a href="#" class="nav-button-secondary" action = "login">Đăng nhập</a>
-                    <a href="#" class="nav-button-primary" action = "register">Đăng ký</a>
+                    <a href="MainController?action=login" class="nav-button-secondary">Đăng nhập</a>
+                    <a href="MainController?action=register" class="nav-button-primary">Đăng ký</a>
                 </nav>
             </div>
         </header>
