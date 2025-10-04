@@ -12,7 +12,6 @@
         <link rel="stylesheet" href="css/homeStyle.css"/>
     </head>
     <body>
-
         <header class="main-header">
             <div class="container">
                 <a href="MainController" class="logo" action = "home">Grand Hotel</a>
@@ -51,8 +50,8 @@
                         <label for="room-type">Loại phòng</label>
                         <select id="room-type">
                             <option>Tất cả</option>
-                            <option>Phòng Tiêu Chuẩn</option>
-                            <option>Phòng Deluxe</option>
+                            <option>Phòng Single</option>
+                            <option>Phòng Double</option>
                             <option>Phòng Suite</option>
                         </select>
                     </div>
@@ -69,11 +68,11 @@
                 <div class="rooms-grid">
                     <div class="room-card">
                         <div class="room-image">
-                            <img src="Images/StandardRoom.jpg" alt="Phòng Tiêu Chuẩn">
-                            <span class="room-tag">Standard</span>
+                            <img src="Images/StandardRoom.jpg" alt="Phòng Single">
+                            <span class="room-tag">Single</span>
                         </div>
                         <div class="room-info">
-                            <h3>Phòng Standard</h3>
+                            <h3>Phòng Single</h3>
                             <p>Phòng đơn cùng với đầy đủ tiện nghi cơ bản, phù hợp cho kỳ nghỉ của bạn.</p>
                             <div class="room-amenities">
                                 <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 2 khách</span>
@@ -88,11 +87,11 @@
 
                     <div class="room-card">
                         <div class="room-image">
-                            <img src=Images/DeluxeRoom.jpg alt="Phòng Deluxe">
-                            <span class="room-tag">Deluxe</span>
+                            <img src=Images/DeluxeRoom.jpg alt="Phòng Double">
+                            <span class="room-tag">Double</span>
                         </div>
                         <div class="room-info">
-                            <h3>Phòng Deluxe</h3>
+                            <h3>Phòng Double</h3>
                             <p>Phòng rộng rãi với view đẹp, trang bị nội thất hiện đại và các tiện ích cao cấp.</p>
                             <div class="room-amenities">
                                 <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 2 khách</span>
@@ -120,63 +119,6 @@
                                 <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card">
-                        <div class="room-image">
-                            <img src="https://via.placeholder.com/400x300.png?text=Phòng+Tổng+Thống" alt="Phòng Tổng Thống">
-                            <span class="room-tag residential-tag">Residential</span>
-                        </div>
-                        <div class="room-info">
-                            <h3>Phòng Tổng Thống</h3>
-                            <p>Trải nghiệm đẳng cấp với không gian sống, cấp quản gia và dịch vụ VIP.</p>
-                            <div class="room-amenities">
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 4 khách</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> 120m²</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Bathroom</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
-                            </div>
-                            <div class="room-price">8.000.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card">
-                        <div class="room-image">
-                            <img src="https://via.placeholder.com/400x300.png?text=Phòng+Deluxe+Plus" alt="Phòng Deluxe Plus">
-                            <span class="room-tag">Deluxe</span>
-                        </div>
-                        <div class="room-info">
-                            <h3>Phòng Deluxe Plus</h3>
-                            <p>Phiên bản nâng cấp của phòng Deluxe với ban công riêng và view tuyệt đẹp.</p>
-                            <div class="room-amenities">
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 3 khách</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> 40m²</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Bathroom</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
-                            </div>
-                            <div class="room-price">3.200.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
-                        </div>
-                    </div>
-
-                    <div class="room-card">
-                        <div class="room-image">
-                            <img src="https://via.placeholder.com/400x300.png?text=Phòng+Gia+Đình" alt="Phòng Gia Đình">
-                            <span class="room-tag">Tiêu chuẩn</span>
-                        </div>
-                        <div class="room-info">
-                            <h3>Phòng Gia Đình</h3>
-                            <p>Không gian kết nối, phù hợp cho gia đình có trẻ em và tiện nghi như ở nhà.</p>
-                            <div class="room-amenities">
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 4 khách</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> 45m²</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Bathroom</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
-                            </div>
-                            <div class="room-price">2.800.000đ <span class="per-night">/đêm</span></div>
                             <button class="book-button">Đặt phòng ngay</button>
                         </div>
                     </div>
