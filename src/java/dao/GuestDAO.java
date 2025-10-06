@@ -5,6 +5,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class GuestDAO {
                         String passwordHash = table.getString("PasswordHash");
                         String address = table.getString("Address");
                         String idNumber = table.getString("IDNumber");
-                        String dateOfBirth = table.getString("DateOfBirth");
+                        Date dateOfBirth = table.getDate("DateOfBirth");
                         result = new Guest(guestId, fullName, phone, email, passwordHash, address, idNumber, dateOfBirth);
                     }
                 }

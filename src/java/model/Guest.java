@@ -4,11 +4,14 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author votra
  */
 public class Guest {
+
     private int guestId;
     private String fullName;
     private String phone;
@@ -16,14 +19,26 @@ public class Guest {
     private String passWordHash;
     private String address;
     private String idNumber;
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
-    public Guest(int guestId, String fullName, String phone, String email, String passWordHash, String address, String idNumber, String dateOfBirth) {
+    public Guest() {
+    }
+
+    public Guest(int guestId, String fullName, String phone, String email, String passWordHash, String address, String idNumber, Date dateOfBirth) {
         this.guestId = guestId;
         this.fullName = fullName;
         this.phone = phone;
         this.email = email;
         this.passWordHash = passWordHash;
+        this.address = address;
+        this.idNumber = idNumber;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Guest(String fullName, String phone, String email, String address, String idNumber, Date dateOfBirth) {
+        this.fullName = fullName;
+        this.phone = phone;
+        this.email = email;
         this.address = address;
         this.idNumber = idNumber;
         this.dateOfBirth = dateOfBirth;
@@ -85,13 +100,12 @@ public class Guest {
         this.idNumber = idNumber;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-    
-            
+
 }
