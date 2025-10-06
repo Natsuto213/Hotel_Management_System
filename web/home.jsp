@@ -15,7 +15,7 @@
     <body>
         <header class="main-header">
             <div class="container">
-                <a href="#" class="logo">
+                <a href="MainController?action=home" class="logo">
                     <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
                 </a>
                 <nav class="main-nav">
@@ -25,10 +25,10 @@
 //                            request.getRequestDispatcher("login.jsp").forward(request, response);
 //                        } else {
                     %>
-                    <a href="#" class="nav-button-secondary">
+                    <a href="MainController?action=login" class="nav-button-secondary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
                     </a>
-                    <a href="#" class="nav-button-primary">
+                    <a href="MainController?action=register" class="nav-button-primary">
                         <i class="fa-solid fa-user-plus"></i> Đăng ký
                     </a>
 
@@ -37,7 +37,7 @@
         </header>
         <%
 //            }
-        %>
+%>
 
         <section class="hero-section">
             <div class="hero-content">

@@ -1,3 +1,4 @@
+<%@page import="model.Guest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -9,17 +10,34 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
         <header class="main-header">
             <div class="container">
-                <a href="MainController?action=home" class="logo">Grand Hotel</a>
+                <a href="MainController?action=home" class="logo">
+                    <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
+                </a>
                 <nav class="main-nav">
-                    <a href="MainController?action=login" class="nav-button-secondary">Đăng nhập</a>
-                    <a href="MainController?action=register" class="nav-button-primary">Đăng ký</a>
+                    <%
+//                        Guest guest = (Guest) session.getAttribute("USER");
+//                        if (guest == null) {
+//                            request.getRequestDispatcher("login.jsp").forward(request, response);
+//                        } else {
+                    %>
+                    <a href="MainController?action=login" class="nav-button-secondary">
+                        <i class="fa-solid fa-user"></i> Đăng nhập
+                    </a>
+                    <a href="MainController?action=register" class="nav-button-primary">
+                        <i class="fa-solid fa-user-plus"></i> Đăng ký
+                    </a>
+
                 </nav>
             </div>
         </header>
+        <%
+//            }
+%>
 
         <section class="hero-section">
             <div class="hero-content">
@@ -42,6 +60,7 @@
                         <input type="date" id="check-out">
                     </div>
                     <div class="form-group">
+
                         <label for="guests">Số khách</label>
                         <input type="number" id="guests" placeholder="Số lượng">
                     </div>
@@ -52,9 +71,13 @@
                             <option>Phòng Single</option>
                             <option>Phòng Double</option>
                             <option>Phòng Suite</option>
+                            <option>Phòng Deluxe</option>
+                            <option>Phòng Family</option>
+                            <option>Phòng Presidential</option>
                         </select>
                     </div>
-                    <button type="submit" class="search-button">Tìm kiếm</button>
+                    <button type="submit" class="search-button">
+                        Tìm kiếm</button>
                 </form>
             </div>
         </section>
@@ -67,17 +90,18 @@
                 <div class="rooms-grid">
                     <div class="room-card">
                         <div class="room-image">
-                            <img src="Images/StandardRoom.jpg" alt="Phòng Single">
+                            <img src="Images/SingleRoom.jpg" alt="Phòng Single">
                             <span class="room-tag">Single</span>
                         </div>
                         <div class="room-info">
                             <h3>Phòng Single</h3>
                             <p>Phòng đơn cùng với đầy đủ tiện nghi cơ bản, phù hợp cho kỳ nghỉ của bạn.</p>
                             <div class="room-amenities">
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 2 khách</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> 25m²</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Bathroom</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
+
+                                <span><i class="fa-solid fa-users"></i> Tối đa 2 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 25m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">1.500.000đ <span class="per-night">/đêm</span></div>
                             <button class="book-button">Đặt phòng ngay</button>
@@ -86,17 +110,18 @@
 
                     <div class="room-card">
                         <div class="room-image">
-                            <img src=Images/DeluxeRoom.jpg alt="Phòng Double">
+                            <img src=Images/DoubleRoom.jpg alt="Phòng Double">
                             <span class="room-tag">Double</span>
                         </div>
                         <div class="room-info">
                             <h3>Phòng Double</h3>
                             <p>Phòng rộng rãi với view đẹp, trang bị nội thất hiện đại và các tiện ích cao cấp.</p>
+
                             <div class="room-amenities">
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 2 khách</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> 35m²</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Bathroom</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
+                                <span><i class="fa-solid fa-users"></i> Tối đa 2 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 35m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">2.500.000đ <span class="per-night">/đêm</span></div>
                             <button class="book-button">Đặt phòng ngay</button>
@@ -112,10 +137,67 @@
                             <h3>Phòng Suite</h3>
                             <p>Phòng suite sang trọng với phòng khách riêng biệt và dịch vụ hoàn hảo.</p>
                             <div class="room-amenities">
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Tối đa 4 khách</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> 50m²</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Bathroom</span>
-                                <span><img src="https://via.placeholder.com/16x16.png?text=ICON" alt="icon"> Parking</span>
+                                <span><i class="fa-solid fa-users"></i> Tối đa 4 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
+                            </div>
+                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <button class="book-button">Đặt phòng ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-image">
+                            <img src=Images/DeluxeRoom.jpg alt="Phòng Deluxe">
+                            <span class="room-tag">Deluxe</span>
+                        </div>
+                        <div class="room-info">
+                            <h3>Phòng Deluxe</h3>
+                            <p>Phòng rộng rãi với view đẹp, thiết kế hiện đại và các tiện ích cao cấp.</p>
+                            <div class="room-amenities">
+                                <span><i class="fa-solid fa-users"></i> Tối đa 4 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
+                            </div>
+                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <button class="book-button">Đặt phòng ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-image">
+                            <img src=Images/FamilyRoom.jpg alt="Phòng Family">
+                            <span class="room-tag">Family</span>
+                        </div>
+                        <div class="room-info">
+                            <h3>Phòng Family</h3>
+                            <p>Phòng rộng rãi được thiết kế đặc biệt cho gia đình có trẻ em với khu vực chơi riêng.</p>
+                            <div class="room-amenities">
+                                <span><i class="fa-solid fa-users"></i> Tối đa 4 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
+                            </div>
+                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <button class="book-button">Đặt phòng ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-image">
+                            <img src=Images/Presidential.jpg alt="Phòng Presidential">
+                            <span class="room-tag">Presidential</span>
+                        </div>
+                        <div class="room-info">
+                            <h3>Phòng Presidential</h3>
+                            <p>Phòng cao cấp nhất với thiết kế đẳng cấp quốc tế và dịch vụ VIP độc quyền.</p>
+                            <div class="room-amenities">
+                                <span><i class="fa-solid fa-users"></i> Tối đa 6 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <button class="book-button">Đặt phòng ngay</button>
@@ -134,9 +216,9 @@
                 <div class="footer-col">
                     <h4>Liên hệ</h4>
                     <ul>
-                        <li>(012) 345 5678</li>
-                        <li>support@grandhotel.com</li>
-                        <li>123 Đường ABC, Quận 1, TP.HCM</li>
+                        <li>📞(012) 345 5678</li>
+                        <li>📧support@grandhotel.com</li>
+                        <li>📍123 Đường ABC, Quận 1, TP.HCM</li>
                     </ul>
                 </div>
                 <div class="footer-col">
