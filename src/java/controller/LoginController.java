@@ -4,12 +4,16 @@
  */
 package controller;
 
+import dao.GuestDAO;
+import dao.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Guest;
 
 /**
  *
@@ -29,21 +33,34 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            String username = request.getParameter("txtus");
+        String password = request.getParameter("txtpassword");
+        if (username != null && password != null) {
+            GuestDAO g = new GuestDAO();
+            Guest result = g.getGuest(username, password);
+            if (result != null) {
+                //luu result(guest da check login)
+                //lay session memory cua client
+                HttpSession session = request.getSession();
+                session.setAttribute("USER", result);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
+            } else {
+                request.setAttribute("ERROR", "invalid username or password");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+
+        } else {//username, pwd ko co trong db
+            request.setAttribute("ERROR", "your account is not permision");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
+        } catch (Exception e) {
+            System.out.println("Loi roi");
+        }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

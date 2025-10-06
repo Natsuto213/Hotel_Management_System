@@ -75,7 +75,7 @@ body {
 .nav-button-secondary {
     color: black;
     background-color: transparent;
-    border: 1px solid var(--text-color-light);
+    border: 3px solid var(--text-color-light);
 }
 
 .nav-button-secondary:hover {
@@ -186,6 +186,11 @@ body {
 
 .search-button:hover {
     background-color: #555;
+    
+}
+
+.search-button .fa-solid {
+    margin-right: 8px;
 }
 
 /* --- Rooms Section --- */
@@ -374,3 +379,22 @@ body {
     font-size: 13px;
     color: #aaa;
 }
+
+/* --- Header Icon Styling --- */
+.logo .fa-solid {
+    margin-right: 8px; /* Khoảng cách giữa icon và chữ 'Grand Hotel' */
+    color: black; /* Đảm bảo icon có màu trắng */
+}
+
+.main-nav a .fa-solid {
+    margin-right: 8px; /* Khoảng cách giữa icon và chữ 'Đăng nhập'/'Đăng ký' */
+}
+
+/* --- Styling for new Font Awesome Icons --- */
+.room-amenities i {
+    color: #888; /* Đổi màu icon thành màu xám */
+    width: 20px; /* Đặt chiều rộng cố định để căn chỉnh văn bản */
+    text-align: center;
+    margin-right: 4px; /* Thêm một chút khoảng cách bên phải icon */
+}
+
