@@ -186,7 +186,7 @@ body {
 
 .search-button:hover {
     background-color: #555;
-    
+
 }
 
 .search-button .fa-solid {
@@ -277,7 +277,7 @@ body {
     color: #666;
     font-size: 14px;
     line-height: 1.6;
-    min-height: 45px; /* Adjust as needed */
+    min-height: 45px;
 }
 
 .room-amenities {
@@ -323,6 +323,10 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+a.book-button {
+    text-decoration: none;
 }
 
 .book-button:hover {

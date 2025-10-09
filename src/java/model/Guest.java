@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -13,10 +13,10 @@ import java.sql.Date;
 public class Guest {
 
     private int guestId;
-    private String fullName;
+    private String fullname;
     private String phone;
     private String email;
-    private String passWordHash;
+    private String passwordHash;
     private String address;
     private String idNumber;
     private Date dateOfBirth;
@@ -24,19 +24,19 @@ public class Guest {
     public Guest() {
     }
 
-    public Guest(int guestId, String fullName, String phone, String email, String passWordHash, String address, String idNumber, Date dateOfBirth) {
+    public Guest(int guestId, String fullname, String phone, String email, String passwordHash, String address, String idNumber, Date dateOfBirth) {
         this.guestId = guestId;
-        this.fullName = fullName;
+        this.fullname = fullname;
         this.phone = phone;
         this.email = email;
-        this.passWordHash = passWordHash;
+        this.passwordHash = passwordHash;
         this.address = address;
         this.idNumber = idNumber;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Guest(String fullName, String phone, String email, String address, String idNumber, Date dateOfBirth) {
-        this.fullName = fullName;
+    public Guest(String fullname, String phone, String email, String address, String idNumber, Date dateOfBirth) {
+        this.fullname = fullname;
         this.phone = phone;
         this.email = email;
         this.address = address;
@@ -52,12 +52,12 @@ public class Guest {
         this.guestId = guestId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullName) {
+        this.fullname = fullName;
     }
 
     public String getPhone() {
@@ -76,12 +76,12 @@ public class Guest {
         this.email = email;
     }
 
-    public String getPassWordHash() {
-        return passWordHash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassWordHash(String passWordHash) {
-        this.passWordHash = passWordHash;
+    public void setPasswordHash(String passWordHash) {
+        this.passwordHash = passWordHash;
     }
 
     public String getAddress() {

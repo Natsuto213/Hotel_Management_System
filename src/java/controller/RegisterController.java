@@ -1,27 +1,31 @@
-package controller;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package controller;
 
-import dao.StaffDAO;
+import dao.GuestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Staff;
+import model.Guest;
 import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(urlPatterns = {"/RegisterController"})
+@WebServlet(name = "RegisterController", urlPatterns = {"/RegisterController"})
 public class RegisterController extends HttpServlet {
 
     /**
@@ -37,33 +41,44 @@ public class RegisterController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            request.setCharacterEncoding("utf-8");
             String fullname = request.getParameter("txtfullname");
             String username = request.getParameter("txtus");
             String password = request.getParameter("txtpassword");
             String phone = request.getParameter("txtphone");
             String email = request.getParameter("txtemail");
-            String role = request.getParameter("txtrole");
-            if (fullname != null && username != null && password != null && phone != null && email != null && role != null) {
-                Staff staff = new Staff(fullname, username, password, phone, email, role);
-                StaffDAO d = new StaffDAO();
-                boolean isdupplicate = d.checkDupplicate(username, email);
-                if (!isdupplicate) {
-                    int result = d.insertStaff(staff);
-                    if (result > 0) {
-                        request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
-                    } else {
-                        request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
-                    }
+            String address = request.getParameter("txtaddress");
+            String idnumber = request.getParameter("txtidnumber");
+            String DOB = request.getParameter("txtdob");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            Date dob = null;
+            try {
+                dob = sdf.parse(DOB);
+            } catch (ParseException ex) {
+                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (fullname != null && !fullname.isEmpty()
+                    && username != null && !username.isEmpty()
+                    && password != null && !password.isEmpty() && phone != null && email != null && address != null && idnumber != null) {
+                Guest guest = new Guest(fullname, phone, email, address, idnumber, dob);
+                GuestDAO d = new GuestDAO();
+                int result = d.createGuest(guest);
+                if (result > 0) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("USER", guest);
+                    // Tai chua co login nen chuyen ve home. Sau khi co login thi login sau do ve home va hien welcome
+                    request.getRequestDispatcher(IConstants.HOME).forward(request, response);
                 } else {
-                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
-
+                    request.setAttribute("ERROR", "Tao tai khoan that bai");
+                    request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
                 }
+            } else {
+                request.setAttribute("ERROR", "Loi tao tai khoang");
+                request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
             }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

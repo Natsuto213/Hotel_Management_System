@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.Staff;
 import utils.IConstants;
 
@@ -21,8 +20,8 @@ import utils.IConstants;
  *
  * @author Admin
  */
-@WebServlet(urlPatterns = {"/RegisterController"})
-public class RegisterController extends HttpServlet {
+@WebServlet(urlPatterns = {"/StaffRegisterController"})
+public class StaffRegisterController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

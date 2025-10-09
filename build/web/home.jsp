@@ -104,7 +104,9 @@
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">1.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
+                            <form action="MainController" method="post">
+                                <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
+                            </form>
                         </div>
                     </div>
 
@@ -124,7 +126,9 @@
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">2.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
+                            <form action="MainController" method="post">
+                                <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
+                            </form>
                         </div>
                     </div>
 
@@ -143,7 +147,9 @@
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
+                            <form action="MainController" method="post">
+                                <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
+                            </form>
                         </div>
                     </div>
 
@@ -162,7 +168,9 @@
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
+                            <form action="MainController" method="post">
+                                <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
+                            </form>
                         </div>
                     </div>
 
@@ -181,7 +189,9 @@
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
+                            <form action="MainController" method="post">
+                                <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
+                            </form>                       
                         </div>
                     </div>
 
@@ -200,7 +210,9 @@
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
-                            <button class="book-button">Đặt phòng ngay</button>
+                            <form action="MainController" method="post">
+                                <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
+                            </form>
                         </div>
                     </div>
                 </div>

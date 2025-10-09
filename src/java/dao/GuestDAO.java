@@ -98,4 +98,34 @@ public class GuestDAO {
         return result;
     }
 
+    public int createGuest(Guest guest) {
+        int result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "INSERT GUEST (FullName, Phone, Email, Address, IDNumber, DateOfBirth) values (?,?,?,?,?,?)";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, guest.getFullname());
+                st.setString(2, guest.getPhone());
+                st.setString(3, guest.getEmail());
+                st.setString(4, guest.getAddress());
+                st.setString(5, guest.getIdNumber());
+                st.setDate(6, (Date) guest.getDateOfBirth());
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
 }
