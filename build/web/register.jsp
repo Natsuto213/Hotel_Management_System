@@ -1,35 +1,27 @@
 <%-- 
     Document   : register
-    Created on : Oct 4, 2025, 4:50:18 PM
+    Created on : Oct 7, 2025, 10:23:26 AM
     Author     : Admin
 --%>
 
-<%@page import="utils.IConstants"%>
-<%@page import="model.Staff"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Register Page</title>
     </head>
     <body>
-        <h1>Register new Staff</h1>
-        <form action="RegisterController" method="post" accept-charset="utf-8">
-            <p>Fullname: <input type="text" name="txtfullname" required="">*</p>
-            <p>Username: <input type="text" name="txtus" required="">*</p>
+        <form action="MainController" method="post">
+            <p>Full name: <input type="text" name="txtfullname" required="">*</p>
+            <p>User name: <input type="text" name="txtus" required="">*</p>
             <p>Password: <input type="password" name="txtpassword" required="">*</p>
             <p>Phone: <input type="text" name="txtphone"></p>
-            <p>Email: <input type="text" name="txtemail" pattern="^[a-zA-Z0-9]+[@][a-zA-Z]+([.][a-zA-Z]+){1,2)$"></p>
-            <p>Role: <select name="txtrole">
-                    <option value="Admin">Admin</option>
-                    <option value="Receptionist">Receptionist</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Housekeeping">Housekeeping</option>
-                    <option value="ServiceStaff">ServiceStaff</option>  
-                </select>
-            </p>
-            <p><input type="submit" name="action" value="submit"></p>
+            <p>Email: <input type="text" name="txtemail"></p>
+            <p>Address: <input type="text" name="txtaddress"></p>
+            <p>ID Number: <input type="text" name="txtidnumber"></p>
+            <p>Date of birth: <input type="date" name="txtdob"></p>
+            <p><button type="submit" name="action" value="createUser">Submit</button></p>
         </form>
     </body>
 </html>
