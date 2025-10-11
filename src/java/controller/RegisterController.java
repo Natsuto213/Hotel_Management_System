@@ -7,11 +7,8 @@ package controller;
 import dao.GuestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,18 +45,13 @@ public class RegisterController extends HttpServlet {
             String email = request.getParameter("txtemail");
             String address = request.getParameter("txtaddress");
             String idnumber = request.getParameter("txtidnumber");
-            String DOB = request.getParameter("txtdob");
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-            Date dob = null;
-            try {
-                dob = sdf.parse(DOB);
-            } catch (ParseException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            String dobStr = request.getParameter("txtdob");
+            LocalDate dob = LocalDate.parse(dobStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             if (fullname != null && !fullname.isEmpty()
                     && username != null && !username.isEmpty()
-                    && password != null && !password.isEmpty() && phone != null && email != null && address != null && idnumber != null) {
-                Guest guest = new Guest(fullname, phone, email, address, idnumber, dob);
+                    && password != null && !password.isEmpty()
+                    && phone != null && email != null && address != null && idnumber != null && dob != null) {
+                Guest guest = new Guest(fullname, username, password, phone, email, address, idnumber, dob);
                 GuestDAO d = new GuestDAO();
                 int result = d.createGuest(guest);
                 if (result > 0) {
@@ -68,13 +60,14 @@ public class RegisterController extends HttpServlet {
                     // Tai chua co login nen chuyen ve home. Sau khi co login thi login sau do ve home va hien welcome
                     request.getRequestDispatcher(IConstants.HOME).forward(request, response);
                 } else {
-                    request.setAttribute("ERROR", "Tao tai khoan that bai");
+                    request.setAttribute("ERROR", "Tạo tài khoản thất bài hoặc tài khoản đã bị trùng. Vui lòng đổi username hoặc email");
                     request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
                 }
             } else {
-                request.setAttribute("ERROR", "Loi tao tai khoang");
+                request.setAttribute("ERROR", "Vui lòng điên đủ các ô");
                 request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
             }
+
         }
     }
 

@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import model.Guest;
 import utils.DBUtils;
 
@@ -57,7 +57,6 @@ public class GuestDAO {
 //        return list;
 //    }
     public Guest getGuest(String username, String password) {
-
         Guest result = null;
         try {
             Connection cn = DBUtils.getConnection();//step 1
@@ -67,12 +66,11 @@ public class GuestDAO {
                         + "      ,[FullName]\n"
                         + "      ,[Phone]\n"
                         + "      ,[Email]\n"
-                        + "      ,[PasswordHash]\n"
                         + "      ,[Address]\n"
                         + "      ,[IDNumber]\n"
                         + "      ,[DateOfBirth]\n"
                         + "  FROM [HotelManagement].[dbo].[GUEST]\n"
-                        + "  WHERE [FullName] = ? AND [PasswordHash] = ?";
+                        + "  WHERE [FullName] = ? AND [Email] = ?";
                 PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
                 st.setString(1, username);
                 st.setString(2, password);
@@ -84,11 +82,11 @@ public class GuestDAO {
                         String fullName = table.getString("FullName");
                         String phone = table.getString("Phone");
                         String email = table.getString("Email");
-                        String passwordHash = table.getString("PasswordHash");
                         String address = table.getString("Address");
                         String idNumber = table.getString("IDNumber");
-                        Date dateOfBirth = table.getDate("DateOfBirth");
-                        result = new Guest(guestId, fullName, phone, email, passwordHash, address, idNumber, dateOfBirth);
+                        Date dobTemp = table.getDate("DateOfBirth");
+                        LocalDate dob = dobTemp.toLocalDate();
+                        result = new Guest(guestId, fullName, username, password, phone, email, address, idNumber, dob);
                     }
                 }
             }
@@ -104,14 +102,17 @@ public class GuestDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "INSERT GUEST (FullName, Phone, Email, Address, IDNumber, DateOfBirth) values (?,?,?,?,?,?)";
+                String sql = "INSERT INTO GUEST (FullName, Username, PasswordHash, Phone, Email, Address, IDNumber, DateOfBirth)\n"
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, guest.getFullname());
-                st.setString(2, guest.getPhone());
-                st.setString(3, guest.getEmail());
-                st.setString(4, guest.getAddress());
-                st.setString(5, guest.getIdNumber());
-                st.setDate(6, (Date) guest.getDateOfBirth());
+                st.setString(2, guest.getUsername());
+                st.setString(3, guest.getPasswordHash());
+                st.setString(4, guest.getPhone());
+                st.setString(5, guest.getEmail());
+                st.setString(6, guest.getAddress());
+                st.setString(7, guest.getIdNumber());
+                st.setDate(8, java.sql.Date.valueOf(guest.getDateOfBirth()));
                 result = st.executeUpdate();
             }
         } catch (Exception e) {

@@ -36,12 +36,14 @@
         <div class="register-form">
             <form action="MainController" method="post">
                 <h1 class="register-title">Register form</h1>
-                <p>Full name: <input type="text" name="txtfullname" required="">*</p>
-                <p>Phone: <input type="text" name="txtphone"></p>
-                <p>Email: <input type="text" name="txtemail"></p>
-                <p>Address: <input type="text" name="txtaddress"></p>
-                <p>ID Number: <input type="text" name="txtidnumber"></p>
-                <p>Date of birth: <input type="date" name="txtdob"></p>
+                <p><input type="text" name="txtfullname" required="" placeholder="Full Name *"></p>
+                <p><input type="text" name="txtus" required="" placeholder="User Name *"></p>
+                <p><input type="password" name="txtpassword" required="" placeholder="Password *"></p>
+                <p><input type="text" name="txtphone" placeholder="Phone"></p>
+                <p><input type="text" name="txtemail" placeholder="Email"></p>
+                <p><input type="text" name="txtaddress" placeholder="Address"></p>
+                <p><input type="text" name="txtidnumber" placeholder="ID Number"></p>
+                <p><input type="date" name="txtdob"></p>
                 <p><button type="submit" name="action" value="createUser">Submit</button></p>
             </form>
         </div>
