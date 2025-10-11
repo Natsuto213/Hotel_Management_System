@@ -19,12 +19,7 @@
                     <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
                 </a>
                 <nav class="main-nav">
-                    <%
-//                        Guest guest = (Guest) session.getAttribute("USER");
-//                        if (guest == null) {
-//                            request.getRequestDispatcher("login.jsp").forward(request, response);
-//                        } else {
-                    %>
+
                     <a href="MainController?action=login" class="nav-button-secondary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
                     </a>
@@ -35,9 +30,6 @@
                 </nav>
             </div>
         </header>
-        <%
-//            }
-%>
 
         <section class="hero-section">
             <div class="hero-content">

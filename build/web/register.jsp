@@ -10,18 +10,40 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Register Page</title>
+        <link rel="stylesheet" href="css/homeStyle.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     </head>
-    <body>
-        <form action="MainController" method="post">
-            <p>Full name: <input type="text" name="txtfullname" required="">*</p>
-            <p>User name: <input type="text" name="txtus" required="">*</p>
-            <p>Password: <input type="password" name="txtpassword" required="">*</p>
-            <p>Phone: <input type="text" name="txtphone"></p>
-            <p>Email: <input type="text" name="txtemail"></p>
-            <p>Address: <input type="text" name="txtaddress"></p>
-            <p>ID Number: <input type="text" name="txtidnumber"></p>
-            <p>Date of birth: <input type="date" name="txtdob"></p>
-            <p><button type="submit" name="action" value="createUser">Submit</button></p>
-        </form>
+    <body class="register-page">
+        <header class="main-header">
+            <div class="container">
+                <a href="MainController?action=home" class="logo">
+                    <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
+                </a>
+                <nav class="main-nav">
+
+                    <a href="MainController?action=login" class="nav-button-secondary">
+                        <i class="fa-solid fa-user"></i> Đăng nhập
+                    </a>
+                    <a href="MainController?action=register" class="nav-button-primary">
+                        <i class="fa-solid fa-user-plus"></i> Đăng ký
+                    </a>
+
+                </nav>
+            </div>
+        </header>
+
+        <div class="register-form">
+            <form action="MainController" method="post">
+                <h1 class="register-title">Register form</h1>
+                <p>Full name: <input type="text" name="txtfullname" required="">*</p>
+                <p>Phone: <input type="text" name="txtphone"></p>
+                <p>Email: <input type="text" name="txtemail"></p>
+                <p>Address: <input type="text" name="txtaddress"></p>
+                <p>ID Number: <input type="text" name="txtidnumber"></p>
+                <p>Date of birth: <input type="date" name="txtdob"></p>
+                <p><button type="submit" name="action" value="createUser">Submit</button></p>
+            </form>
+        </div>
     </body>
 </html>
