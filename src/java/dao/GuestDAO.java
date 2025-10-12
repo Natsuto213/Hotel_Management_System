@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import model.Guest;
 import utils.DBUtils;
@@ -71,7 +72,7 @@ public class GuestDAO {
                         + "      ,[DateOfBirth]\n"
                         + "  FROM [HotelManagement].[dbo].[GUEST]\n"
                         + "  WHERE [FullName] = ? AND [Email] = ?";
-                PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
+                PreparedStatement st = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, username);
                 st.setString(2, password);
                 ResultSet table = st.executeQuery();
@@ -97,14 +98,14 @@ public class GuestDAO {
     }
 
     public int createGuest(Guest guest) {
-        int result = 0;
+        int guestid = 0;
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
                 String sql = "INSERT INTO GUEST (FullName, Username, PasswordHash, Phone, Email, Address, IDNumber, DateOfBirth)\n"
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-                PreparedStatement st = cn.prepareStatement(sql);
+                PreparedStatement st = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, guest.getFullname());
                 st.setString(2, guest.getUsername());
                 st.setString(3, guest.getPasswordHash());
@@ -112,8 +113,18 @@ public class GuestDAO {
                 st.setString(5, guest.getEmail());
                 st.setString(6, guest.getAddress());
                 st.setString(7, guest.getIdNumber());
-                st.setDate(8, java.sql.Date.valueOf(guest.getDateOfBirth()));
-                result = st.executeUpdate();
+                if (guest.getDateOfBirth() != null) {
+                    st.setDate(8, java.sql.Date.valueOf(guest.getDateOfBirth()));
+                } else {
+                    st.setNull(8, java.sql.Types.DATE);
+                }
+                int result = st.executeUpdate();
+                if (result > 0) {
+                    ResultSet rs = st.getGeneratedKeys();
+                    if (rs.next()) {
+                        guestid = rs.getInt(1);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,7 +137,7 @@ public class GuestDAO {
                 e.printStackTrace();
             }
         }
-        return result;
+        return guestid;
     }
 
 }

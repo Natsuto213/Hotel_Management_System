@@ -8,6 +8,7 @@ public interface IConstants {
     public final String STAFF_REGISTER = "StaffRegister.jsp";
     public final String ERROR = "error.jsp";
     public final String BOOKING = "booking.jsp";
+    public final String PAYMENT = "payment.jsp";
 
     public final String CONTROLLER_REGIS = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";

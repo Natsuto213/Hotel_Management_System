@@ -43,16 +43,20 @@ public class MainController extends HttpServlet {
                     case "register":
                         url = IConstants.REGISTER;
                         break;
-                    case "booking":
-                        url = IConstants.BOOKING;
-                        break;
                     case "createUser":
                         url = IConstants.CONTROLLER_REGIS;
                         break;
                     case "createStaff":
                         url = IConstants.CONTROLLER_REGIS_STAFF;
                         break;
+                    case "booking":
+                        String roomTypeID = request.getParameter("txtroomtypeid");
+                        request.setAttribute("txtroomtypeid", roomTypeID);
+                        url = IConstants.BOOKING;
+                        break;
                     case "bookroom":
+                        roomTypeID = request.getParameter("txtroomtypeid");
+                        request.setAttribute("txtroomtypeid", roomTypeID);
                         url = IConstants.CONTROLLER_BOOKING;
                         break;
                 }
@@ -63,7 +67,6 @@ public class MainController extends HttpServlet {
                     request.getRequestDispatcher(url).forward(request, response);
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             }
         }

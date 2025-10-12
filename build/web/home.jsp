@@ -97,6 +97,7 @@
                             </div>
                             <div class="room-price">1.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
+                                <input type="hidden" name="txtroomtypeid" value="1" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -119,6 +120,7 @@
                             </div>
                             <div class="room-price">2.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
+                                <input type="hidden" name="txtroomtypeid" value="2" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -140,6 +142,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
+                                <input type="hidden" name="txtroomtypeid" value="3" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -161,6 +164,8 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
+                                <input type="hidden" name="txtroomtypeid" value="1003" />
+
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -182,6 +187,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
+                                <input type="hidden" name="txtroomtypeid" value="1004" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>                       
                         </div>
@@ -203,6 +209,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
+                                <input type="hidden" name="txtroomtypeid" value="1006" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>

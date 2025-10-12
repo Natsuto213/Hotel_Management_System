@@ -13,6 +13,7 @@
     </head>
     <body>
         <form action="MainController" method="post">
+            <input type="hidden" name="txtroomtypeid" value="<%= request.getAttribute("txtroomtypeid")%>">
             <p>Check-in <input type="date" name="txtcheck-in" required="">*</p>
             <p>Check-out <input type="date" name ="txtcheck-out" required="">*</p>
             <p><button type="submit" name="action" value="bookroom">Đặt phòng ngay</button></p>

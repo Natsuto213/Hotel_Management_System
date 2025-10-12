@@ -46,15 +46,19 @@ public class RegisterController extends HttpServlet {
             String address = request.getParameter("txtaddress");
             String idnumber = request.getParameter("txtidnumber");
             String dobStr = request.getParameter("txtdob");
-            LocalDate dob = LocalDate.parse(dobStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate dob = null;
+            if (dobStr != null && !dobStr.isEmpty()) {
+                dob = LocalDate.parse(dobStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            }
             if (fullname != null && !fullname.isEmpty()
                     && username != null && !username.isEmpty()
                     && password != null && !password.isEmpty()
-                    && phone != null && email != null && address != null && idnumber != null && dob != null) {
+                    && phone != null && email != null && address != null && idnumber != null) {
                 Guest guest = new Guest(fullname, username, password, phone, email, address, idnumber, dob);
                 GuestDAO d = new GuestDAO();
-                int result = d.createGuest(guest);
-                if (result > 0) {
+                int guestid = d.createGuest(guest);
+                if (guestid > 0) {
+                    guest.setGuestId(guestid);
                     HttpSession session = request.getSession();
                     session.setAttribute("USER", guest);
                     // Tai chua co login nen chuyen ve home. Sau khi co login thi login sau do ve home va hien welcome
