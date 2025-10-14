@@ -4,17 +4,23 @@
  */
 package controller;
 
+import dao.GuestDAO;
+import dao.StaffDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Guest;
+import model.Staff;
+import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
+@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
 
     /**
@@ -26,24 +32,81 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private StaffDAO staffDAO;
+    private GuestDAO guestDAO;
+
+    @Override
+    public void init() throws ServletException {
+        staffDAO = new StaffDAO();
+        guestDAO = new GuestDAO();
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String username = request.getParameter("txtus");
+        String password = request.getParameter("txtpassword");
+
+        Staff staff = staffDAO.getStaff(username, password);
+        Guest guest = guestDAO.getGuest(username, password);
+        request.getSession().setAttribute("isLogin", false);
+
+        if (staff != null) {
+            request.getSession().setAttribute("isLogin", true);
+            request.getSession().setAttribute("USER", staff);
+            response.sendRedirect(IConstants.HOME);
+            return; // Dừng thực thi
         }
+        if (guest != null) {
+            request.getSession().setAttribute("isLogin", true);
+            request.getSession().setAttribute("USER", guest);
+            request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+            return; // Dừng thực thi
+        }
+
+// Nếu cả hai đều null
+        request.setAttribute("error", "Invalid username or password");
+        request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
+
+        //
+//        if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+//            Object currentUser = staffService.getStaffByUsernameAndPassword(username, password);
+//
+//            if (currentUser == null) {
+//                currentUser = guestService.getGuestByUsernameAndPassword(username, password);
+//            }
+//
+//            if (currentUser != null) {
+//                HttpSession session = request.getSession(true);
+//                session.setAttribute("USER", currentUser);
+//
+//                String userRole = "";
+//                if (currentUser instanceof StaffModel) {
+//                    userRole = ((StaffModel) currentUser).getRole();
+//                } else if (currentUser instanceof GuestModel) {
+//                    userRole = "GUEST";
+//                }
+//
+//                String redirectUrl = IConstants.HOME;
+//                switch (userRole.toUpperCase()) {
+//                    case "GUEST":
+//                        redirectUrl = IConstants.HOME;
+//                        break;
+//                }
+//                response.sendRedirect(request.getContextPath() + redirectUrl);
+//
+//            } else {
+//                request.setAttribute(RequestAttribute.ERROR_LOGIN_MESSAGE, "Incorrect username or password.");
+//                request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+//            }
+//        } else {
+//            request.setAttribute(RequestAttribute.ERROR_LOGIN_MESSAGE, "Username and password are required.");
+//            request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+//        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

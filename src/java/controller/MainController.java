@@ -43,6 +43,9 @@ public class MainController extends HttpServlet {
                     case "register":
                         url = IConstants.REGISTER;
                         break;
+                    case "loginUser":
+                        url = IConstants.CONTROLLER_LOGIN;
+                        break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
