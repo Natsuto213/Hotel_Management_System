@@ -1,3 +1,4 @@
+<%@page import="model.Staff"%>
 <%@page import="model.Guest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,29 +16,49 @@
     <body>
         <header class="main-header">
             <div class="container">
-                <a href="MainController?action=home" class="logo">
+                <a href="#" class="logo">
                     <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
                 </a>
-                <nav class="main-nav">
-                    <%
+
+                <%
 //                        Guest guest = (Guest) session.getAttribute("USER");
 //                        if (guest == null) {
 //                            request.getRequestDispatcher("login.jsp").forward(request, response);
 //                        } else {
-                    %>
+                    Boolean isLogin = (Boolean) request.getAttribute("isLogin");
+                    Staff loginStaff = (Staff) request.getAttribute("userStaff");
+                    Guest loginGuest = (Guest) request.getAttribute("userGuest");
+
+                    String username = "";
+                    if (isLogin != null && isLogin == true) {
+                        if (loginStaff != null) {
+                            username = loginStaff.getUsername(); // hoặc loginStaff.getUsername()
+                        } else if (loginGuest != null) {
+                            username = loginGuest.getFullName(); // hoặc loginGuest.getUsername()
+                        }
+                    }
+                %>
+                <nav class="main-nav">
+                    <% if (isLogin != null && isLogin == true) {%>
+                    <!-- User đã đăng nhập - hiển thị username -->
+                    <span style="color: white; margin-right: 15px;">Xin chào, <%= username%>!</span>
+                    <form style="display: inline;">
+                        <button class="btn btn-secondary"><a href="LogoutController" style="color: white">Đăng xuất</a></button>
+                    </form>
+                    <% } else { %>
                     <a href="MainController?action=login" class="nav-button-secondary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
                     </a>
-                    <a href="MainController?action=register" class="nav-button-primary">
+                    <a href="#" class="nav-button-primary">
                         <i class="fa-solid fa-user-plus"></i> Đăng ký
                     </a>
-
+                    <% } %>
                 </nav>
             </div>
         </header>
         <%
 //            }
-%>
+        %>
 
         <section class="hero-section">
             <div class="hero-content">
@@ -142,6 +163,63 @@
                             <p>Phòng suite sang trọng với phòng khách riêng biệt và dịch vụ hoàn hảo.</p>
                             <div class="room-amenities">
                                 <span><i class="fa-solid fa-users"></i> Tối đa 4 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
+                            </div>
+                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <button class="book-button">Đặt phòng ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-image">
+                            <img src=Images/DeluxeRoom.jpg alt="Phòng Deluxe">
+                            <span class="room-tag">Deluxe</span>
+                        </div>
+                        <div class="room-info">
+                            <h3>Phòng Deluxe</h3>
+                            <p>Phòng rộng rãi với view đẹp, thiết kế hiện đại và các tiện ích cao cấp.</p>
+                            <div class="room-amenities">
+                                <span><i class="fa-solid fa-users"></i> Tối đa 4 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
+                            </div>
+                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <button class="book-button">Đặt phòng ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-image">
+                            <img src=Images/FamilyRoom.jpg alt="Phòng Family">
+                            <span class="room-tag">Family</span>
+                        </div>
+                        <div class="room-info">
+                            <h3>Phòng Family</h3>
+                            <p>Phòng rộng rãi được thiết kế đặc biệt cho gia đình có trẻ em với khu vực chơi riêng.</p>
+                            <div class="room-amenities">
+                                <span><i class="fa-solid fa-users"></i> Tối đa 4 khách</span>
+                                <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
+                                <span><i class="fa-solid fa-bath"></i> Bathroom</span>
+                                <span><i class="fa-solid fa-car"></i> Parking</span>
+                            </div>
+                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <button class="book-button">Đặt phòng ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-image">
+                            <img src=Images/Presidential.jpg alt="Phòng Presidential">
+                            <span class="room-tag">Presidential</span>
+                        </div>
+                        <div class="room-info">
+                            <h3>Phòng Presidential</h3>
+                            <p>Phòng cao cấp nhất với thiết kế đẳng cấp quốc tế và dịch vụ VIP độc quyền.</p>
+                            <div class="room-amenities">
+                                <span><i class="fa-solid fa-users"></i> Tối đa 6 khách</span>
                                 <span><i class="fa-solid fa-vector-square"></i> 50m²</span>
                                 <span><i class="fa-solid fa-bath"></i> Bathroom</span>
                                 <span><i class="fa-solid fa-car"></i> Parking</span>

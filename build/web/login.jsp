@@ -12,10 +12,10 @@
         <title>Login Page</title>
     </head>
     <body>
-        <form action="LoginController" method="post">
+        <form action="MainController" method="post">
             <p>username:<input type="text" name="txtus" placeholder="Enter your name" required="" />*</p>
             <p>password:<input type="password" name="txtpassword" placeholder="Enter your password" required=""/>*</p>
-            <p><input type="submit" value="login" name="action"></p>
+            <p><input type="submit" name="action" value="loginUser" ></p>
         </form>
         <p><%
             if (request.getAttribute("ERROR") != null) {

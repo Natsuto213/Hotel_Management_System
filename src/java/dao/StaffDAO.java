@@ -3,68 +3,71 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
+import java.util.Optional;
 import model.Staff;
 import utils.DBUtils;
 
+/**
+ *
+ * @author votra
+ */
 public class StaffDAO {
 
-    public int insertStaff(Staff staff) {
-        int result = 0;
-        Connection cn = null;
-        try {
-            cn = DBUtils.getConnection();
-            if (cn != null) {
-                String sql = "insert dbo.STAFF(FullName,Role,Username,PasswordHash,Phone,Email) values(?,?,?,?,?,?)";
-                PreparedStatement st = cn.prepareStatement(sql);
-                st.setString(1, staff.getFullname());
-                st.setString(2, staff.getRole());
-                st.setString(3, staff.getUsername());
-                st.setString(4, staff.getPasswordHash());
-                st.setString(5, staff.getPhone());
-                st.setString(6, staff.getEmail());
-                result = st.executeUpdate();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
+    public Staff getStaff(String username, String password) {
 
-    public boolean checkDupplicate(String username, String email) {
-        boolean result = false; // khong dupplicate
-        Connection cn = null;
+        Staff result = null;
         try {
-            cn = DBUtils.getConnection();
+            Connection cn = DBUtils.getConnection();//step 1
             if (cn != null) {
-                String sql = "select *  from dbo.STAFF where Username=? OR Email=?";
-                PreparedStatement st = cn.prepareStatement(sql);
+                //step 2
+                String sql = "SELECT [StaffID]\n"
+                        + "      ,[FullName]\n"
+                        + "      ,[Role]\n"
+                        + "      ,[Username]\n"
+                        + "      ,[PasswordHash]\n"
+                        + "      ,[Phone]\n"
+                        + "      ,[Email]\n"
+                        + "  FROM [HotelManagement].[dbo].[STAFF]"
+                        + "  WHERE [Username] = ? AND [PasswordHash] = ? COLLATE Latin1_General_CS_AS";
+                PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
                 st.setString(1, username);
-                st.setString(2, email);
+                st.setString(2, password);
                 ResultSet table = st.executeQuery();
-                if (table != null && table.next()) {
-                    result = true; // co dupplicate
+                //step 3
+                if (table != null) {
+                    while (table.next()) {//di qua dong mau xam
+                        int staffId = table.getInt("StaffID");
+                        String fullName = table.getString("FullName");
+                        String role = table.getString("Role");
+                        String phone = table.getString("Phone");
+                        String email = table.getString("Email");
+                        String passwordHash = table.getString("PasswordHash");
+                       
+                        result = new Staff(staffId, fullName, role, username, password, phone, email);
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
-
+    
+//    // ========= LẤY TẤT CẢ STAFF =========
+//    public List<Staff> findAll() {
+//        return query("SELECT * FROM STAFF");
+//    }
+//
+//    // ========= TÌM STAFF THEO ID =========
+//    public Optional<Staff> findById(int id) {
+//        List<Staff> staffs = query("SELECT * FROM STAFF WHERE StaffID = ?", id);
+//        return staffs.stream().findFirst();
+//    }
+//
+//    // ========= TÌM STAFF THEO USERNAME =========
+//    public Optional<Staff> findByUsername(String userName) {
+//        List<Staff> staffs = query("SELECT * FROM STAFF WHERE UserName = ?", userName);
+//        return staffs.stream().findFirst();
+//    }
 }

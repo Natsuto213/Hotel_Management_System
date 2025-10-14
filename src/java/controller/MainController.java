@@ -43,17 +43,8 @@ public class MainController extends HttpServlet {
                     case "register":
                         url = IConstants.REGISTER;
                         break;
-                    case "booking":
-                        url = IConstants.BOOKING;
-                        break;
-                    case "createUser":
-                        url = IConstants.CONTROLLER_REGIS;
-                        break;
-                    case "createStaff":
-                        url = IConstants.CONTROLLER_REGIS_STAFF;
-                        break;
-                    case "bookroom":
-                        url = IConstants.CONTROLLER_BOOKING;
+                    case "loginUser":
+                        url = IConstants.CONTROLLER_LOGIN;
                         break;
                 }
             } catch (Exception e) {

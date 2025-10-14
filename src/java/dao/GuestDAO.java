@@ -5,7 +5,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class GuestDAO {
                         + "      ,[IDNumber]\n"
                         + "      ,[DateOfBirth]\n"
                         + "  FROM [HotelManagement].[dbo].[GUEST]\n"
-                        + "  WHERE [FullName] = ? AND [PasswordHash] = ?";
+                        + "  WHERE [FullName] = ? AND [PasswordHash] = ? COLLATE Latin1_General_CS_AS";
                 PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
                 st.setString(1, username);
                 st.setString(2, password);
@@ -87,43 +86,13 @@ public class GuestDAO {
                         String passwordHash = table.getString("PasswordHash");
                         String address = table.getString("Address");
                         String idNumber = table.getString("IDNumber");
-                        Date dateOfBirth = table.getDate("DateOfBirth");
+                        String dateOfBirth = table.getString("DateOfBirth");
                         result = new Guest(guestId, fullName, phone, email, passwordHash, address, idNumber, dateOfBirth);
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        return result;
-    }
-
-    public int createGuest(Guest guest) {
-        int result = 0;
-        Connection cn = null;
-        try {
-            cn = DBUtils.getConnection();
-            if (cn != null) {
-                String sql = "INSERT GUEST (FullName, Phone, Email, Address, IDNumber, DateOfBirth) values (?,?,?,?,?,?)";
-                PreparedStatement st = cn.prepareStatement(sql);
-                st.setString(1, guest.getFullname());
-                st.setString(2, guest.getPhone());
-                st.setString(3, guest.getEmail());
-                st.setString(4, guest.getAddress());
-                st.setString(5, guest.getIdNumber());
-                st.setDate(6, (Date) guest.getDateOfBirth());
-                result = st.executeUpdate();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }

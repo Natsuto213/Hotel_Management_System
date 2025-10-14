@@ -11,16 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Guest;
-import utils.IConstants;
 
 /**
  *
- * @author Admin
+ * @author votra
  */
-@WebServlet(name = "BookingController", urlPatterns = {"/BookingController"})
-public class BookingController extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,12 +31,8 @@ public class BookingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            
-            
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        request.getSession().invalidate(); // Xóa session
+        response.sendRedirect("home"); // Redirect về home
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
