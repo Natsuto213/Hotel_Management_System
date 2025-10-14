@@ -120,9 +120,9 @@ public class GuestDAO {
                 }
                 int result = st.executeUpdate();
                 if (result > 0) {
-                    ResultSet rs = st.getGeneratedKeys();
-                    if (rs.next()) {
-                        guestid = rs.getInt(1);
+                    ResultSet table = st.getGeneratedKeys();
+                    if (table != null && table.next()) {
+                        guestid = table.getInt(1);
                     }
                 }
             }
@@ -130,6 +130,7 @@ public class GuestDAO {
             e.printStackTrace();
         } finally {
             try {
+                cn.setAutoCommit(true);
                 if (cn != null) {
                     cn.close();
                 }

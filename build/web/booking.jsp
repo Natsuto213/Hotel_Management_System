@@ -10,13 +10,26 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Booking Page</title>
+        <link rel="stylesheet" href="css/homeStyle.css"/>
+        <link rel="stylesheet" href="css/pagesStyle.css"/>
+
+
     </head>
     <body>
-        <form action="MainController" method="post">
-            <input type="hidden" name="txtroomtypeid" value="<%= request.getAttribute("txtroomtypeid")%>">
-            <p>Check-in <input type="date" name="txtcheck-in" required="">*</p>
-            <p>Check-out <input type="date" name ="txtcheck-out" required="">*</p>
-            <p><button type="submit" name="action" value="bookroom">Đặt phòng ngay</button></p>
-        </form>   
+        <div class="booking-page">
+            <form action="MainController" method="post">
+                <h1>Đơn đặt phòng</h1>
+                <input type="hidden" name="txtroomtypeid" value="<%= request.getAttribute("txtroomtypeid")%>">
+                <input type="text" name="txtcheckin" placeholder="Ngày nhận phòng"
+                       onfocus="this.type = 'date'" 
+                       onblur="if (!this.value)
+                                   this.type = 'text'">             
+                <input type="text" name="txtchecout" placeholder="Ngày trả phòng"
+                       onfocus ="this.type = 'date'"
+                       onblur = "if (!this.value)
+                                   this.type = 'text'">
+                <p><button type="submit" name="action" value="bookroom">Đặt phòng ngay</button></p>
+            </form> 
+        </div>
     </body>
 </html>

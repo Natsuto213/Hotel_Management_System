@@ -19,9 +19,9 @@ public class RoomDAO {
                         + "WHERE rt.RoomTypeID = ? AND r.Status = 'Available'";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, typeId);
-                ResultSet rs = st.executeQuery();
-                if (rs.next()) {
-                    roomId = rs.getInt("RoomID");
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    roomId = table.getInt("RoomID");
                 }
             }
         } catch (Exception e) {

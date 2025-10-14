@@ -45,28 +45,31 @@ public class BookingController extends HttpServlet {
             if (guest != null) {
                 int guestId = guest.getGuestId();
                 String roomTypeId = request.getParameter("txtroomtypeid");
+                
                 RoomDAO rd = new RoomDAO();
                 int roomId = rd.getAvailableRoomIdByTypeId(Integer.parseInt(roomTypeId));
-                String checkinStr = request.getParameter("txtcheck-in");
-                String checkoutStr = request.getParameter("txtcheck-out");
+                if (roomId == 0) {
+                    request.setAttribute("ERROR", "Không còn phòng trống thuộc loại này!");
+                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                }
+                
+                String checkinStr = request.getParameter("txtcheckin");
+                String checkoutStr = request.getParameter("txtchecout");
                 LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                
                 if (guestId != 0 && roomId != 0 && checkin != null && checkout != null) {
                     int check = rd.changeRoomStatus("Occupied", roomId);
                     if (check > 0) {
-                        if (roomId == 0) {
-                            request.setAttribute("ERROR", "Không còn phòng trống thuộc loại này!");
-                            request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                        Booking booking = new Booking(guestId, roomId, checkin, checkout, "Reserved");
+                        BookingDAO bd = new BookingDAO();
+                        int result = bd.createBooking(booking);
+                        if (result > 0) {
+                            request.setAttribute("BOOKING", booking);
+                            request.getRequestDispatcher(IConstants.PAYMENT).forward(request, response);
                         } else {
-                            Booking booking = new Booking(guestId, roomId, checkin, checkout, "Reserved");
-                            BookingDAO bd = new BookingDAO();
-                            int result = bd.createBooking(booking);
-                            if (result > 0) {
-                                request.getRequestDispatcher(IConstants.PAYMENT).forward(request, response);
-                            } else {
-                                request.setAttribute("ERROR", "Lỗi đặt phòng");
-                                request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
-                            }
+                            request.setAttribute("ERROR", "Lỗi đặt phòng");
+                            request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
                         }
                     } else {
                         request.setAttribute("ERROR", "Đổi trạng thái phòng lỗi");
@@ -74,7 +77,7 @@ public class BookingController extends HttpServlet {
                     }
                 }
             } else {
-                request.setAttribute("ERROR", "Không lấy được Guest từ session");
+                request.setAttribute("ERROR", "Không lấy được GUEST từ session");
                 request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
             }
         }

@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>This is payment page</h1>
+        <!-- Nhớ đặt 1 cái input type hidden ở đây để tracking BOOKING -->
     </body>
 </html>
