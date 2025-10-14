@@ -40,11 +40,27 @@ public class MainController extends HttpServlet {
                     case "login":
                         url = IConstants.LOGIN;
                         break;
+                    case "loginUser":
+                        url = IConstants.CONTROLLER_LOGIN;
+                        break;
                     case "register":
                         url = IConstants.REGISTER;
                         break;
-                    case "loginUser":
-                        url = IConstants.CONTROLLER_LOGIN;
+                    case "createUser":
+                        url = IConstants.CONTROLLER_REGIS;
+                        break;
+                    case "createStaff":
+                        url = IConstants.CONTROLLER_REGIS_STAFF;
+                        break;
+                    case "booking":
+                        String roomTypeID = request.getParameter("txtroomtypeid");
+                        request.setAttribute("txtroomtypeid", roomTypeID);
+                        url = IConstants.BOOKING;
+                        break;
+                    case "bookroom":
+                        roomTypeID = request.getParameter("txtroomtypeid");
+                        request.setAttribute("txtroomtypeid", roomTypeID);
+                        url = IConstants.CONTROLLER_BOOKING;
                         break;
                 }
             } catch (Exception e) {
@@ -54,7 +70,6 @@ public class MainController extends HttpServlet {
                     request.getRequestDispatcher(url).forward(request, response);
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             }
         }

@@ -40,7 +40,7 @@ body {
 
 /* --- Header --- */
 .main-header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -186,7 +186,7 @@ body {
 
 .search-button:hover {
     background-color: #555;
-    
+
 }
 
 .search-button .fa-solid {
@@ -401,4 +401,3 @@ a.book-button {
     text-align: center;
     margin-right: 4px; /* Thêm một chút khoảng cách bên phải icon */
 }
-

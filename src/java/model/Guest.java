@@ -4,28 +4,45 @@
  */
 package model;
 
-
+import java.time.LocalDate;
 
 /**
  *
  * @author votra
  */
 public class Guest {
+
     private int guestId;
-    private String fullName;
+    private String fullname;
+    private String username;
+    private String passwordHash;
     private String phone;
     private String email;
-    private String passWordHash;
     private String address;
     private String idNumber;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
-    public Guest(int guestId, String fullName, String phone, String email, String passWordHash, String address, String idNumber, String dateOfBirth) {
+    public Guest() {
+    }
+
+    public Guest(int guestId, String fullname, String username, String passwordHash, String phone, String email, String address, String idNumber, LocalDate dateOfBirth) {
         this.guestId = guestId;
-        this.fullName = fullName;
+        this.fullname = fullname;
+        this.username = username;
+        this.passwordHash = passwordHash;
         this.phone = phone;
         this.email = email;
-        this.passWordHash = passWordHash;
+        this.address = address;
+        this.idNumber = idNumber;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Guest(String fullname, String username, String passwordHash, String phone, String email, String address, String idNumber, LocalDate dateOfBirth) {
+        this.fullname = fullname;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.phone = phone;
+        this.email = email;
         this.address = address;
         this.idNumber = idNumber;
         this.dateOfBirth = dateOfBirth;
@@ -39,12 +56,28 @@ public class Guest {
         this.guestId = guestId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getPhone() {
@@ -63,14 +96,6 @@ public class Guest {
         this.email = email;
     }
 
-    public String getPassWordHash() {
-        return passWordHash;
-    }
-
-    public void setPassWordHash(String passWordHash) {
-        this.passWordHash = passWordHash;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -87,13 +112,12 @@ public class Guest {
         this.idNumber = idNumber;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-    
-            
+
 }

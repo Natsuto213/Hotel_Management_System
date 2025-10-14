@@ -4,14 +4,19 @@
  */
 package controller;
 
+import dao.BookingDAO;
+import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Booking;
 import model.Guest;
 import utils.IConstants;
 
@@ -34,11 +39,47 @@ public class BookingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            
-            
-        }catch (Exception e){
-            e.printStackTrace();
+        try ( PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession();
+            Guest guest = (Guest) session.getAttribute("USER");
+            if (guest != null) {
+                int guestId = guest.getGuestId();
+                String roomTypeId = request.getParameter("txtroomtypeid");
+                
+                RoomDAO rd = new RoomDAO();
+                int roomId = rd.getAvailableRoomIdByTypeId(Integer.parseInt(roomTypeId));
+                if (roomId == 0) {
+                    request.setAttribute("ERROR", "Không còn phòng trống thuộc loại này!");
+                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                }
+                
+                String checkinStr = request.getParameter("txtcheckin");
+                String checkoutStr = request.getParameter("txtchecout");
+                LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                
+                if (guestId != 0 && roomId != 0 && checkin != null && checkout != null) {
+                    int check = rd.changeRoomStatus("Occupied", roomId);
+                    if (check > 0) {
+                        Booking booking = new Booking(guestId, roomId, checkin, checkout, "Reserved");
+                        BookingDAO bd = new BookingDAO();
+                        int result = bd.createBooking(booking);
+                        if (result > 0) {
+                            request.setAttribute("BOOKING", booking);
+                            request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+                        } else {
+                            request.setAttribute("ERROR", "Lỗi đặt phòng");
+                            request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                        }
+                    } else {
+                        request.setAttribute("ERROR", "Đổi trạng thái phòng lỗi");
+                        request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                    }
+                }
+            } else {
+                request.setAttribute("ERROR", "Không lấy được GUEST từ session");
+                request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+            }
         }
     }
 
