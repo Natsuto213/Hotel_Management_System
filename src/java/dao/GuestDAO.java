@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import model.Guest;
 import utils.DBUtils;
 
@@ -22,51 +21,53 @@ import utils.DBUtils;
 public class GuestDAO {
 
     public Guest getGuest(String username, String password) {
-
         Guest result = null;
+        Connection cn = null;
         try {
-            Connection cn = DBUtils.getConnection();//step 1
+            cn = DBUtils.getConnection();
             if (cn != null) {
                 //step 2
-                String sql = "SELECT [GuestID]\n"
-                        + "      ,[FullName]\n"
-                        + "      ,[Phone]\n"
-                        + "      ,[Email]\n"
-                        + "      ,[Username]\n"
-                        + "      ,[PasswordHash]\n"
-                        + "      ,[Address]\n"
-                        + "      ,[IDNumber]\n"
-                        + "      ,[DateOfBirth]\n"
-                        + "  FROM [HotelManagement].[dbo].[GUEST]\n"
-                        + "  WHERE [FullName] = ? AND [PasswordHash] = ? COLLATE Latin1_General_CS_AS";
+                String sql = "SELECT * \n"
+                        + "FROM [HotelManagement].[dbo].[GUEST]\n"
+                        + "WHERE [Username] = ? AND [PasswordHash] = ?";
                 PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
                 st.setString(1, username);
                 st.setString(2, password);
                 ResultSet table = st.executeQuery();
                 //step 3
                 if (table != null) {
-                    while (table.next()) {//di qua dong mau xam
+                    while (table.next()) {
                         int guestId = table.getInt("GuestID");
                         String fullName = table.getString("FullName");
                         String phone = table.getString("Phone");
                         String email = table.getString("Email");
-//                        String passwordHash = table.getString("PasswordHash");
                         String address = table.getString("Address");
                         String idNumber = table.getString("IDNumber");
                         Date dateOfBirth = table.getDate("DateOfBirth");
-                        LocalDate dob = LocalDate.parse((CharSequence) dateOfBirth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                        result = new Guest(fullName, username, password, phone, email, address, idNumber, dob);
+                        LocalDate dob = null;
+                        if (dateOfBirth != null) {
+                            dob = dateOfBirth.toLocalDate();
+                        }
+                        result = new Guest(guestId, fullName, username, password, phone, email, address, idNumber, dob);
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
 
     public int createGuest(Guest guest) {
-        int guestid = 0;
+        int result = 0;
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
@@ -86,19 +87,19 @@ public class GuestDAO {
                 } else {
                     st.setNull(8, java.sql.Types.DATE);
                 }
-                int result = st.executeUpdate();
+                result = st.executeUpdate();
                 if (result > 0) {
                     ResultSet table = st.getGeneratedKeys();
-                    if (table != null && table.next()) {
-                        guestid = table.getInt(1);
+                    if (table.next()) {
+                        guest.setGuestId(table.getInt(1));
                     }
                 }
+                return result;
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                cn.setAutoCommit(true);
                 if (cn != null) {
                     cn.close();
                 }
@@ -106,7 +107,37 @@ public class GuestDAO {
                 e.printStackTrace();
             }
         }
-        return guestid;
+        return result;
+    }
+
+    public boolean checkDupplicate(String value) {
+        boolean result = false; // khong dupplicate
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "select * from dbo.GUEST where Username=? OR Email=? OR Phone = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, value);
+                st.setString(2, value);
+                st.setString(3, value);
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    result = true; // co dupplicate
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
 }

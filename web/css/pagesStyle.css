@@ -52,15 +52,28 @@
     background-color: #555;
 }
 
+/* 🔹 Viền đỏ khi không khớp */
+.error-input {
+    border: 2px solid red;
+}
+
+/* 🔹 Dòng báo lỗi */
+#password-error {
+    color: red;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
 /* --- Styling for booking page--- */
-.booking-page h1 {
+.form-page h1 {
     padding-bottom: 20px;
     text-align: center;
     color: #333;
     font-family: 'Montserrat', sans-serif;
 }
 
-.booking-page {
+.form-page {
     margin-top: 100px;
     max-width: 550px;
     background-color: #fff;
@@ -69,12 +82,12 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.booking-page form p {
+.form-page form p {
     margin-bottom: 15px;
     font-size: 16px;
 }
 
-.booking-page input {
+.form-page input {
     width: 100%;
     padding: 12px 14px;
     margin-bottom: 15px;
@@ -84,7 +97,7 @@
     font-family: var(--font-family);
 }
 
-.booking-page button {
+.form-page button {
     width: 100%;
     padding: 12px;
     background-color: var(--primary-color);
@@ -96,6 +109,6 @@
     transition: background-color 0.3s ease;
 }
 
-.booking-page button:hover {
+.form-page button:hover {
     background-color: #555;
 }

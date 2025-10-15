@@ -56,20 +56,36 @@ public class RegisterController extends HttpServlet {
                     && phone != null && email != null && address != null && idnumber != null) {
                 Guest guest = new Guest(fullname, username, password, phone, email, address, idnumber, dob);
                 GuestDAO d = new GuestDAO();
-                int guestid = d.createGuest(guest);
-                if (guestid > 0) {
-                    guest.setGuestId(guestid);
-                    HttpSession session = request.getSession();
-                    session.setAttribute("USER", guest);
-                    // Tai chua co login nen chuyen ve home. Sau khi co login thi login sau do ve home va hien welcome
-                    request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+                boolean isDupplicate = d.checkDupplicate(username);
+                if (!isDupplicate) { //check dupplicate USERNAME
+                    isDupplicate = d.checkDupplicate(email);
+                    if (!isDupplicate) { //check dupplicate EMAIL
+                        isDupplicate = d.checkDupplicate(phone);
+                        if (!isDupplicate) { //check dupplicate PHONE
+                            int result = d.createGuest(guest);
+                            if (result > 0) {
+                                HttpSession session = request.getSession();
+                                session.setAttribute("USER", guest);
+                                request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+                            } else {
+                                request.setAttribute("ERROR", "Tạo tài khoản thất bại");
+                                request.getRequestDispatcher(IConstants.REGISTER).forward(request, response);
+                            }
+                        } else {
+                            request.setAttribute("ERROR", "số điện thoại này đã được dùng. Vui lòng đổi số điện thoại khác");
+                            request.getRequestDispatcher(IConstants.REGISTER).forward(request, response);
+                        }
+                    } else {
+                        request.setAttribute("ERROR", "email đã được dùng. Vui lòng đổi email khác");
+                        request.getRequestDispatcher(IConstants.REGISTER).forward(request, response);
+                    }
                 } else {
-                    request.setAttribute("ERROR", "Tạo tài khoản thất bài hoặc tài khoản đã bị trùng. Vui lòng đổi username hoặc email");
-                    request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
+                    request.setAttribute("ERROR", "username đã được dùng. Vui lòng đổi username khác");
+                    request.getRequestDispatcher(IConstants.REGISTER).forward(request, response);
                 }
             } else {
                 request.setAttribute("ERROR", "Vui lòng điên đủ các ô");
-                request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
+                request.getRequestDispatcher(IConstants.REGISTER).forward(request, response);
             }
 
         }

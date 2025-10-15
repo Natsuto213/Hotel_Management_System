@@ -88,7 +88,7 @@ public class StaffDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "select *  from dbo.STAFF where Username=? OR Email=?";
+                String sql = "select * from dbo.STAFF where Username=? OR Email=?";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, username);
                 st.setString(2, email);

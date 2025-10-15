@@ -10,6 +10,7 @@ public interface IConstants {
     public final String BOOKING = "booking.jsp";
     public final String INVOICE = "invoice.jsp";
 
+    public final String CONTROLLER_LOGOUT = "LogoutController";
     public final String CONTROLLER_LOGIN = "LoginController";
     public final String CONTROLLER_REGIS = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";

@@ -36,17 +36,57 @@
 
         <div class="register-form">
             <form action="MainController" method="post">
-                <h1 class="register-title">Register form</h1>
+                <h1 class="register-title">Register</h1>
                 <p><input type="text" name="txtfullname" required="" placeholder="Full Name *"></p>
-                <p><input type="text" name="txtus" required="" placeholder="User Name *"></p>
+                <p><input type="text" name="txtus" required="" placeholder="Username *"></p>
                 <p><input type="password" name="txtpassword" required="" placeholder="Password *"></p>
-                <p><input type="text" name="txtphone" placeholder="Phone" pattern="^(03|05|07|08|09)\d{8}$"></p>
-                <p><input type="text" name="txtemail" placeholder="Email" pattern="^[a-zA-Z0-9]+[@][a-zA-Z]+([.][a-zA-Z]+){1,2)$"></p>
+                <p><input type="password" name="txtconfirmpassword" required="" placeholder="Confirm Password *"></p>
+                <p><input type="text" name="txtphone" required="" placeholder="Phone *" pattern="^(03|05|07|08|09)\d{8}$"></p>
+                <p><input type="text" name="txtemail" required="" placeholder="Email *" pattern="^[a-zA-Z0-9]+[@][a-zA-Z]+([.][a-zA-Z]+){1,2)$"></p>
                 <p><input type="text" name="txtaddress" placeholder="Address"></p>
                 <p><input type="text" name="txtidnumber" placeholder="ID Number"></p>
                 <p><input type="date" name="txtdob"></p>
+                <p><%
+                    if (request.getAttribute("ERROR") != null) {
+                        out.print(request.getAttribute("ERROR"));
+                    }
+                    %>
+                </p>
                 <p><button type="submit" name="action" value="createUser">Submit</button></p>
             </form>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const password = document.querySelector("input[name='txtpassword']");
+                const confirm = document.querySelector("input[name='txtconfirmpassword']");
+
+                // Tạo phần hiển thị lỗi nếu chưa có
+                let errorMsg = document.createElement("div");
+                errorMsg.id = "password-error";
+                confirm.insertAdjacentElement("afterend", errorMsg);
+
+                // Hàm kiểm tra khớp mật khẩu
+                function checkPasswords() {
+                    if (confirm.value.length === 0) {
+                        errorMsg.textContent = "";
+                        confirm.classList.remove("error-input");
+                        return;
+                    }
+
+                    if (password.value !== confirm.value) {
+                        confirm.classList.add("error-input");
+                        errorMsg.textContent = "Mật khẩu xác nhận không khớp!";
+                    } else {
+                        confirm.classList.remove("error-input");
+                        errorMsg.textContent = "";
+                    }
+                }
+
+                // Gọi kiểm tra khi người dùng đang nhập
+                confirm.addEventListener("input", checkPasswords);
+                password.addEventListener("input", checkPasswords);
+            });
+        </script>
+
     </body>
 </html>

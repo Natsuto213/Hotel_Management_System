@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Guest;
 import model.Staff;
 import utils.IConstants;
@@ -38,20 +39,21 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("txtus");
         String password = request.getParameter("txtpassword");
+        HttpSession session = request.getSession();
 
         Staff staff = staffDAO.getStaff(username, password);
         Guest guest = guestDAO.getGuest(username, password);
-        request.getSession().setAttribute("isLogin", false);
+        session.setAttribute("isLogin", false);
 
         if (staff != null) {
-            request.getSession().setAttribute("isLogin", true);
-            request.getSession().setAttribute("USER", staff);
+            session.setAttribute("isLogin", true);
+            session.setAttribute("USER", staff);
             request.getRequestDispatcher(IConstants.HOME).forward(request, response);
             return; // Dừng thực thi
         }
         if (guest != null) {
-            request.getSession().setAttribute("isLogin", true);
-            request.getSession().setAttribute("USER", guest);
+            session.setAttribute("isLogin", true);
+            session.setAttribute("USER", guest);
             request.getRequestDispatcher(IConstants.HOME).forward(request, response);
             return; // Dừng thực thi
         }

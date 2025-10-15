@@ -21,30 +21,28 @@
                 </a>
 
                 <%
-//                        Guest guest = (Guest) session.getAttribute("USER");
-//                        if (guest == null) {
-//                            request.getRequestDispatcher("login.jsp").forward(request, response);
-//                        } else {
-                    Boolean isLogin = (Boolean) request.getAttribute("isLogin");
-                    Staff loginStaff = (Staff) request.getAttribute("userStaff");
-                    Guest loginGuest = (Guest) request.getAttribute("userGuest");
-
+                    HttpSession sessionObj = request.getSession(false);
+                    Boolean isLogin = false;
                     String username = "";
-                    if (isLogin != null && isLogin == true) {
-                        if (loginStaff != null) {
-                            username = loginStaff.getUsername(); // hoặc loginStaff.getUsername()
-                        } else if (loginGuest != null) {
-                            username = loginGuest.getUsername(); // hoặc loginGuest.getUsername()
+
+                    if (sessionObj != null) {
+                        isLogin = (Boolean) sessionObj.getAttribute("isLogin");
+
+                        Object user = sessionObj.getAttribute("USER");
+                        if (user instanceof Staff) {
+                            username = ((Staff) user).getUsername();
+                        } else if (user instanceof Guest) {
+                            username = ((Guest) user).getUsername();
                         }
                     }
                 %>
                 <nav class="main-nav">
                     <% if (isLogin != null && isLogin == true) {%>
                     <!-- User đã đăng nhập - hiển thị username -->
-                    <span style="color: white; margin-right: 15px;">Xin chào, <%= username%>!</span>
-                    <form style="display: inline;">
-                        <button class="btn btn-secondary"><a href="LogoutController" style="color: white">Đăng xuất</a></button>
-                    </form>
+                    <span class="welcome">Xin chào, <%= username%>!</span>
+                    <a href="MainController?action=logout" class="nav-button-primary">
+                        <i class="fa-solid fa-user-minus"></i> Đăng xuất
+                    </a>
                     <% } else { %>
                     <a href="MainController?action=login" class="nav-button-secondary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
@@ -126,7 +124,7 @@
                             </div>
                             <div class="room-price">1.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
-                                <input type="hidden" name="txtroomtypeid" value="1" />
+                                <input type="hidden" name="txtroomtype" value="Single" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -149,7 +147,7 @@
                             </div>
                             <div class="room-price">2.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
-                                <input type="hidden" name="txtroomtypeid" value="2" />
+                                <input type="hidden" name="txtroomtype" value="Double" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -171,7 +169,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
-                                <input type="hidden" name="txtroomtypeid" value="3" />
+                                <input type="hidden" name="txtroomtype" value="Suite" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
@@ -193,7 +191,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
-                                <input type="hidden" name="txtroomtypeid" value="1003" />
+                                <input type="hidden" name="txtroomtype" value="Deluxe" />
 
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
@@ -216,7 +214,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
-                                <input type="hidden" name="txtroomtypeid" value="1004" />
+                                <input type="hidden" name="txtroomtype" value="Family" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>                       
                         </div>
@@ -238,7 +236,7 @@
                             </div>
                             <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
-                                <input type="hidden" name="txtroomtypeid" value="1006" />
+                                <input type="hidden" name="txtroomtype" value="Presidential" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>

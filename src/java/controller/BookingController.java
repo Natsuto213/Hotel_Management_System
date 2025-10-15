@@ -44,46 +44,45 @@ public class BookingController extends HttpServlet {
             Guest guest = (Guest) session.getAttribute("USER");
             if (guest != null) {
                 int guestId = guest.getGuestId();
-                String roomTypeId = request.getParameter("txtroomtypeid");
-                
+                String roomType = request.getParameter("txtroomtype");
                 RoomDAO rd = new RoomDAO();
-                int roomId = rd.getAvailableRoomIdByTypeId(Integer.parseInt(roomTypeId));
-                if (roomId == 0) {
-                    request.setAttribute("ERROR", "Không còn phòng trống thuộc loại này!");
-                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
-                }
-                
-                String checkinStr = request.getParameter("txtcheckin");
-                String checkoutStr = request.getParameter("txtchecout");
-                LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                
-                if (guestId != 0 && roomId != 0 && checkin != null && checkout != null) {
-                    int check = rd.changeRoomStatus("Occupied", roomId);
-                    if (check > 0) {
-                        Booking booking = new Booking(guestId, roomId, checkin, checkout, "Reserved");
-                        BookingDAO bd = new BookingDAO();
-                        int result = bd.createBooking(booking);
-                        if (result > 0) {
-                            request.setAttribute("BOOKING", booking);
-                            request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+                int roomId = rd.getAvailableRoomIdByType(roomType);
+                if (roomId != 0) {
+                    String checkinStr = request.getParameter("txtcheckin");
+                    String checkoutStr = request.getParameter("txtchecout");
+                    LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                    if (guestId != 0 && roomId != 0 && checkin != null && checkout != null) {
+                        int check = rd.changeRoomStatus("Occupied", roomId);
+                        if (check > 0) {
+                            Booking booking = new Booking(guestId, roomId, checkin, checkout, "Reserved");
+                            BookingDAO bd = new BookingDAO();
+                            int result = bd.createBooking(booking);
+                            if (result > 0) {
+                                request.setAttribute("BOOKING", booking);
+                                request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+                            } else {
+                                request.setAttribute("ERROR", "Lỗi đặt phòng");
+                                request.getRequestDispatcher(IConstants.BOOKING).forward(request, response);
+                            }
                         } else {
-                            request.setAttribute("ERROR", "Lỗi đặt phòng");
-                            request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                            request.setAttribute("ERROR", "Đổi trạng thái phòng lỗi");
+                            request.getRequestDispatcher(IConstants.BOOKING).forward(request, response);
                         }
-                    } else {
-                        request.setAttribute("ERROR", "Đổi trạng thái phòng lỗi");
-                        request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
                     }
+                } else {
+                    request.setAttribute("ERROR", " Không còn phòng trống thuộc loại này!");
+                    request.getRequestDispatcher(IConstants.BOOKING).forward(request, response);
                 }
             } else {
                 request.setAttribute("ERROR", "Không lấy được GUEST từ session");
-                request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                request.getRequestDispatcher(IConstants.BOOKING).forward(request, response);
             }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

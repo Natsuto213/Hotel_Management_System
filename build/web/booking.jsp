@@ -14,13 +14,12 @@
         <link rel="stylesheet" href="css/homeStyle.css"/>
         <link rel="stylesheet" href="css/pagesStyle.css"/>
 
-
     </head>
     <body>
-        <div class="booking-page">
+        <div class="form-page">
             <form action="MainController" method="post">
                 <h1>Đơn đặt phòng</h1>
-                <input type="hidden" name="txtroomtypeid" value="<%= request.getAttribute("txtroomtypeid")%>">
+                <input type="hidden" name="txtroomtype" value="${txtroomtype}">
                 <input type="text" name="txtcheckin" placeholder="Ngày nhận phòng"
                        onfocus="this.type = 'date'" 
                        onblur="if (!this.value)
@@ -30,6 +29,13 @@
                        onblur = "if (!this.value)
                                    this.type = 'text'">
                 <p><button type="submit" name="action" value="bookroom">Đặt phòng ngay</button></p>
+                <p>
+                    <%
+                        if (request.getAttribute("ERROR") != null) {
+                            out.print(request.getAttribute("ERROR"));
+                        }
+                    %>
+                </p>
             </form> 
         </div>
     </body>

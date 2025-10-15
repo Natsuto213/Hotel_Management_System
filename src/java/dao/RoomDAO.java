@@ -8,7 +8,7 @@ import utils.DBUtils;
 
 public class RoomDAO {
 
-    public int getAvailableRoomIdByTypeId(int typeId) {
+    public int getAvailableRoomIdByType(String type) {
         Connection cn = null;
         int roomId = 0;
         try {
@@ -17,9 +17,9 @@ public class RoomDAO {
                 String sql = "SELECT TOP 1 r.RoomID "
                         + "FROM ROOM r "
                         + "JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID "
-                        + "WHERE rt.RoomTypeID = ? AND r.Status = 'Available'";
+                        + "WHERE rt.TypeName = ? AND r.Status = 'Available'";
                 PreparedStatement st = cn.prepareStatement(sql);
-                st.setInt(1, typeId);
+                st.setString(1, type);
                 ResultSet table = st.executeQuery();
                 if (table != null && table.next()) {
                     roomId = table.getInt("RoomID");
