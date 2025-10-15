@@ -46,10 +46,11 @@
                 <p><input type="text" name="txtaddress" placeholder="Address"></p>
                 <p><input type="text" name="txtidnumber" placeholder="ID Number"></p>
                 <p><input type="date" name="txtdob"></p>
-                <p><%
-                    if (request.getAttribute("ERROR") != null) {
-                        out.print(request.getAttribute("ERROR"));
-                    }
+                <p>
+                    <%
+                        if (request.getAttribute("ERROR") != null) {
+                            out.print(request.getAttribute("ERROR"));
+                        }
                     %>
                 </p>
                 <p><button type="submit" name="action" value="createUser">Submit</button></p>

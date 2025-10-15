@@ -1,4 +1,3 @@
-
 package model;
 
 import java.time.LocalDate;
@@ -26,15 +25,14 @@ public class Booking {
         this.status = status;
     }
 
-    public Booking(int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, String status) {
+    public Booking(int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, LocalDate bookingDate, String status) {
         this.guestId = guestId;
         this.roomId = roomId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        this.BookingDate = bookingDate;
         this.status = status;
     }
-    
-    
 
     public int getBookingId() {
         return bookingId;

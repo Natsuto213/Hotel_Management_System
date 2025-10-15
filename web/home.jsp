@@ -38,7 +38,6 @@
                 %>
                 <nav class="main-nav">
                     <% if (isLogin != null && isLogin == true) {%>
-                    <!-- User đã đăng nhập - hiển thị username -->
                     <span class="welcome">Xin chào, <%= username%>!</span>
                     <a href="MainController?action=logout" class="nav-button-primary">
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
@@ -54,9 +53,6 @@
                 </nav>
             </div>
         </header>
-        <%
-//            }
-        %>
 
         <section class="hero-section">
             <div class="hero-content">

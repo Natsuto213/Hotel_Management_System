@@ -15,4 +15,6 @@ public interface IConstants {
     public final String CONTROLLER_REGIS = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";
     public final String CONTROLLER_BOOKING = "BookingController";
+
+    public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";
 }

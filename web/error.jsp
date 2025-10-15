@@ -13,10 +13,12 @@
         <title>Error Page</title>
     </head>
     <body>
-        <p><%
-            if (request.getAttribute("ERROR") != null) {
-                out.print(request.getAttribute("ERROR"));
-            }
-            %></p>    
+        <p>
+            <%
+                if (request.getAttribute("ERROR") != null) {
+                    out.print(request.getAttribute("ERROR"));
+                }
+            %>
+        </p>    
     </body>
 </html>

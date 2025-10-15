@@ -13,36 +13,28 @@ import utils.DBUtils;
 public class StaffDAO {
 
     public Staff getStaff(String username, String password) {
-
         Staff result = null;
+        Connection cn = null;
         try {
-            Connection cn = DBUtils.getConnection();//step 1
+            cn = DBUtils.getConnection();
             if (cn != null) {
                 //step 2
-                String sql = "SELECT [StaffID]\n"
-                        + "      ,[FullName]\n"
-                        + "      ,[Role]\n"
-                        + "      ,[Username]\n"
-                        + "      ,[PasswordHash]\n"
-                        + "      ,[Phone]\n"
-                        + "      ,[Email]\n"
+                String sql = "SELECT *"
                         + "  FROM [HotelManagement].[dbo].[STAFF]"
-                        + "  WHERE [Username] = ? AND [PasswordHash] = ? COLLATE Latin1_General_CS_AS";
-                PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
+                        + "  WHERE [Username] = ? AND [PasswordHash] = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, username);
                 st.setString(2, password);
                 ResultSet table = st.executeQuery();
                 //step 3
                 if (table != null) {
-                    while (table.next()) {//di qua dong mau xam
+                    while (table.next()) {
                         int staffId = table.getInt("StaffID");
                         String fullName = table.getString("FullName");
                         String role = table.getString("Role");
                         String phone = table.getString("Phone");
                         String email = table.getString("Email");
-                        String passwordHash = table.getString("PasswordHash");
-
-                        result = new Staff(staffId, fullName, role, username, password, phone, email);
+                        result = new Staff(staffId, fullName, username, password, phone, email, role);
                     }
                 }
             }

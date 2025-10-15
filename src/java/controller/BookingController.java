@@ -52,22 +52,24 @@ public class BookingController extends HttpServlet {
                     String checkoutStr = request.getParameter("txtchecout");
                     LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    LocalDate bookingDate = LocalDate.now();
 
                     if (guestId != 0 && roomId != 0 && checkin != null && checkout != null) {
-                        int check = rd.changeRoomStatus("Occupied", roomId);
-                        if (check > 0) {
-                            Booking booking = new Booking(guestId, roomId, checkin, checkout, "Reserved");
-                            BookingDAO bd = new BookingDAO();
-                            int result = bd.createBooking(booking);
-                            if (result > 0) {
-                                request.setAttribute("BOOKING", booking);
+                        Booking booking = new Booking(roomId, guestId, roomId, checkin, checkout, bookingDate, "Reserved");
+                        BookingDAO bd = new BookingDAO();
+                        int result = bd.createBooking(booking);
+                        if (result > 0) {
+                            request.setAttribute("BOOKING", booking);
+                            int check = rd.changeRoomStatus("Occupied", roomId);
+                            if (check > 0) {
                                 request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+
                             } else {
-                                request.setAttribute("ERROR", "Lỗi đặt phòng");
+                                request.setAttribute("ERROR", "Đổi trạng thái phòng lỗi");
                                 request.getRequestDispatcher(IConstants.BOOKING).forward(request, response);
                             }
                         } else {
-                            request.setAttribute("ERROR", "Đổi trạng thái phòng lỗi");
+                            request.setAttribute("ERROR", "Lỗi đặt phòng");
                             request.getRequestDispatcher(IConstants.BOOKING).forward(request, response);
                         }
                     }

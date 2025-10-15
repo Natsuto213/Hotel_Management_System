@@ -48,7 +48,13 @@ public class LoginController extends HttpServlet {
         if (staff != null) {
             session.setAttribute("isLogin", true);
             session.setAttribute("USER", staff);
-            request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+            String role = staff.getRole().toLowerCase();
+            switch (role) {
+                case "receptionist":
+                    request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+                    break;
+            }
+
             return; // Dừng thực thi
         }
         if (guest != null) {
