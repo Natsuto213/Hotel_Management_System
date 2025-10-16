@@ -163,7 +163,7 @@
                                 <span><i class="fa-solid fa-bath"></i> Bathroom</span>
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
-                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <div class="room-price">4.999.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
                                 <input type="hidden" name="txtroomtype" value="Suite" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
@@ -185,7 +185,7 @@
                                 <span><i class="fa-solid fa-bath"></i> Bathroom</span>
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
-                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <div class="room-price">6.999.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
                                 <input type="hidden" name="txtroomtype" value="Deluxe" />
 
@@ -208,7 +208,7 @@
                                 <span><i class="fa-solid fa-bath"></i> Bathroom</span>
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
-                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <div class="room-price">9.999.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
                                 <input type="hidden" name="txtroomtype" value="Family" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
@@ -230,7 +230,7 @@
                                 <span><i class="fa-solid fa-bath"></i> Bathroom</span>
                                 <span><i class="fa-solid fa-car"></i> Parking</span>
                             </div>
-                            <div class="room-price">4.500.000đ <span class="per-night">/đêm</span></div>
+                            <div class="room-price">11.999.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
                                 <input type="hidden" name="txtroomtype" value="Presidential" />
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>

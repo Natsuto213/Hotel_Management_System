@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import model.Guest;
 import utils.DBUtils;
 
@@ -48,6 +49,51 @@ public class GuestDAO {
                             dob = dateOfBirth.toLocalDate();
                         }
                         result = new Guest(guestId, fullName, username, password, phone, email, address, idNumber, dob);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public ArrayList getGuests(String keyword) {
+        ArrayList<Guest> result = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "  SELECT [GuestID], [FullName], [Phone], [Email], [Address], [IDNumber], [DateOfBirth]\n"
+                        + "  FROM [dbo].[GUEST]\n"
+                        + "  WHERE [Phone] like ? OR [FullName] like ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, "%" + keyword + "%");
+                st.setString(2, "%" + keyword + "%");
+                ResultSet table = st.executeQuery();
+                if (table != null) {
+                    while (table.next()) {
+                        int GuestID = table.getInt("GuestID");
+                        String fullname = table.getString("FullName");
+                        String phone = table.getString("Phone");
+                        String email = table.getString("Email");
+                        String address = table.getString("Address");
+                        String idnumber = table.getString("IDNumber");
+                        Date dateOfBirth = table.getDate("DateOfBirth");
+                        LocalDate dob = null;
+                        if (dateOfBirth != null) {
+                            dob = dateOfBirth.toLocalDate();
+                        }
+                        Guest guest = new Guest(GuestID, fullname, phone, email, address, idnumber, dob);
+                        result.add(guest);
                     }
                 }
             }

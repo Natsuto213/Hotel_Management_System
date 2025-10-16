@@ -37,6 +37,16 @@ public class Guest {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Guest(int guestId, String fullname, String phone, String email, String address, String idNumber, LocalDate dateOfBirth) {
+        this.guestId = guestId;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.idNumber = idNumber;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public Guest(String fullname, String username, String passwordHash, String phone, String email, String address, String idNumber, LocalDate dateOfBirth) {
         this.fullname = fullname;
         this.username = username;

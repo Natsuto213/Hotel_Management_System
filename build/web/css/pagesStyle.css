@@ -1,5 +1,4 @@
 /* --- Styling for register page--- */
-
 .register-page .main-header {
     background-color: #f5f5f5;
     border-bottom: 1px solid #ddd;
@@ -112,3 +111,4 @@
 .form-page button:hover {
     background-color: #555;
 }
+    
