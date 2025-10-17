@@ -54,8 +54,11 @@ public class MainController extends HttpServlet {
                         request.setAttribute("txtsearch", keyword);
                         url = IConstants.CONTROLLER_FIND_GUESTS;
                         break;
+                    case "findBooking":
+                        url = IConstants.CONTROLLER_FIND_BOOKING;
+                        break;
                     case "createUser":
-                        url = IConstants.CONTROLLER_REGIS;
+                        url = IConstants.CONTROLLER_REGIS_GUEST;
                         break;
                     case "createStaff":
                         url = IConstants.CONTROLLER_REGIS_STAFF;

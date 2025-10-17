@@ -9,12 +9,14 @@ public interface IConstants {
     public final String ERROR = "error.jsp";
     public final String BOOKING = "booking.jsp";
     public final String INVOICE = "invoice.jsp";
+    public final String EDIT_BOOKING = "EditBooking.jsp";
 
-    public final String CONTROLLER_LOGOUT = "LogoutController";
     public final String CONTROLLER_LOGIN = "LoginController";
-    public final String CONTROLLER_REGIS = "RegisterController";
+    public final String CONTROLLER_LOGOUT = "LogoutController";
+    public final String CONTROLLER_REGIS_GUEST = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";
     public final String CONTROLLER_BOOKING = "BookingController";
+    public final String CONTROLLER_FIND_BOOKING = "FindBookingController";
     public final String CONTROLLER_FIND_GUESTS = "FindGuestsController";
 
     public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";

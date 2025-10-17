@@ -188,7 +188,6 @@
                             <div class="room-price">6.999.000đ <span class="per-night">/đêm</span></div>
                             <form action="MainController" method="post">
                                 <input type="hidden" name="txtroomtype" value="Deluxe" />
-
                                 <button type="submit" class="book-button" name = "action" value="booking">Đặt phòng ngay</button>
                             </form>
                         </div>
