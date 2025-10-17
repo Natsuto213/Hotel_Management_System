@@ -1,7 +1,8 @@
-
 package model;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable{
 
     private int roomId;
     private String roomNumber;
@@ -9,6 +10,10 @@ public class Room {
     private String status;
 
     public Room() {
+    }
+
+    public Room(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public Room(int roomId, String roomNumber, int roomTypeId, String status) {
@@ -49,6 +54,5 @@ public class Room {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
+
 }

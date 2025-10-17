@@ -27,9 +27,10 @@
 
                     if (sessionObj != null) {
                         isLogin = (Boolean) sessionObj.getAttribute("isLogin");
-
+                        
+                        Object staff = sessionObj.getAttribute("STAFF");
                         Object user = sessionObj.getAttribute("USER");
-                        if (user instanceof Staff) {
+                        if (staff instanceof Staff) {
                             username = ((Staff) user).getUsername();
                         } else if (user instanceof Guest) {
                             username = ((Guest) user).getUsername();
@@ -49,7 +50,7 @@
                     <a href="MainController?action=register" class="nav-button-primary">
                         <i class="fa-solid fa-user-plus"></i> Đăng ký
                     </a>
-                    <% } %>
+                    <% }%>
                 </nav>
             </div>
         </header>

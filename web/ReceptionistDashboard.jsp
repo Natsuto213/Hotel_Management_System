@@ -15,7 +15,7 @@
     </head>
     <body class="receptionish-dashboard">
         <%
-            Staff staff = (Staff) session.getAttribute("USER");
+            Staff staff = (Staff) session.getAttribute("STAFF");
             if (staff != null) {
         %>
         <header class="main-header">
@@ -75,8 +75,12 @@
                 <td> <%= g.getDateOfBirth()%> </td>
                 <td>
                     <form action="MainController" method="post">
-                        <input type="hidden" name="txtguestID" value="<%= g.getGuestId()%>">     
-                        <input type="hidden" name="txtguestName" value="<%= g.getFullname()%>">                    
+                        <%
+                            Guest edit_guest = new Guest(g.getGuestId(), g.getFullname(), g.getPhone(), g.getEmail(), g.getAddress(), g.getIdNumber(), g.getDateOfBirth());
+                            session.setAttribute("USER", edit_guest);
+                        %>
+                        <input type="hidden" name="txtguestID" value="<%= g.getGuestId() %>">
+                        <input type="hidden" name="txtguestName" value="<%= g.getFullname() %>">
                         <button type="submit" name="action" value="findBooking">edit booking</button> 
                     </form>
                 </td>

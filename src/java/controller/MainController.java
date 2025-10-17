@@ -55,7 +55,11 @@ public class MainController extends HttpServlet {
                         url = IConstants.CONTROLLER_FIND_GUESTS;
                         break;
                     case "findBooking":
-                        url = IConstants.CONTROLLER_FIND_BOOKING;
+                        String txtguestID = request.getParameter("txtguestID");
+                        request.setAttribute("txtguestID", txtguestID);
+                        String txtguestName = request.getParameter("txtguestName");
+                        request.setAttribute("txtguestName", txtguestName);
+                        url = IConstants.CONTROLLER_GET_BOOKING;
                         break;
                     case "createUser":
                         url = IConstants.CONTROLLER_REGIS_GUEST;

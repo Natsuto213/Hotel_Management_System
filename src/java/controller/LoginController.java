@@ -47,7 +47,7 @@ public class LoginController extends HttpServlet {
 
         if (staff != null) {
             session.setAttribute("isLogin", true);
-            session.setAttribute("USER", staff);
+            session.setAttribute("STAFF", staff);
             String role = staff.getRole().toLowerCase();
             switch (role) {
                 case "receptionist":

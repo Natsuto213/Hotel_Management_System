@@ -1,16 +1,19 @@
-
 package controller;
 
+import dao.BookingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.BookingDetail;
+import utils.IConstants;
 
-@WebServlet(name = "FindBookingController", urlPatterns = {"/FindBookingController"})
-public class FindBookingController extends HttpServlet {
+@WebServlet(name = "GetBookingController", urlPatterns = {"/GetBookingController"})
+public class GetBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -25,7 +28,18 @@ public class FindBookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-      
+            String guestId = request.getParameter("txtguestID");
+            String guestName = request.getParameter("txtguestName");
+            if (guestId != null) {
+                BookingDAO b = new BookingDAO();
+                ArrayList<BookingDetail> list = b.getBookings(Integer.parseInt(guestId));
+                request.setAttribute("BookingList", list);
+                request.getRequestDispatcher("EditBooking.jsp").forward(request, response);
+            } else {
+                request.setAttribute("ERROR", "Lấy guestID lỗi");
+                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+            }
+
         }
     }
 

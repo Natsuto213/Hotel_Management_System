@@ -1,7 +1,8 @@
-
 package model;
 
-public class RoomType {
+import java.io.Serializable;
+
+public class RoomType implements Serializable {
 
     private int roomTypeId;
     private String typeName;

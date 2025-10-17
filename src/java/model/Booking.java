@@ -1,27 +1,35 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Booking {
+public class Booking implements Serializable{
 
     private int bookingId;
     private int guestId;
     private int roomId;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private LocalDate BookingDate;
+    private LocalDate bookingDate;
     private String status;
 
     public Booking() {
     }
 
-    public Booking(int bookingId, int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, LocalDate BookingDate, String status) {
+    public Booking(int bookingId, int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, LocalDate bookingDate, String status) {
         this.bookingId = bookingId;
         this.guestId = guestId;
         this.roomId = roomId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
-        this.BookingDate = BookingDate;
+        this.bookingDate = bookingDate;
+        this.status = status;
+    }
+
+    public Booking(int roomId, LocalDate checkInDate, LocalDate checkOutDate, String status) {
+        this.roomId = roomId;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
         this.status = status;
     }
 
@@ -30,7 +38,7 @@ public class Booking {
         this.roomId = roomId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
-        this.BookingDate = bookingDate;
+        this.bookingDate = bookingDate;
         this.status = status;
     }
 
@@ -75,11 +83,11 @@ public class Booking {
     }
 
     public LocalDate getBookingDate() {
-        return BookingDate;
+        return bookingDate;
     }
 
-    public void setBookingDate(LocalDate BookingDate) {
-        this.BookingDate = BookingDate;
+    public void setBookingDate(LocalDate bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public String getStatus() {

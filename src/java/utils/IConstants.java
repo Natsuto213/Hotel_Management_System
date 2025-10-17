@@ -16,7 +16,7 @@ public interface IConstants {
     public final String CONTROLLER_REGIS_GUEST = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";
     public final String CONTROLLER_BOOKING = "BookingController";
-    public final String CONTROLLER_FIND_BOOKING = "FindBookingController";
+    public final String CONTROLLER_GET_BOOKING = "GetBookingController";
     public final String CONTROLLER_FIND_GUESTS = "FindGuestsController";
 
     public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";
