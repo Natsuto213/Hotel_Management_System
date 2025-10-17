@@ -43,13 +43,39 @@ public class BookingDAO {
         return result;
     }
 
+    public int removeBooking(int bookingID) {
+        Connection cn = null;
+        int result = 0;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM BOOKING \n"
+                        + "WHERE BookingID = ?";
+                PreparedStatement st = cn.prepareCall(sql);
+                st.setInt(1, bookingID);
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public ArrayList getBookings(int guestID) {
         ArrayList<BookingDetail> list = new ArrayList<>();
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT  r.RoomID, r.RoomNumber, rt.TypeName, b.CheckInDate, b.CheckOutDate, b.Status\n"
+                String sql = "SELECT  b.BookingID, r.RoomID, r.RoomNumber, rt.TypeName, b.CheckInDate, b.CheckOutDate, b.BookingDate, b.Status\n"
                         + "FROM BOOKING b \n"
                         + "JOIN ROOM r on b.RoomID = r.RoomID\n"
                         + "JOIN ROOM_TYPE rt on r.RoomTypeID = rt.RoomTypeID\n"
@@ -59,6 +85,7 @@ public class BookingDAO {
                 ResultSet table = st.executeQuery();
                 if (table != null) {
                     while (table.next()) {
+                        int bookingId = table.getInt("BookingID");
                         int roomId = table.getInt("RoomID");
                         String roomNumber = table.getString("RoomNumber");
                         String roomType = table.getString("TypeName");
@@ -67,7 +94,7 @@ public class BookingDAO {
                         LocalDate checkin = checkinDate.toLocalDate();
                         LocalDate checkout = checkoutDate.toLocalDate();
                         String status = table.getString("Status");
-                        BookingDetail booking = new BookingDetail(roomId, roomNumber, roomType, checkin, checkout, status);
+                        BookingDetail booking = new BookingDetail(bookingId, roomId, roomNumber, roomType, checkin, checkout, status);
                         list.add(booking);
                     }
                 }

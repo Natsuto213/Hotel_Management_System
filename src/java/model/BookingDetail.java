@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class BookingDetail implements Serializable {
 
+    private int bookingId;
     private int roomId;
     private String roomNumber;
     private String typeName;
@@ -15,13 +16,22 @@ public class BookingDetail implements Serializable {
     public BookingDetail() {
     }
 
-    public BookingDetail(int roomId, String roomNumber, String typeName, LocalDate checkInDate, LocalDate checkOutDate, String status) {
+    public BookingDetail(int bookingId, int roomId, String roomNumber, String typeName, LocalDate checkInDate, LocalDate checkOutDate, String status) {
+        this.bookingId = bookingId;
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.typeName = typeName;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.status = status;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public int getRoomId() {
@@ -73,5 +83,4 @@ public class BookingDetail implements Serializable {
     }
 
    
-    
 }

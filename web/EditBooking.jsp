@@ -37,8 +37,12 @@
             </div>
         </header>
 
-                    <h1 style="margin-top: 100px; text-align: center">Edit booking for ${requestScope.txtguestName}, id: ${requestScope.txtguestID}</h1>
-
+        <h1 style="margin-top: 100px; text-align: center">Edit booking for ${requestScope.txtguestName}, id: ${requestScope.txtguestID}</h1>
+        <%
+            if (request.getAttribute("ERROR") != null) {
+                out.print(request.getAttribute("ERROR"));
+            }
+        %>
 
         <form action="MainController" method="post">
             <input type="hidden" name="txtguestID" value="${requestScope.txtguestID}">
@@ -46,27 +50,44 @@
         </form>
 
         <c:set var="list" value="${requestScope.BookingList}"/>
-        <c:if test="${list!=null && not empty list}">
-            <table>
-                <tr><th>Room ID</th><th>Room Number</th><th>Room Type</th><th>Check-in</th><th>Check-out</th><th>Status</th></tr>
-                        <c:forEach var="b" items="${list}" >
+        <c:set var="list" value="${requestScope.BookingList}" />
+
+        <c:choose>
+            <c:when test="${list != null && not empty list}">
+                <table>
                     <tr>
-                        <td>${b.roomId}</td>
-                        <td>${b.roomNumber}</td>
-                        <td>${b.typeName}</td>
-                        <td>${b.checkInDate}</td>
-                        <td>${b.checkOutDate}</td>
-                        <td>${b.status}</td>
-                        <td>
-                            <form action="action">
-
-
-                            </form>
-                        </td>
+                        <th>Room ID</th>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
-                </c:forEach> 
-            </table>
-        </c:if>
+                    <c:forEach var="b" items="${list}">
+                        <tr>
+                            <td>${b.roomId}</td>
+                            <td>${b.roomNumber}</td>
+                            <td>${b.typeName}</td>
+                            <td>${b.checkInDate}</td>
+                            <td>${b.checkOutDate}</td>
+                            <td>${b.status}</td>
+                            <td>
+                                <form action="EditBookingController" method="post">
+                                    <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                    <input type="hidden" name="roomid" value="${b.roomId}">
+                                    <button type="submit" name="action" value="update" style="margin-right: 10px">Update</button>
+                                    <button type="submit" name="action" value="remove" onclick="return window.confirm('Xác nhận xóa booking này')">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <p class="not-found">Not have any booking yet</p>
+            </c:otherwise>
+        </c:choose>
 
         <%
             } else {

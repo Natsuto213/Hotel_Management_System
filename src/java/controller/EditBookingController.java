@@ -1,19 +1,18 @@
 package controller;
 
 import dao.BookingDAO;
+import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.BookingDetail;
 import utils.IConstants;
 
-@WebServlet(name = "GetBookingController", urlPatterns = {"/GetBookingController"})
-public class GetBookingController extends HttpServlet {
+@WebServlet(name = "EditBookingController", urlPatterns = {"/EditBookingController"})
+public class EditBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,18 +27,26 @@ public class GetBookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String guestId = request.getParameter("txtguestID");
-            String guestName = request.getParameter("txtguestName");
-            if (guestId != null) {
-                BookingDAO b = new BookingDAO();
-                ArrayList<BookingDetail> list = b.getBookings(Integer.parseInt(guestId));
-                request.setAttribute("BookingList", list);
-                request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+            String action = request.getParameter("action");
+            String bookingId = request.getParameter("bookingid");
+            String roomId = request.getParameter("roomid");
+            BookingDAO b = new BookingDAO();
+            int result = 0;
+            if (action.equalsIgnoreCase("update")) {
+                
             } else {
-                request.setAttribute("ERROR", "Lấy guestID lỗi");
-                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+                result = b.removeBooking(Integer.parseInt(bookingId));
+                if (result > 0) {
+                    RoomDAO r = new RoomDAO();
+                    r.changeRoomStatus("Available", Integer.parseInt(roomId));
+                    request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+                } else {
+                    request.setAttribute("ERROR", "Xóa booking lỗi");
+                    request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+                }
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
