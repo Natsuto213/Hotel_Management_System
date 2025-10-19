@@ -33,6 +33,15 @@ public class Booking implements Serializable{
         this.status = status;
     }
 
+    public Booking(int bookingId, int roomId, LocalDate checkInDate, LocalDate checkOutDate) {
+        this.bookingId = bookingId;
+        this.roomId = roomId;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+    }
+    
+    
+
     public Booking(int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, LocalDate bookingDate, String status) {
         this.guestId = guestId;
         this.roomId = roomId;

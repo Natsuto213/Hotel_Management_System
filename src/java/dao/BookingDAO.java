@@ -69,6 +69,36 @@ public class BookingDAO {
         return result;
     }
 
+    public int updateBooking(Booking b) {
+        Connection cn = null;
+        int result = 0;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "  UPDATE BOOKING\n"
+                        + "  SET RoomID = ?, CheckInDate = ?, CheckOutDate = ?\n"
+                        + "  WHERE BookingID = ?";
+                PreparedStatement st = cn.prepareCall(sql);
+                st.setInt(1, b.getRoomId());
+                st.setDate(2, java.sql.Date.valueOf(b.getCheckInDate()));
+                st.setDate(3, java.sql.Date.valueOf(b.getCheckOutDate()));
+                st.setInt(4, b.getBookingId());
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public ArrayList getBookings(int guestID) {
         ArrayList<BookingDetail> list = new ArrayList<>();
         Connection cn = null;

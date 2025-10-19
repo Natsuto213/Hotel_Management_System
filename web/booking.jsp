@@ -65,11 +65,11 @@
                 <input type="text" name="txtcheckin" placeholder="Ngày nhận phòng"
                        onfocus="this.type = 'date'" 
                        onblur="if (!this.value)
-                               this.type = 'text'">             
+                                   this.type = 'text'">             
                 <input type="text" name="txtchecout" placeholder="Ngày trả phòng"
                        onfocus ="this.type = 'date'"
                        onblur = "if (!this.value)
-                               this.type = 'text'">
+                                   this.type = 'text'">
                 <p><button type="submit" name="action" value="bookroom">Đặt phòng ngay</button></p>
                 <p>
                     <%
