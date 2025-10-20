@@ -40,32 +40,28 @@ public class MainController extends HttpServlet {
                     case "login":
                         url = IConstants.LOGIN;
                         break;
-                    case "loginUser":
-                        url = IConstants.CONTROLLER_LOGIN;
-                        break;
                     case "register":
                         url = IConstants.REGISTER;
                         break;
+                    case "recepDashboard":
+                        url = IConstants.DASHBOARD_RECEPTIONIST;
+                        break;
+                    case "loginUser":
+                        url = IConstants.CONTROLLER_LOGIN;
+                        break;
                     case "logout":
                         url = IConstants.CONTROLLER_LOGOUT;
+                        break;
+                    case "createStaff":
+                        url = IConstants.CONTROLLER_REGIS_STAFF;
+                        break;
+                    case "createUser":
+                        url = IConstants.CONTROLLER_REGIS_GUEST;
                         break;
                     case "searchGuest":
                         String keyword = request.getParameter("txtsearch");
                         request.setAttribute("txtsearch", keyword);
                         url = IConstants.CONTROLLER_FIND_GUESTS;
-                        break;
-                    case "findBooking":
-                        String txtguestID = request.getParameter("txtguestID");
-                        request.setAttribute("txtguestID", txtguestID);
-                        String txtguestName = request.getParameter("txtguestName");
-                        request.setAttribute("txtguestName", txtguestName);
-                        url = IConstants.CONTROLLER_GET_BOOKING;
-                        break;
-                    case "createUser":
-                        url = IConstants.CONTROLLER_REGIS_GUEST;
-                        break;
-                    case "createStaff":
-                        url = IConstants.CONTROLLER_REGIS_STAFF;
                         break;
                     case "booking":
                         String roomType = request.getParameter("txtroomtype");
@@ -76,6 +72,11 @@ public class MainController extends HttpServlet {
                         roomType = request.getParameter("txtroomtype");
                         request.setAttribute("txtroomtype", roomType);
                         url = IConstants.CONTROLLER_BOOKING;
+                        break;
+                    case "findBooking":
+                        String txtguestID = request.getParameter("txtguestID");
+                        request.setAttribute("txtguestID", txtguestID);
+                        url = IConstants.CONTROLLER_GET_BOOKING;
                         break;
                 }
             } catch (Exception e) {

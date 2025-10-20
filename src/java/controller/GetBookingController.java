@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.BookingDetail;
+import model.Guest;
 import utils.IConstants;
 
 @WebServlet(name = "GetBookingController", urlPatterns = {"/GetBookingController"})
@@ -28,15 +30,16 @@ public class GetBookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String guestId = request.getParameter("txtguestID");
-            String guestName = request.getParameter("txtguestName");
-            if (guestId != null) {
+            HttpSession session = request.getSession();
+            Guest guest = (Guest) session.getAttribute("USER");
+//            String guestId = request.getParameter("txtguestID");
+            if (guest != null) {
                 BookingDAO b = new BookingDAO();
-                ArrayList<BookingDetail> list = b.getBookings(Integer.parseInt(guestId));
+                ArrayList<BookingDetail> list = b.getBookings(guest.getGuestId());
                 request.setAttribute("BookingList", list);
                 request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
             } else {
-                request.setAttribute("ERROR", "Lấy guestID lỗi");
+                request.setAttribute("ERROR", "Lấy USER lỗi");
                 request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
             }
 

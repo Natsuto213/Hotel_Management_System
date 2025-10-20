@@ -24,26 +24,37 @@
                     HttpSession sessionObj = request.getSession(false);
                     Boolean isLogin = false;
                     String username = "";
-
+                    Staff staff = (Staff) sessionObj.getAttribute("STAFF");
+                    Guest user = (Guest) sessionObj.getAttribute("USER");
                     if (sessionObj != null) {
                         isLogin = (Boolean) sessionObj.getAttribute("isLogin");
-                        
-                        Object staff = sessionObj.getAttribute("STAFF");
-                        Object user = sessionObj.getAttribute("USER");
-                        if (staff instanceof Staff) {
-                            username = ((Staff) user).getUsername();
-                        } else if (user instanceof Guest) {
-                            username = ((Guest) user).getUsername();
+
+                        if (staff != null) {
+                            username = staff.getUsername();
+                        } else if (user != null) {
+                            username = user.getUsername();
                         }
                     }
                 %>
                 <nav class="main-nav">
-                    <% if (isLogin != null && isLogin == true) {%>
+                    <% if (isLogin != null && isLogin == true) {
+                            if (staff.getRole().equalsIgnoreCase("Receptionist")) {
+                    %>
+                    <a href="MainController?action=recepDashboard" class="welcome">
+                        <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!
+                    </a>
+                    <a href="MainController?action=logout" class="nav-button-primary">
+                        <i class="fa-solid fa-user-minus"></i> Đăng xuất
+                    </a>
+                    <%
+                    } else {
+                    %>
                     <span class="welcome">Xin chào, <%= username%>!</span>
                     <a href="MainController?action=logout" class="nav-button-primary">
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
-                    <% } else { %>
+                    <% }
+                    } else { %>
                     <a href="MainController?action=login" class="nav-button-secondary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
                     </a>

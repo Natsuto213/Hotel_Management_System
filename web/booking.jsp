@@ -1,4 +1,5 @@
 
+<%@page import="utils.IConstants"%>
 <%@page import="model.Guest"%>
 <%@page import="model.Staff"%>
 <%-- 
@@ -18,24 +19,22 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body class="register-page">
+        <%
+            HttpSession sessionObj = request.getSession(false);
+            Object user = sessionObj.getAttribute("USER");
+            if (user != null) {
+        %>
         <header class="main-header">
             <div class="container">
                 <a href="MainController?action=home" class="logo">
                     <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
                 </a>
-
                 <%
-                    HttpSession sessionObj = request.getSession(false);
                     Boolean isLogin = false;
                     String username = "";
-
                     if (sessionObj != null) {
                         isLogin = (Boolean) sessionObj.getAttribute("isLogin");
-
-                        Object user = sessionObj.getAttribute("USER");
-                        if (user instanceof Staff) {
-                            username = ((Staff) user).getUsername();
-                        } else if (user instanceof Guest) {
+                        if (user instanceof Guest) {
                             username = ((Guest) user).getUsername();
                         }
                     }
@@ -80,5 +79,11 @@
                 </p>
             </form> 
         </div>
+        <%
+            } else {
+                request.setAttribute("ERROR", "Vui lòng đăng nhập trước khi đặt phòng");
+                request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
+            }
+        %>
     </body>
 </html>
