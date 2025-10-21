@@ -1,21 +1,25 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
 import dao.BookingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.BookingDetail;
-import model.Guest;
 import utils.IConstants;
 
-@WebServlet(name = "GetBookingController", urlPatterns = {"/GetBookingController"})
-public class GetBookingController extends HttpServlet {
+/**
+ *
+ * @author Admin
+ */
+@WebServlet(name = "CheckInController", urlPatterns = {"/CheckInController"})
+public class CheckInController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,19 +34,20 @@ public class GetBookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Guest guest = (Guest) session.getAttribute("USER");
-//            String guestId = request.getParameter("txtguestID");
-            if (guest != null) {
-                BookingDAO b = new BookingDAO();
-                ArrayList<BookingDetail> list = b.getBookings(guest.getGuestId());
-                request.setAttribute("BookingList", list);
-                request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+            String bookingid = request.getParameter("bookingid");
+            if (bookingid != null) {
+                BookingDAO d = new BookingDAO();
+                int result = d.checkInBooking(Integer.parseInt(bookingid));
+                if (result > 0) {
+                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                } else {
+                    request.setAttribute("ERROR", "Check-in lỗi");
+                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                }
             } else {
-                request.setAttribute("ERROR", "Lấy USER lỗi");
-                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+                request.setAttribute("ERROR", "Không lấy được booking id");
+                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
             }
-
         }
     }
 

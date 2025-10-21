@@ -72,7 +72,6 @@
                             </tr>
                             <c:forEach var="b" items="${list}">
                                 <tr>
-                                <form action="EditBookingController" method="post"> 
                                     <td>${b.roomId}</td>
                                     <td>${b.roomNumber}</td>
                                     <td> 
@@ -85,9 +84,16 @@
                                             <option value="Presidential" ${b.typeName == 'Presidential' ? 'selected' : ''}>Presidential</option>
                                         </select>
                                     </td>
-                                    <td><input type="date" name="txtcheckin" value="${b.checkInDate}"></td>
-                                    <td><input type="date" name="txtcheckout" value="${b.checkOutDate}"></td>
-                                    <td>${b.status}</td>
+                                <form action="MainController" method="post">
+                                    <td>
+                                        <input type="date" name="txtcheckin" value="${b.checkInDate}">  
+                                        <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                        <button type="submit" name="action" value="checkin">Check in</button>
+                                    </td>
+                                </form>
+                                <td><input type="date" name="txtcheckout" value="${b.checkOutDate}"></td>
+                                <td>${b.status}</td>
+                                <form action="EditBookingController" method="post"> 
                                     <td>
                                         <input type="hidden" name="bookingid" value="${b.bookingId}">
                                         <input type="hidden" name="roomid" value="${b.roomId}">

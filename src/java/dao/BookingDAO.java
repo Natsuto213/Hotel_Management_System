@@ -142,4 +142,31 @@ public class BookingDAO {
         }
         return list;
     }
+
+    public int checkInBooking(int bookingID) {
+        int result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "UPDATE BOOKING\n"
+                        + "SET Status = 'Checked-in'\n"
+                        + "WHERE BookingID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, bookingID);
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }

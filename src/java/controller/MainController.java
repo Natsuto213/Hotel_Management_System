@@ -1,5 +1,6 @@
 package controller;
 
+import dao.GuestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -61,7 +62,7 @@ public class MainController extends HttpServlet {
                     case "searchGuest":
                         String keyword = request.getParameter("txtsearch");
                         request.setAttribute("txtsearch", keyword);
-                        url = IConstants.CONTROLLER_FIND_GUESTS;
+                        url = IConstants.CONTROLLER_GET_GUESTS;
                         break;
                     case "booking":
                         String roomType = request.getParameter("txtroomtype");
@@ -73,10 +74,24 @@ public class MainController extends HttpServlet {
                         request.setAttribute("txtroomtype", roomType);
                         url = IConstants.CONTROLLER_BOOKING;
                         break;
-                    case "findBooking":
-                        String txtguestID = request.getParameter("txtguestID");
-                        request.setAttribute("txtguestID", txtguestID);
-                        url = IConstants.CONTROLLER_GET_BOOKING;
+                    case "getBookings":
+                        String guestid = request.getParameter("guestid");
+                        request.setAttribute("guestid", guestid);
+                        url = IConstants.CONTROLLER_GET_BOOKINGS;
+                        break;
+                    case "editBooking":
+                        String bookingid = request.getParameter("bookingid");
+                        request.setAttribute("bookingid", bookingid);
+                        String roomid = request.getParameter("roomid");
+                        request.setAttribute("roomid", roomid);
+                        String todo = request.getParameter("action");
+                        request.setAttribute("action", todo);
+                        url = IConstants.CONTROLLER_EDIT_BOOKING;
+                        break;
+                    case "checkin":
+                        bookingid = request.getParameter("bookingid");
+                        request.setAttribute("bookingid", bookingid);
+                        url = IConstants.CONTROLLER_CHECK_IN;
                         break;
                 }
             } catch (Exception e) {

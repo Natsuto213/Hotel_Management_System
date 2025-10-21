@@ -24,9 +24,12 @@
                     HttpSession sessionObj = request.getSession(false);
                     Boolean isLogin = false;
                     String username = "";
-                    Staff staff = (Staff) sessionObj.getAttribute("STAFF");
-                    Guest user = (Guest) sessionObj.getAttribute("USER");
+                    Staff staff = null;
+                    Guest user = null;
+
                     if (sessionObj != null) {
+                        staff = (Staff) sessionObj.getAttribute("STAFF");
+                        user = (Guest) sessionObj.getAttribute("USER");
                         isLogin = (Boolean) sessionObj.getAttribute("isLogin");
 
                         if (staff != null) {
@@ -35,10 +38,11 @@
                             username = user.getUsername();
                         }
                     }
+
                 %>
                 <nav class="main-nav">
                     <% if (isLogin != null && isLogin == true) {
-                            if (staff.getRole().equalsIgnoreCase("Receptionist")) {
+                            if (staff != null && staff.getRole().equalsIgnoreCase("Receptionist")) {
                     %>
                     <a href="MainController?action=recepDashboard" class="welcome">
                         <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!

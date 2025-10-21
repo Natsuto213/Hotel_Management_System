@@ -185,4 +185,46 @@ public class GuestDAO {
         return result;
     }
 
+    public Guest findGuestByGuestID(int guestID) {
+        Guest result = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT *\n"
+                        + "FROM GUEST\n"
+                        + "WHERE GuestID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, guestID);
+                ResultSet table = st.executeQuery();
+                if (table != null) {
+                    while (table.next()) {
+                        String fullName = table.getString("FullName");
+                        String phone = table.getString("Phone");
+                        String email = table.getString("Email");
+                        String address = table.getString("Address");
+                        String idNumber = table.getString("IDNumber");
+                        Date dateOfBirth = table.getDate("DateOfBirth");
+                        LocalDate dob = null;
+                        if (dateOfBirth != null) {
+                            dob = dateOfBirth.toLocalDate();
+                        }
+                        result = new Guest(guestID, fullName, phone, email, address, idNumber, dob);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
 }

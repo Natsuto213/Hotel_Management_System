@@ -77,11 +77,8 @@
                         <td> <%= g.getDateOfBirth()%> </td>
                         <td>
                             <form action="MainController" method="post">
-                                <%
-                                    Guest edit_guest = new Guest(g.getGuestId(), g.getFullname(), g.getPhone(), g.getEmail(), g.getAddress(), g.getIdNumber(), g.getDateOfBirth());
-                                    session.setAttribute("USER", edit_guest);
-                                %>
-                                <button type="submit" name="action" value="findBooking">edit booking</button> 
+                                <input type="hidden" name="guestid" value="<%= g.getGuestId()%>">
+                                <button type="submit" name="action" value="getBookings">edit booking</button> 
                             </form>
                         </td>
                     </tr>

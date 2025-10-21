@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
+import dao.BookingDAO;
 import dao.GuestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,15 +10,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.BookingDetail;
 import model.Guest;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
-@WebServlet(name = "FindGuestsController", urlPatterns = {"/FindGuestsController"})
-public class FindGuestsController extends HttpServlet {
+@WebServlet(name = "GetBookingsController", urlPatterns = {"/GetBookingsController"})
+public class GetBookingsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,11 +31,27 @@ public class FindGuestsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String keyword = request.getParameter("txtsearch");
-            GuestDAO d = new GuestDAO();
-            ArrayList<Guest> list = d.getGuests(keyword);
-            request.setAttribute("GUESTS", list);
-            request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+            HttpSession session = request.getSession();
+            Guest guest;
+            if (session.getAttribute("USER") == null) {
+                String guestid = request.getParameter("guestid");
+                GuestDAO d = new GuestDAO();
+                guest = d.findGuestByGuestID(Integer.parseInt(guestid));
+                session.setAttribute("USER", guest);
+            } else {
+                guest = (Guest) session.getAttribute("USER");
+            }
+            if (guest != null) {
+                BookingDAO b = new BookingDAO();
+                ArrayList<BookingDetail> list = b.getBookings(guest.getGuestId());
+                request.setAttribute("BookingList", list);
+                request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+            } else {
+                request.setAttribute("ERROR", "Lấy USER lỗi");
+                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
