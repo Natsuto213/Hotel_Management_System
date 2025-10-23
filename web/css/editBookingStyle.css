@@ -160,12 +160,28 @@
     transition: background 0.3s;
 }
 
+.receptionish-dashboard table button[value="assign"] {
+    background-color: #28a745;
+}
+
+.receptionish-dashboard table button[value="assign"]:hover {
+    background-color: #218838;
+}
+
 .receptionish-dashboard table button[value="checkin"] {
     background-color: #28a745;
 }
 
 .receptionish-dashboard table button[value="checkin"]:hover {
     background-color: #218838;
+}
+
+.receptionish-dashboard table button[value="checkout"] {
+    background-color: #dc3545;
+}
+
+.receptionish-dashboard table button[value="checkout"]:hover {
+    background-color: #b02a37;
 }
 
 .receptionish-dashboard table button[value="update"] {
@@ -181,6 +197,22 @@
 }
 
 .receptionish-dashboard table button[value="remove"]:hover {
+    background-color: #b02a37;
+}
+
+.receptionish-dashboard table button[value="confirmAssign"] {
+    background-color: #28a745;
+}
+
+.receptionish-dashboard table button[value="confirmAssign"]:hover {
+    background-color: #218838;
+}
+
+.receptionish-dashboard table button[value="cancelAssign"] {
+    background-color: #dc3545;
+}
+
+.receptionish-dashboard table button[value="cancelAssign"]:hover {
     background-color: #b02a37;
 }
 

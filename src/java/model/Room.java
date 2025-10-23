@@ -16,6 +16,11 @@ public class Room implements Serializable{
         this.roomNumber = roomNumber;
     }
 
+    public Room(int roomId, String roomNumber) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+    }
+
     public Room(int roomId, String roomNumber, int roomTypeId, String status) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;

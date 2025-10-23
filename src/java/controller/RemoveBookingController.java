@@ -1,28 +1,28 @@
-
-package controller;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package controller;
 
-import dao.StaffDAO;
+import dao.BookingDAO;
+import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Staff;
 import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(urlPatterns = {"/StaffRegisterController"})
-public class StaffRegisterController extends HttpServlet {
+@WebServlet(name = "RemoveBookingController", urlPatterns = {"/RemoveBookingController"})
+public class RemoveBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,29 +37,33 @@ public class StaffRegisterController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            request.setCharacterEncoding("utf-8");
-            String fullname = request.getParameter("txtfullname");
-            String username = request.getParameter("txtus");
-            String password = request.getParameter("txtpassword");
-            String phone = request.getParameter("txtphone");
-            String email = request.getParameter("txtemail");
-            String role = request.getParameter("txtrole");
-            if (fullname != null && username != null && password != null && phone != null && email != null && role != null) {
-                Staff staff = new Staff(fullname, username, password, phone, email, role);
-                StaffDAO d = new StaffDAO();
-                boolean isdupplicate = d.checkDupplicate(username, email);
-                if (!isdupplicate) {
-                    int result = d.insertStaff(staff);
-                    if (result > 0) {
-                        request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
-                    } else {
-                        request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
-                    }
-                } else {
-                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+            String checkinStr = request.getParameter("txtcheckin");
+            LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate now = LocalDate.now();
+            if (checkin.isBefore(now)) {
+                String roomIdStr = request.getParameter("roomid");
+                int roomId = Integer.parseInt(roomIdStr);
 
+                String bookingIdStr = request.getParameter("bookingid");
+                int bookingId = Integer.parseInt(bookingIdStr);
+
+                BookingDAO b = new BookingDAO();
+                RoomDAO r = new RoomDAO();
+
+                int result = 0;
+                result = b.removeBooking(bookingId);
+                if (result > 0) {
+                    r.changeRoomStatus("Available", roomId);
+                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                } else {
+                    request.setAttribute("ERROR", "Xóa booking lỗi");
+                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
                 }
+            } else {
+                request.setAttribute("ERROR", "Đã qua ngày check in, không thể xóa booking");
+                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
             }
+
         }
     }
 

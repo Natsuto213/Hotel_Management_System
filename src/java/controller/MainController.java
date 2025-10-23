@@ -79,19 +79,47 @@ public class MainController extends HttpServlet {
                         request.setAttribute("guestid", guestid);
                         url = IConstants.CONTROLLER_GET_BOOKINGS;
                         break;
-                    case "editBooking":
+                    case "update":
                         String bookingid = request.getParameter("bookingid");
                         request.setAttribute("bookingid", bookingid);
                         String roomid = request.getParameter("roomid");
                         request.setAttribute("roomid", roomid);
-                        String todo = request.getParameter("action");
-                        request.setAttribute("action", todo);
-                        url = IConstants.CONTROLLER_EDIT_BOOKING;
+                        String roomtype = request.getParameter("txtroomType");
+                        request.setAttribute("txtroomType", roomtype);
+                        url = IConstants.CONTROLLER_UPDATE_BOOKING;
+                        break;
+                    case "remove":
+                        bookingid = request.getParameter("bookingid");
+                        request.setAttribute("bookingid", bookingid);
+                        roomid = request.getParameter("roomid");
+                        request.setAttribute("roomid", roomid);
+                        url = IConstants.CONTROLLER_REMOVE_BOOKING;
                         break;
                     case "checkin":
                         bookingid = request.getParameter("bookingid");
                         request.setAttribute("bookingid", bookingid);
+                        roomtype = request.getParameter("txtroomType");
+                        request.setAttribute("txtroomType", roomtype);
                         url = IConstants.CONTROLLER_CHECK_IN;
+                        break;
+                    case "assign":
+                        roomType = request.getParameter("roomType");
+                        request.setAttribute("roomType", roomType);
+                        String assignBookingId = request.getParameter("bookingid");
+                        request.setAttribute("bookingid", assignBookingId);
+                        url = IConstants.CONTROLLER_GET_BOOKINGS;
+                        break;
+                    case "confirmAssign":
+                        String newRoomId = request.getParameter("newRoomId");
+                        request.setAttribute("newRoomId", newRoomId);
+                        String oldRoomId = request.getParameter("oldRoomId");
+                        request.setAttribute("oldRoomId", oldRoomId);
+                        bookingid = request.getParameter("bookingid");
+                        request.setAttribute("bookingid", bookingid);
+                        url = IConstants.CONTROLLER_ASSIGN_ROOMS;
+                        break;
+                    case "cancelAssign":
+                        url = IConstants.CONTROLLER_GET_BOOKINGS;
                         break;
                 }
             } catch (Exception e) {

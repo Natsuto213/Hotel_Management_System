@@ -1,24 +1,28 @@
+
 package controller;
 
-import dao.BookingDAO;
-import dao.GuestDAO;
-import dao.RoomDAO;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+
+import dao.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.BookingDetail;
-import model.Guest;
-import model.Room;
+import model.Staff;
 import utils.IConstants;
 
-@WebServlet(name = "GetBookingsController", urlPatterns = {"/GetBookingsController"})
-public class GetBookingsController extends HttpServlet {
+/**
+ *
+ * @author Admin
+ */
+@WebServlet(name = "RegisterStaffController", urlPatterns = {"/RegisterStaffController"})
+public class RegisterStaffController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,43 +37,29 @@ public class GetBookingsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Guest guest = null;
+            request.setCharacterEncoding("utf-8");
+            String fullname = request.getParameter("txtfullname");
+            String username = request.getParameter("txtus");
+            String password = request.getParameter("txtpassword");
+            String phone = request.getParameter("txtphone");
+            String email = request.getParameter("txtemail");
+            String role = request.getParameter("txtrole");
+            if (fullname != null && username != null && password != null && phone != null && email != null && role != null) {
+                Staff staff = new Staff(fullname, username, password, phone, email, role);
+                StaffDAO d = new StaffDAO();
+                boolean isdupplicate = d.checkDupplicate(username, email);
+                if (!isdupplicate) {
+                    int result = d.insertStaff(staff);
+                    if (result > 0) {
+                        request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
+                    } else {
+                        request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
+                    }
+                } else {
+                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
 
-            if (session.getAttribute("USER") == null) {
-                String guestid = request.getParameter("guestid");
-                if (guestid != null) {
-                    GuestDAO d = new GuestDAO();
-                    guest = d.findGuestByGuestID(Integer.parseInt(guestid));
-                    session.setAttribute("USER", guest);
                 }
-            } else {
-                guest = (Guest) session.getAttribute("USER");
             }
-
-            if (guest == null) {
-                request.setAttribute("ERROR", "Không tìm thấy thông tin khách hàng");
-                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
-                return;
-            }
-
-            BookingDAO b = new BookingDAO();
-            ArrayList<BookingDetail> bookinglist = b.getBookings(guest.getGuestId());
-            request.setAttribute("BookingList", bookinglist);
-
-            String roomType = request.getParameter("roomType");
-            String assignBookingId = request.getParameter("bookingid");
-            if (roomType != null && assignBookingId != null) {
-                RoomDAO r = new RoomDAO();
-                ArrayList<Room> roomlist = r.getAvailableRoomsByType(roomType);
-                request.setAttribute("assignBookingId", assignBookingId);
-                request.setAttribute("RoomList", roomlist);
-            }
-            
-            request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

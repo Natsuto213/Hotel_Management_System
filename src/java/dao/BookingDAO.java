@@ -75,7 +75,7 @@ public class BookingDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "  UPDATE BOOKING\n"
+                String sql = "UPDATE BOOKING\n"
                         + "  SET RoomID = ?, CheckInDate = ?, CheckOutDate = ?\n"
                         + "  WHERE BookingID = ?";
                 PreparedStatement st = cn.prepareCall(sql);
@@ -83,6 +83,34 @@ public class BookingDAO {
                 st.setDate(2, java.sql.Date.valueOf(b.getCheckInDate()));
                 st.setDate(3, java.sql.Date.valueOf(b.getCheckOutDate()));
                 st.setInt(4, b.getBookingId());
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public int changeRoomID(int newRoomId, int bookingId) {
+        int result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "UPDATE BOOKING\n"
+                        + "SET RoomID = ?\n"
+                        + "WHERE BookingID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, newRoomId);
+                st.setInt(2, bookingId);
                 result = st.executeUpdate();
             }
         } catch (Exception e) {

@@ -35,17 +35,15 @@
                 </header>
 
                 <h1 style="margin-top: 100px; text-align: center">Receptionist Dashboard</h1>
-                <%
-                    if (request.getAttribute("ERROR") != null) {
-                        out.print(request.getAttribute("ERROR"));
-                    }
-                %>
+
+                <h2>${requestScope.ERROR}</h2>
 
                 <a href="MainController?action=register" class="create-btn">
                     <i class="fa-solid fa-user-plus"></i> Create account for customer
                 </a>   
 
                 <%
+                    request.getSession().removeAttribute("USER");
                     String keyword = "";
                     if (request.getParameter("txtsearch") != null) {
                         keyword = request.getParameter("txtsearch");

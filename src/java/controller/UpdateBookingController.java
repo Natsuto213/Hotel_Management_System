@@ -1,24 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
 import dao.BookingDAO;
-import dao.GuestDAO;
 import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.BookingDetail;
-import model.Guest;
-import model.Room;
+import model.Booking;
 import utils.IConstants;
 
-@WebServlet(name = "GetBookingsController", urlPatterns = {"/GetBookingsController"})
-public class GetBookingsController extends HttpServlet {
+/**
+ *
+ * @author Admin
+ */
+@WebServlet(name = "UpdateBookingController", urlPatterns = {"/UpdateBookingController"})
+public class UpdateBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,43 +38,38 @@ public class GetBookingsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Guest guest = null;
+            int result = 0;
+            String roomType = request.getParameter("txtroomType");
+            String checkinStr = request.getParameter("txtcheckin");
+            String checkoutStr = request.getParameter("txtcheckout");
+            LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate now = LocalDate.now();
+            if (checkin.isBefore(now)) {
+                if (roomType != null && checkinStr != null && checkoutStr != null) {
+                    String roomIdStr = request.getParameter("roomid");
+                    int oldRoomId = Integer.parseInt(roomIdStr);
 
-            if (session.getAttribute("USER") == null) {
-                String guestid = request.getParameter("guestid");
-                if (guestid != null) {
-                    GuestDAO d = new GuestDAO();
-                    guest = d.findGuestByGuestID(Integer.parseInt(guestid));
-                    session.setAttribute("USER", guest);
+                    String bookingIdStr = request.getParameter("bookingid");
+                    int bookingId = Integer.parseInt(bookingIdStr);
+
+                    BookingDAO b = new BookingDAO();
+                    RoomDAO r = new RoomDAO();
+
+                    int newRoomId = r.getAvailableRoomIdByType(roomType);
+
+                    Booking booking = new Booking(bookingId, newRoomId, checkin, checkout);
+                    result = b.updateBooking(booking);
+                    if (result > 0) {
+                        r.changeRoomStatus("Available", oldRoomId);
+                        r.changeRoomStatus("Occupied", newRoomId);
+                        request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                    }
                 }
             } else {
-                guest = (Guest) session.getAttribute("USER");
+                request.setAttribute("ERROR", "Đã qua ngày check in, không thể cập nhật booking");
+                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
             }
-
-            if (guest == null) {
-                request.setAttribute("ERROR", "Không tìm thấy thông tin khách hàng");
-                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
-                return;
-            }
-
-            BookingDAO b = new BookingDAO();
-            ArrayList<BookingDetail> bookinglist = b.getBookings(guest.getGuestId());
-            request.setAttribute("BookingList", bookinglist);
-
-            String roomType = request.getParameter("roomType");
-            String assignBookingId = request.getParameter("bookingid");
-            if (roomType != null && assignBookingId != null) {
-                RoomDAO r = new RoomDAO();
-                ArrayList<Room> roomlist = r.getAvailableRoomsByType(roomType);
-                request.setAttribute("assignBookingId", assignBookingId);
-                request.setAttribute("RoomList", roomlist);
-            }
-            
-            request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
