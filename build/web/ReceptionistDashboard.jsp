@@ -2,6 +2,7 @@
 <%@page import="utils.IConstants"%>
 <%@page import="model.Guest"%>
 <%@page import="model.Staff"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,82 +15,80 @@
 
     </head>
     <body class="receptionish-dashboard">
-        <%
-            Staff staff = (Staff) session.getAttribute("USER");
-            if (staff != null) {
-        %>
-        <header class="main-header">
-            <div class="container">
-                <a href="MainController?action=home" class="logo">
-                    <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
-                </a>
-                <nav class="main-nav">
-                    <span class="welcome">Xin chào, <%= staff.getUsername()%>!</span>
-                    <a href="MainController?action=logout" class="nav-button-primary">
-                        <i class="fa-solid fa-user-minus"></i> Đăng xuất
-                    </a>
-                </nav>
-            </div>
-        </header>
+        <c:set var="staff" value="${sessionScope.STAFF}" />
+        <c:choose>
+            <c:when test="${staff!=null}">
+                <header class="main-header">
+                    <div class="container">
+                        <a href="MainController?action=home" class="logo">
+                            <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
+                        </a>
+                        <nav class="main-nav">
+                            <a href="MainController?action=recepDashboard" class="welcome">
+                                <i class="fa-solid fa-user"></i> Xin chào, ${staff.username}!
+                            </a>
+                            <a href="MainController?action=logout" class="nav-button-primary">
+                                <i class="fa-solid fa-user-minus"></i> Đăng xuất
+                            </a>
+                        </nav>
+                    </div>
+                </header>
 
-        <h1 style="margin-top: 100px; text-align: center">Receptionist Dashboard</h1>
-        <%
-            if (request.getAttribute("ERROR") != null) {
-                out.print(request.getAttribute("ERROR"));
-            }
-        %>
+                <h1 style="margin-top: 100px; text-align: center">Receptionist Dashboard</h1>
 
-        <a href="MainController?action=register" class="create-btn">
-            <i class="fa-solid fa-user-plus"></i> Create account for customer
-        </a>   
+                <h2>${requestScope.ERROR}</h2>
 
-        <%
-            String keyword = "";
-            if (request.getParameter("txtsearch") != null) {
-                keyword = request.getParameter("txtsearch");
-            }
-        %>
+                <a href="MainController?action=register" class="create-btn">
+                    <i class="fa-solid fa-user-plus"></i> Create account for customer
+                </a>   
 
-        <form action="MainController" method="post">
-            <input type="text" name="txtsearch" placeholder="Customer's information"  value="<%= keyword%>">
-            <button type="submit" name="action" value="searchGuest">Search</button>
-        </form>
+                <%
+                    request.getSession().removeAttribute("USER");
+                    String keyword = "";
+                    if (request.getParameter("txtsearch") != null) {
+                        keyword = request.getParameter("txtsearch");
+                    }
+                %>
 
-        <!-- xuat ket qua search o day -->
-        <%
-            ArrayList<Guest> list = (ArrayList) request.getAttribute("GUESTS");
-            if (list != null && !list.isEmpty()) {
-        %>
-        <table>
-            <tr><th>Guest ID</th><th>Full name</th><th>Phone</th><th>Email</th><th>Address</th><th>ID number</th><th>Date of birth</th><th>Action</th></tr>
-                    <%
-                        for (Guest g : list) {
-                    %>
-            <tr>
-                <td> <%= g.getGuestId()%> </td>
-                <td> <%= g.getFullname()%> </td>
-                <td> <%= g.getPhone()%> </td>
-                <td> <%= g.getEmail()%> </td>
-                <td> <%= g.getAddress()%> </td>
-                <td> <%= g.getIdNumber()%> </td>
-                <td> <%= g.getDateOfBirth()%> </td>
-                <td>
-                    <form action="MainController" method="post">
-                        <input type="hidden" name="txtguestID" value="<%= g.getGuestId()%>">     
-                        <input type="hidden" name="txtguestName" value="<%= g.getFullname()%>">                    
-                        <button type="submit" name="action" value="findBooking">edit booking</button> 
-                    </form>
-                </td>
-            </tr>
-            <%}%>
-        </table>
-        <%} else {%>
-        <p class="not-found">Not found</p>
-        <%}%>
-        <%
-            } else {
-                request.getRequestDispatcher(IConstants.HOME).forward(request, response);
-            }
-        %>
+                <form action="MainController" method="post">
+                    <input type="text" name="txtsearch" placeholder="Customer's information"  value="<%= keyword%>">
+                    <button type="submit" name="action" value="searchGuest">Search</button>
+                </form>
+
+                <!-- xuat ket qua search o day -->
+                <%
+                    ArrayList<Guest> list = (ArrayList) request.getAttribute("GUESTS");
+                    if (list != null && !list.isEmpty()) {
+                %>
+                <table>
+                    <tr><th>Guest ID</th><th>Full name</th><th>Phone</th><th>Email</th><th>Address</th><th>ID number</th><th>Date of birth</th><th>Action</th></tr>
+                            <%
+                                for (Guest g : list) {
+                            %>
+                    <tr>
+                        <td> <%= g.getGuestId()%> </td>
+                        <td> <%= g.getFullname()%> </td>
+                        <td> <%= g.getPhone()%> </td>
+                        <td> <%= g.getEmail()%> </td>
+                        <td> <%= g.getAddress()%> </td>
+                        <td> <%= g.getIdNumber()%> </td>
+                        <td> <%= g.getDateOfBirth()%> </td>
+                        <td>
+                            <form action="MainController" method="post">
+                                <input type="hidden" name="guestid" value="<%= g.getGuestId()%>">
+                                <button type="submit" name="action" value="getBookings">edit booking</button> 
+                            </form>
+                        </td>
+                    </tr>
+                    <%}%>
+                </table>
+                <%} else {%>
+                <p class="not-found">Not found</p>
+                <%}%>
+            </c:when>
+            <c:otherwise >
+                <jsp:forward page="home.jsp"/>
+            </c:otherwise>
+        </c:choose>
     </body>
 </html>

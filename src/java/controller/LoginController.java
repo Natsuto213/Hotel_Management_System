@@ -43,30 +43,34 @@ public class LoginController extends HttpServlet {
 
         Staff staff = staffDAO.getStaff(username, password);
         Guest guest = guestDAO.getGuest(username, password);
-        session.setAttribute("isLogin", false);
 
-        if (staff != null) {
-            session.setAttribute("isLogin", true);
-            session.setAttribute("USER", staff);
-            String role = staff.getRole().toLowerCase();
-            switch (role) {
-                case "receptionist":
-                    request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
-                    break;
+        if (username != null && password != null && !username.isEmpty() && !password.isEmpty()) {
+
+            if (staff != null) {
+                session.setAttribute("isLogin", true);
+                session.setAttribute("STAFF", staff);
+                String role = staff.getRole().toLowerCase();
+                switch (role) {
+                    case "receptionist":
+                        request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+                        break;
+                }
+                return;
+            }
+            if (guest != null) {
+                session.setAttribute("isLogin", true);
+                session.setAttribute("USER", guest);
+                response.sendRedirect(IConstants.HOME);
+                return;
             }
 
-            return; // Dừng thực thi
+            // Nếu cả hai đều null
+            request.setAttribute("ERROR", "Invalid username or password");
+            request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
+        } else {
+            request.setAttribute("ERROR", "Username and password are required.");
+            request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
         }
-        if (guest != null) {
-            session.setAttribute("isLogin", true);
-            session.setAttribute("USER", guest);
-            request.getRequestDispatcher(IConstants.HOME).forward(request, response);
-            return; // Dừng thực thi
-        }
-
-        // Nếu cả hai đều null
-        request.setAttribute("ERROR", "Invalid username or password");
-        request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,0 +1,245 @@
+/* =========================
+   Edit Booking Page Style
+   (Đồng bộ với Dashboard, không khung)
+   ========================= */
+
+.receptionish-dashboard {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f9fafc;
+    color: #333;
+    min-height: 100vh;
+    padding-bottom: 60px;
+}
+
+/* --- Header --- */
+.main-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header .logo {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.main-header .nav-button-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.main-header .nav-button-primary:hover {
+    background-color: #555;
+}
+
+/* --- Tiêu đề trang --- */
+.receptionish-dashboard h1 {
+    margin-top: 100px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* --- Thông báo lỗi --- */
+.error-message {
+    text-align: center;
+    color: #dc3545;
+    font-weight: 500;
+    margin: 15px 0;
+}
+
+/* --- Form tạo booking (giống form search) --- */
+.create-booking-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    width: fit-content;
+    gap: 0;
+}
+
+.create-booking-form select {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+    font-size: 15px;
+    transition: border-color 0.3s;
+    background-color: #fff;
+}
+
+.create-booking-form select:focus {
+    border-color: var(--primary-color);
+}
+
+.create-booking-form .create-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.3s;
+}
+
+.create-booking-form .create-btn:hover {
+    background-color: #555;
+}
+
+/* --- Bảng danh sách booking --- */
+.receptionish-dashboard table {
+    width: 85%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.receptionish-dashboard th {
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.receptionish-dashboard td {
+    padding: 25px 6px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+}
+
+.receptionish-dashboard tr:nth-child(even) {
+    background-color: #f8f9fc;
+}
+
+.receptionish-dashboard tr:hover {
+    background-color: #eef5ff;
+}
+
+/* --- Input và select trong bảng --- */
+.receptionish-dashboard table input[type="date"],
+.receptionish-dashboard table select {
+    padding: 6px 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.receptionish-dashboard table input[type="date"]:focus,
+.receptionish-dashboard table select:focus {
+    border-color: var(--primary-color);
+}
+
+/* --- Nút trong bảng --- */
+.receptionish-dashboard table button[type="submit"] {
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.receptionish-dashboard table button[value="assign"] {
+    background-color: #28a745;
+}
+
+.receptionish-dashboard table button[value="assign"]:hover {
+    background-color: #218838;
+}
+
+.receptionish-dashboard table button[value="checkin"] {
+    background-color: #28a745;
+}
+
+.receptionish-dashboard table button[value="checkin"]:hover {
+    background-color: #218838;
+}
+
+.receptionish-dashboard table button[value="checkout"] {
+    background-color: #dc3545;
+}
+
+.receptionish-dashboard table button[value="checkout"]:hover {
+    background-color: #b02a37;
+}
+
+.receptionish-dashboard table button[value="update"] {
+    background-color: #28a745;
+}
+
+.receptionish-dashboard table button[value="update"]:hover {
+    background-color: #218838;
+}
+
+.receptionish-dashboard table button[value="remove"] {
+    background-color: #dc3545;
+}
+
+.receptionish-dashboard table button[value="remove"]:hover {
+    background-color: #b02a37;
+}
+
+.receptionish-dashboard table button[value="confirmAssign"] {
+    background-color: #28a745;
+}
+
+.receptionish-dashboard table button[value="confirmAssign"]:hover {
+    background-color: #218838;
+}
+
+.receptionish-dashboard table button[value="cancelAssign"] {
+    background-color: #dc3545;
+}
+
+.receptionish-dashboard table button[value="cancelAssign"]:hover {
+    background-color: #b02a37;
+}
+
+/* --- Không có booking --- */
+.receptionish-dashboard .not-found {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #777;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .receptionish-dashboard table {
+        width: 95%;
+        font-size: 13px;
+    }
+
+    .create-booking-form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .create-booking-form select,
+    .create-booking-form .create-btn {
+        width: 100%;
+        border-radius: 6px;
+    }
+}

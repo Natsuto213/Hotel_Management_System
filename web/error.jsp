@@ -14,11 +14,7 @@
     </head>
     <body>
         <p>
-            <%
-                if (request.getAttribute("ERROR") != null) {
-                    out.print(request.getAttribute("ERROR"));
-                }
-            %>
+            HI
         </p>    
     </body>
 </html>

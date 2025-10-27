@@ -1,4 +1,3 @@
-
 package model;
 
 public class Room {
@@ -9,6 +8,11 @@ public class Room {
     private String status;
 
     public Room() {
+    }
+
+    public Room(int roomId, String roomNumber) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
     }
 
     public Room(int roomId, String roomNumber, int roomTypeId, String status) {
@@ -49,6 +53,5 @@ public class Room {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
+
 }

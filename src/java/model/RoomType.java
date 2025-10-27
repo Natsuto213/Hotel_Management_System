@@ -5,13 +5,23 @@ public class RoomType {
 
     private int roomTypeId;
     private String typeName;
-    private String capacity;
+    private int capacity;
     private double price;
 
     public RoomType() {
     }
+    
+    public RoomType(String typeName) {
+        this.typeName = typeName;
+    }
 
-    public RoomType(int roomTypeId, String typeName, String capacity, double price) {
+    public RoomType(String typeName, int capacity, double price) {
+        this.typeName = typeName;
+        this.capacity = capacity;
+        this.price = price;
+    }
+
+    public RoomType(int roomTypeId, String typeName, int capacity, double price) {
         this.roomTypeId = roomTypeId;
         this.typeName = typeName;
         this.capacity = capacity;
@@ -34,11 +44,11 @@ public class RoomType {
         this.typeName = typeName;
     }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 

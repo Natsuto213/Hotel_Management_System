@@ -1,21 +1,29 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Booking {
 
     private int bookingId;
     private int guestId;
     private int roomId;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
     private LocalDate BookingDate;
     private String status;
 
     public Booking() {
     }
 
-    public Booking(int bookingId, int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, LocalDate BookingDate, String status) {
+    public Booking(int bookingId, int roomId, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+        this.bookingId = bookingId;
+        this.roomId = roomId;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+    }
+    
+    public Booking(int bookingId, int guestId, int roomId, LocalDateTime checkInDate, LocalDateTime checkOutDate, LocalDate BookingDate, String status) {
         this.bookingId = bookingId;
         this.guestId = guestId;
         this.roomId = roomId;
@@ -25,7 +33,7 @@ public class Booking {
         this.status = status;
     }
 
-    public Booking(int guestId, int roomId, LocalDate checkInDate, LocalDate checkOutDate, LocalDate bookingDate, String status) {
+    public Booking(int guestId, int roomId, LocalDateTime checkInDate, LocalDateTime checkOutDate, LocalDate bookingDate, String status) {
         this.guestId = guestId;
         this.roomId = roomId;
         this.checkInDate = checkInDate;
@@ -58,19 +66,19 @@ public class Booking {
         this.roomId = roomId;
     }
 
-    public LocalDate getCheckInDate() {
+    public LocalDateTime getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(LocalDate checkInDate) {
+    public void setCheckInDate(LocalDateTime checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public LocalDate getCheckOutDate() {
+    public LocalDateTime getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(LocalDate checkOutDate) {
+    public void setCheckOutDate(LocalDateTime checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 
