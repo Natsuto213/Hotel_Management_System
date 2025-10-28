@@ -42,14 +42,6 @@
                 <p style="margin-top: 12px; font-size: 20px; text-align: center">${requestScope.ERROR}</p>
 
                 <form action="MainController" method="post" class="create-booking-form">
-                    <select name="txtroomtype" >
-                        <option value="Single">Single</option>
-                        <option value="Double">Double</option>
-                        <option value="Suite">Suite</option>
-                        <option value="Deluxe">Deluxe</option>
-                        <option value="Family">Family</option>
-                        <option value="Presidential">Presidential</option>
-                    </select>
                     <button class="create-btn" name="action" value="booking">Create booking for customer</button>
                 </form>
 
@@ -131,7 +123,9 @@
                                         <td>
                                             <c:choose>
                                                 <c:when test="${b.status != 'Checked-in'}">
+                                                    <input type="hidden" name="bookingid" value="${b.bookingId}">
                                                     <input type="hidden" name="roomid" value="${b.roomId}">
+                                                    <input type="hidden" name="txtroomType" value="${b.typeName}">
                                                     <button type="submit" name="action" value="update" style="margin-right: 10px">Update</button>
                                                     <button type="submit" name="action" value="remove" onclick="return window.confirm('Xác nhận xóa booking này')">Remove</button>
                                                 </c:when>

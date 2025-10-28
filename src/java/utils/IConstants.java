@@ -20,6 +20,7 @@ public interface IConstants {
     public final String CONTROLLER_BOOKING = "BookingController";
     public final String CONTROLLER_FIND_BOOKING = "FindBookingController";
     public final String CONTROLLER_FIND_GUESTS = "FindGuestsController";
+    public final String CONTROLLER_SEARCH = "SearchController";
 
     public final String CONTROLLER_GET_GUESTS = "GetGuestsController";
     public final String CONTROLLER_GET_BOOKINGS = "GetBookingsController";

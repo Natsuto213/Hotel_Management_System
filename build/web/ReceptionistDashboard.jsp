@@ -52,6 +52,7 @@
 
                 <form action="MainController" method="post">
                     <input type="text" name="txtsearch" placeholder="Customer's information"  value="<%= keyword%>">
+                    <input type="hidden" name="txtsearch" value="<%= keyword%>">
                     <button type="submit" name="action" value="searchGuest">Search</button>
                 </form>
 

@@ -207,7 +207,7 @@
                                     <%= String.format("%,d", (int) roomType.getPrice())%>đ
                                     <span class="room-price-label">/đêm</span>
                                 </div>
-                                <form action="BookingController" method="post" style="display: inline;">
+                                <form action="MainController" method="post" style="display: inline;">
                                     <input type="hidden" name="roomId" value="<%= room.getRoomId()%>">
                                     <input type="hidden" name="roomNumber" value="<%= room.getRoomNumber()%>">
                                     <input type="hidden" name="txtroomtype" value="<%= roomType.getTypeName()%>">
@@ -217,7 +217,7 @@
                                     <button type="submit" 
                                             class="book-room-btn" 
                                             name="action" 
-                                            value="booking"
+                                            value="bookroom"
                                             <%= !isAvailable ? "disabled" : ""%>>
                                         <i class="fa-solid fa-<%= isAvailable ? "calendar-check" : "lock"%>"></i>
                                         <%= isAvailable ? "Đặt phòng ngay" : "Không khả dụng"%>

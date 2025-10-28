@@ -38,7 +38,7 @@
                         isLogin = (Boolean) sessionObj.getAttribute("isLogin");
                         if (staff != null) {
                             username = staff.getUsername();
-                        } else if (user instanceof Guest) {
+                        } else if (user != null) {
                             username = user.getUsername();
                         }
                     }
@@ -87,7 +87,7 @@
             <div class="container">
                 <h2 class="section-subtitle">Tìm kiếm phòng lý tưởng</h2>
                 <p class="section-description">Chọn phòng và các tiện nghi mong muốn cho kỳ nghỉ trọn vẹn</p>
-                <form class="booking-form" action="SearchController" method="get" onsubmit="return validateBookingForm()">
+                <form class="booking-form" action="MainController" method="post" onsubmit="return validateBookingForm()">
                     <div class="form-group">
                         <label for="check-in">Ngày nhận phòng</label>
                         <input type="date" id="check-in" name="check-in" required=""> </div>
@@ -110,7 +110,7 @@
                             %>
                         </select>
                     </div>
-                    <button type="submit" class="search-button">
+                        <button type="submit" name="action" value="search" class="search-button">
                         <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
                     </button>
                 </form>
