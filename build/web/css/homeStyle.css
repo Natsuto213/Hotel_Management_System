@@ -430,6 +430,10 @@ a.book-button {
     padding: 20px;
 }
 
+.room-feature-content h3{
+   color: #667eea;
+}
+
 .room-type-subtitle {
     color: var(--color-gold);
     font-size: 1.2em;
@@ -448,7 +452,11 @@ a.book-button {
 .room-feature-details span {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 8px;  
+}
+
+.room-feature-details span i {
+    color: #667eea;   
 }
 
 .btn-feature {

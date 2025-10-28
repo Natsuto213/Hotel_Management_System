@@ -136,7 +136,7 @@
                             "Không gian nghỉ ngơi tinh tế với đầy đủ tiện nghi hiện đại. Phòng Single được thiết kế tối ưu cho sự riêng tư và thoải mái, phù hợp cho chuyến công tác hoặc kỳ nghỉ dưỡng cá nhân.",
                             "Kết hợp hoàn hảo giữa phong cách cổ điển và hiện đại, phòng Double mang đến không gian sống rộng rãi với nội thất cao cấp và ánh sáng tự nhiên tràn ngập, tạo nên bầu không khí lãng mạn cho mọi khoảnh khắc.",
                             "Tận hưởng sự xa hoa trong không gian Suite với khu vực sinh hoạt tách biệt, phòng ngủ riêng tư và ban công view toàn cảnh. Mỗi chi tiết được chăm chút tỉ mỉ để mang lại trải nghiệm nghỉ dưỡng đẳng cấp 5 sao.",
-                            "Biểu tượFng của sự tinh tế và đẳng cấp, phòng Deluxe sở hữu thiết kế nội thất sang trọng, hệ thống âm thanh cao cấp và phòng tắm spa riêng, đáp ứng mọi nhu cầu của khách hàng khó tính nhất.",
+                            "Biểu tượng của sự tinh tế và đẳng cấp, phòng Deluxe sở hữu thiết kế nội thất sang trọng, hệ thống âm thanh cao cấp và phòng tắm spa riêng, đáp ứng mọi nhu cầu của khách hàng khó tính nhất.",
                             "Thiên đường dành cho gia đình với nhiều phòng ngủ kết nối, khu vui chơi an toàn cho trẻ em và góc bếp tiện nghi. Family Suite tạo điều kiện để cả gia đình cùng tận hưởng những khoảnh khắc ấm áp và đáng nhớ."
 
                         };
@@ -152,17 +152,17 @@
                 <div class="room-feature reveal">
                     <div class="room-feature-image">
                         <img src="<%= imageUrl%>" alt="Phòng <%= rt.getTypeName()%>">
-                        <span class="room-tag"><%= rt.getTypeName()%></span>
-                    </div>
+                        <span class="room-tag"><%= rt.getTypeName()%></span> 
+                    </div>  
                     <div class="room-feature-content">
-                        <span class="room-type-subtitle"><%= rt.getPrice()%>VND / đêm</span>
-                        <h3>Phòng <%= rt.getTypeName()%></h3>
+                        <h3>Phòng <%= rt.getTypeName()%></h3> <br>
                         <p><%= description%></p>
                         <div class="room-feature-details">
                             <span><i class="fa-solid fa-users"></i> Tối đa <%= rt.getCapacity()%> khách</span>
                             <span><i class="fa-solid fa-bath"></i> Bathroom</span>
                             <span><i class="fa-solid fa-car"></i> Parking</span>
                         </div>
+                        <span class="room-type-subtitle"><%= rt.getFormattedPrice()%> VND / đêm</span>
                     </div>
                 </div>
 

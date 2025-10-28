@@ -85,12 +85,12 @@
                         // Tính số đêm
                         nights = ChronoUnit.DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate());
 
-//                        if (roomInfo != null) {
-//                            roomType = roomInfo.getTypeName();
-//                            roomPrice = roomInfo.getPrice();
-//                            capacity = roomInfo.getCapacity();
-//                            totalAmount = (long)roomPrice * nights;
-//                        }
+                        if (roomInfo != null) {
+                            roomType = roomInfo.getTypeName();
+                            roomPrice = roomInfo.getPrice();
+                            capacity = roomInfo.getCapacity();
+                            totalAmount = (long)roomPrice * nights;
+                        }
                             roomType = "Single";
                             roomPrice = 1500000.00;
                     }
@@ -188,7 +188,7 @@
                     <h3><i class="fa-solid fa-file-invoice-dollar"></i> Chi tiết thanh toán</h3>
                     <div class="price-item">
                         <label>Giá phòng/đêm:</label>
-                        <span><%= String.format("%,d", roomPrice) %>đ</span>
+                        <span><%= String.format("%,.0f", roomPrice) %>đ</span>
                     </div>
                     <div class="price-item">
                         <label>Số đêm:</label>

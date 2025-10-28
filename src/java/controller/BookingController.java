@@ -90,6 +90,7 @@ public class BookingController extends HttpServlet {
                         BookingDAO bd = new BookingDAO();
                         int result = bd.createBooking(booking);
                         if (result > 0) {
+                            rd.changeRoomStatus("Occupied", roomId);
                             request.setAttribute("BOOKING", booking);
                             request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
                         } else {

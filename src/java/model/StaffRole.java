@@ -4,11 +4,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author votra
  */
-public class StaffRole {
+public class StaffRole implements Serializable{
     private final String value;
 
     private StaffRole(String value) {

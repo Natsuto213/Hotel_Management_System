@@ -4,13 +4,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author votra
  */
-public class Guest {
+public class Guest implements Serializable{
 
     private int guestId;
     private String fullname;

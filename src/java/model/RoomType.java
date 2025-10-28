@@ -1,7 +1,9 @@
-
 package model;
 
-public class RoomType {
+import java.io.Serializable;
+import java.text.DecimalFormat;
+
+public class RoomType implements Serializable{
 
     private int roomTypeId;
     private String typeName;
@@ -10,7 +12,7 @@ public class RoomType {
 
     public RoomType() {
     }
-    
+
     public RoomType(String typeName) {
         this.typeName = typeName;
     }
@@ -58,5 +60,10 @@ public class RoomType {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getFormattedPrice() {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(this.price);
     }
 }
