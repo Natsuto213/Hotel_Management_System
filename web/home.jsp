@@ -24,10 +24,11 @@
                 </a>
 
                 <%
+                    ServletContext context = request.getServletContext();
                     HttpSession sessionObj = request.getSession(false);
 
-                    List<Room> rooms = (List<Room>) sessionObj.getAttribute("rooms");
-                    List<RoomType> roomTypes = (List<RoomType>) sessionObj.getAttribute("roomTypes");
+                    List<Room> rooms = (List<Room>) context.getAttribute("rooms");
+                    List<RoomType> roomTypes = (List<RoomType>) context.getAttribute("roomTypes");
 
                     Boolean isLogin = false;
                     String username = "";
@@ -52,14 +53,16 @@
                     <a href="MainController?action=recepDashboard" class="welcome">
                         <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!
                     </a>
-                    <a href="MainController?action=logout" class="nav-button-primary">
+                    <a href="MainController?action=logoutUser" class="nav-button-primary">
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
                     <%
                     } else {
                     %>
-                    <span class="welcome">Xin chào, <%= username%>!</span>
-                    <a href="MainController?action=logout" class="nav-button-primary">
+                    <a href="MainController?action=findBookings" class="welcome">
+                        <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!
+                    </a>
+                    <a href="MainController?action=logoutUser" class="nav-button-primary">
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
                     <%
@@ -110,7 +113,7 @@
                             %>
                         </select>
                     </div>
-                        <button type="submit" name="action" value="search" class="search-button">
+                    <button type="submit" name="action" value="search" class="search-button">
                         <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
                     </button>
                 </form>

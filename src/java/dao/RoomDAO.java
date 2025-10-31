@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Room;
 import utils.DBUtils;
@@ -33,6 +34,65 @@ public class RoomDAO {
                 room.setRoomTypeId(rs.getInt("RoomTypeID"));
                 room.setStatus(rs.getString("Status"));
 
+                result.add(room);
+            }
+        } catch (SQLException e) {
+            System.err.println("Database error in getAllRoom: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("General error in getAllRoom: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            // Close resources in reverse order
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+
+        return result;
+    }
+
+    public ArrayList<Room> getAvailableRooms(int roomTypeId, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+        ArrayList<Room> result = new ArrayList<Room>();
+        String sql = "SELECT r.RoomID, r.RoomNumber, r.RoomTypeID, r.Status\n"
+                + "FROM ROOM r\n"
+                + "JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID\n"
+                + "WHERE rt.RoomTypeID = ? AND r.Status = 'Available'\n"
+                + "  AND r.RoomID NOT IN (\n"
+                + "        SELECT b.RoomID\n"
+                + "        FROM BOOKING b\n"
+                + "        WHERE (b.CheckInDate < ?) AND (b.CheckOutDate > ?)\n"
+                + "          AND b.Status IN ('Reserved', 'Checked-in')\n"
+                + "    );";
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBUtils.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, roomTypeId);
+            ps.setTimestamp(2, java.sql.Timestamp.valueOf(checkOutDate));
+            ps.setTimestamp(3, java.sql.Timestamp.valueOf(checkInDate));
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Room room = new Room();
+                room.setRoomId(rs.getInt("RoomID"));
+                room.setRoomNumber(rs.getString("RoomNumber"));
+                room.setRoomTypeId(rs.getInt("RoomTypeID"));
+                room.setStatus(rs.getString("Status"));
+                
                 result.add(room);
             }
         } catch (SQLException e) {
@@ -117,7 +177,7 @@ public class RoomDAO {
         }
         return result;
     }
-    
+
     public ArrayList<Room> getAvailableRoomsByType(String type) {
         ArrayList<Room> result = new ArrayList<>();
         Connection cn = null;

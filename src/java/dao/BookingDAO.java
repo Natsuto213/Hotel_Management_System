@@ -20,7 +20,7 @@ public class BookingDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "  INSERT INTO BOOKING ([GuestID], [RoomID], [CheckInDate], [CheckOutDate], [BookingDate], [Status])\n"
+                String sql = "INSERT INTO BOOKING ([GuestID], [RoomID], [CheckInDate], [CheckOutDate], [BookingDate], [Status])\n"
                         + "  VALUES (?, ?, ?, ?, ?, ?);";
                 PreparedStatement st = cn.prepareCall(sql);
                 st.setInt(1, booking.getGuestId());
@@ -56,7 +56,7 @@ public class BookingDAO {
                 + "      ,[BookingDate]\n"
                 + "      ,[Status]\n"
                 + "FROM [HotelManagement].[dbo].[BOOKING]\n"
-                + "WHERE CheckInDate = ? AND CheckInDate = ?";
+                + "WHERE CheckInDate <= ? AND CheckOutDate >= ?";
 
         Connection con = null;
         PreparedStatement pst = null;
@@ -100,7 +100,6 @@ public class BookingDAO {
         List<LocalDate> datesInRange = new ArrayList<>();
 
         LocalDate currentDate = checkInDate.toLocalDate();
-
         LocalDate endDate = checkOutDate.toLocalDate();
 
         while (!currentDate.isAfter(endDate)) {
@@ -276,6 +275,35 @@ public class BookingDAO {
                 e.printStackTrace();
             }
         }
+        return result;
+    }
+
+    public int changeBookingStatus(String status, int bookingid) {
+        int result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "UPDATE BOOKING\n"
+                        + "SET Status = ?\n"
+                        + "WHERE BookingID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, status);
+                st.setInt(2, bookingid);
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return result;
     }
 }

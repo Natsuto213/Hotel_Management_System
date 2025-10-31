@@ -31,7 +31,7 @@
                             <a href="MainController?action=recepDashboard" class="welcome">
                                 <i class="fa-solid fa-user"></i> Xin chào, ${staff.username}!
                             </a>
-                            <a href="MainController?action=logout" class="nav-button-primary">
+                            <a href="MainController?action=logoutUser" class="nav-button-primary">
                                 <i class="fa-solid fa-user-minus"></i> Đăng xuất
                             </a>
                         </nav>
@@ -102,6 +102,7 @@
                                                     <input type="date" name="txtcheckin" value="${b.checkInDate}">  
                                                     <input type="hidden" name="txtroomType" value="${b.typeName}">  
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                                    <input type="hidden" name="roomid" value="${b.roomId}">
                                                     <button type="submit" name="action" value="checkin">Check in</button>
                                                 </c:when>
                                                 <c:otherwise>
@@ -137,10 +138,11 @@
                                                     <button type="submit" name="action" value="cancelAssign">Cancel</button>
                                                 </c:when>
                                                 <c:otherwise>
+                                                    <input type="hidden" name="roomid" value="${b.roomId}">
                                                     <input type="hidden" name="roomType" value="${b.typeName}">
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">
                                                     <button type="submit" name="action" value="assign">Assign Room</button>
-                                                    <button type="submit" name="action" value="checkout">Check out</button>
+                                                    <button type="submit" name="action" value="checkout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

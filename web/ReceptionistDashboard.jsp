@@ -12,8 +12,8 @@
         <link rel="stylesheet" href="css/homeStyle.css"/>
         <link rel="stylesheet" href="css/recepDashboardStyle.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     </head>
+    
     <body class="receptionish-dashboard">
         <c:set var="staff" value="${sessionScope.STAFF}" />
         <c:choose>
@@ -27,7 +27,7 @@
                             <a href="MainController?action=recepDashboard" class="welcome">
                                 <i class="fa-solid fa-user"></i> Xin chào, ${staff.username}!
                             </a>
-                            <a href="MainController?action=logout" class="nav-button-primary">
+                            <a href="MainController?action=logoutUser" class="nav-button-primary">
                                 <i class="fa-solid fa-user-minus"></i> Đăng xuất
                             </a>
                         </nav>

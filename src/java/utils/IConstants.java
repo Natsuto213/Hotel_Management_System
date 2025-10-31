@@ -12,13 +12,14 @@ public interface IConstants {
     public final String INVOICE = "invoice.jsp";
     public final String ASSIGN = "AssignRoom.jsp";
     public final String EDIT_BOOKING = "EditBooking.jsp";
+    public final String CART = "cart.jsp";
 
     public final String CONTROLLER_LOGIN = "LoginController";
     public final String CONTROLLER_LOGOUT = "LogoutController";
     public final String CONTROLLER_REGIS_GUEST = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";
     public final String CONTROLLER_BOOKING = "BookingController";
-    public final String CONTROLLER_FIND_BOOKING = "FindBookingController";
+    public final String CONTROLLER_FIND_BOOKINGS = "FindBookingsController";
     public final String CONTROLLER_FIND_GUESTS = "FindGuestsController";
     public final String CONTROLLER_SEARCH = "SearchController";
 
@@ -27,7 +28,11 @@ public interface IConstants {
     public final String CONTROLLER_UPDATE_BOOKING = "UpdateBookingController";
     public final String CONTROLLER_REMOVE_BOOKING = "RemoveBookingController";
     public final String CONTROLLER_CHECK_IN = "CheckInController";
+    public final String CONTROLLER_CHECK_OUT = "CheckOutController";
     public final String CONTROLLER_ASSIGN_ROOMS = "AssignRoomsController";
 
+    public final String CONTROLLER_ADD_SERVICE = "AddServiceController";
+
     public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";
+    public final String DASHBOARD_GUEST = "GuestDashboard.jsp";
 }

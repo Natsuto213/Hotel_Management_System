@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
-import dao.GuestDAO;
+import dao.BookingDAO;
+import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,34 +10,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.BookingDetail;
 import model.Guest;
+import model.Service;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
-@WebServlet(name = "FindGuestsController", urlPatterns = {"/FindGuestsController"})
-public class FindGuestsController extends HttpServlet {
+@WebServlet(name = "FindBookingsController", urlPatterns = {"/FindBookingsController"})
+public class FindBookingsController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String keyword = request.getParameter("txtsearch");
-            GuestDAO d = new GuestDAO();
-            ArrayList<Guest> list = d.getGuests(keyword);
-            request.setAttribute("GUESTS", list);
-            request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+            HttpSession session = request.getSession();
+            Guest guest = (Guest) session.getAttribute("USER");
+
+            String roomNumber = request.getParameter("roomNumber");
+            String bookingid = request.getParameter("bookingid");
+
+            if (guest != null) {
+                BookingDAO bd = new BookingDAO();
+                ArrayList<BookingDetail> bookinglist = bd.getBookings(guest.getGuestId());
+                request.setAttribute("BookingList", bookinglist);
+            }
+
+            if (bookingid != null) {
+                ServiceDAO sd = new ServiceDAO();
+                ArrayList<Service> servicelist = sd.getAllServices();
+                request.setAttribute("ServiceList", servicelist);
+            }
+
+            request.getRequestDispatcher(IConstants.DASHBOARD_GUEST).forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

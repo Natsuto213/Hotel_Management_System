@@ -16,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Booking;
 import model.Room;
 import model.RoomType;
 import utils.IConstants;
@@ -28,13 +27,11 @@ import utils.IConstants;
 @WebServlet(name = "SearchController", urlPatterns = {"/SearchController"})
 public class SearchController extends HttpServlet {
 
-    private BookingDAO bookingDAO;
     private RoomDAO roomDAO;
     private RoomTypeDAO roomTypeDAO;
 
     @Override
     public void init() throws ServletException {
-        bookingDAO = new BookingDAO();
         roomDAO = new RoomDAO();
         roomTypeDAO = new RoomTypeDAO();
     }
@@ -46,10 +43,11 @@ public class SearchController extends HttpServlet {
         String checkIn = request.getParameter("check-in");
         String checkOut = request.getParameter("check-out");
         String guests = request.getParameter("guests");
-        String roomType = request.getParameter("room-type");
+        String roomTypeStr = request.getParameter("room-type");
+        int roomType = Integer.parseInt(roomTypeStr);
 
         // THÊM KIỂM TRA NULL Ở ĐÂY
-        if (checkIn == null || checkOut == null || guests == null || roomType == null
+        if (checkIn == null || checkOut == null || guests == null || roomTypeStr == null
                 || checkIn.isEmpty() || checkOut.isEmpty() || guests.isEmpty()) {
 
             // Nếu thiếu, quay về trang chủ
@@ -57,8 +55,8 @@ public class SearchController extends HttpServlet {
             request.getRequestDispatcher(IConstants.HOME).forward(request, response);
         }
 
-        if (roomType.equals("")) {
-            roomType = "0";
+        if (roomTypeStr.equals("")) {
+            roomType = 0;
         }
 
         LocalDate checkInDate = LocalDate.parse(checkIn);
@@ -69,30 +67,9 @@ public class SearchController extends HttpServlet {
 
         int numberGuests = Integer.parseInt(guests);
 
-        ArrayList<Booking> bookings = bookingDAO.getBookingByCheckInCheckOut(checkInDateTime, checkOutDateTime);
-        ArrayList<Room> allRooms = roomDAO.getAllRoom();
-        ArrayList<Room> availableRooms = new ArrayList<>();
-
-        for (Room room : allRooms) {
-            boolean isBook = false;
-            for (Booking booking : bookings) {
-                if (room.getRoomId() == booking.getRoomId()) {
-                    isBook = true;
-                    break;
-                }
-            }
-            boolean checkRoomType = Integer.parseInt(roomType) == 0;
-            if (checkRoomType) {
-                if (isBook == false) {
-                    availableRooms.add(room);
-                }
-            } else {
-                if (isBook == false && room.getRoomTypeId() == Integer.parseInt(roomType)) {
-                    availableRooms.add(room);
-                }
-            }
-        }
+        ArrayList<Room> availableRooms = roomDAO.getAvailableRooms(roomType, checkInDateTime, checkOutDateTime);
         ArrayList<RoomType> roomTypes = roomTypeDAO.getAllRoomType();
+        
         request.setAttribute("availableRooms", availableRooms);
         request.setAttribute("roomTypes", roomTypes);
         request.setAttribute("checkIn", checkIn);

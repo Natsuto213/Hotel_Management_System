@@ -2,25 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.booking;
 
 import dao.BookingDAO;
 import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Booking;
 import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "AssignRoomsController", urlPatterns = {"/AssignRoomsController"})
-public class AssignRoomsController extends HttpServlet {
+@WebServlet(name = "UpdateBookingController", urlPatterns = {"/UpdateBookingController"})
+public class UpdateBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,18 +39,43 @@ public class AssignRoomsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String newRoomId = request.getParameter("newRoomId");
-            String oldRoomId = request.getParameter("oldRoomId");
-            String bookingId = request.getParameter("bookingid");
-            if (newRoomId != null && oldRoomId != null) {
-                RoomDAO d = new RoomDAO();
-                BookingDAO b = new BookingDAO();
-                int isChange = b.changeRoomID(Integer.parseInt(newRoomId), Integer.parseInt(bookingId));
-                if (isChange > 0) {
-                    d.changeRoomStatus("Available", Integer.parseInt(oldRoomId));
-                    d.changeRoomStatus("Occupied", Integer.parseInt(newRoomId));
-                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+            int result = 0;
+            String roomType = request.getParameter("txtroomType");
+
+            String checkinStr = request.getParameter("txtcheckin");
+            String checkoutStr = request.getParameter("txtcheckout");
+
+            LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            LocalDateTime checkinDate = checkin.atTime(14, 00, 00);
+            LocalDateTime checkoutDate = checkout.atTime(12, 00, 00);
+
+            LocalDate now = LocalDate.now();
+            if (checkin.isAfter(now)) {
+                if (roomType != null && checkinStr != null && checkoutStr != null) {
+                    String roomIdStr = request.getParameter("roomid");
+                    int oldRoomId = Integer.parseInt(roomIdStr);
+
+                    String bookingIdStr = request.getParameter("bookingid");
+                    int bookingId = Integer.parseInt(bookingIdStr);
+
+                    BookingDAO b = new BookingDAO();
+                    RoomDAO r = new RoomDAO();
+
+                    int newRoomId = r.getAvailableRoomIdByType(roomType);
+
+                    Booking booking = new Booking(bookingId, newRoomId, checkinDate, checkoutDate);
+                    result = b.updateBooking(booking);
+                    if (result > 0) {
+                        r.changeRoomStatus("Available", oldRoomId);
+                        r.changeRoomStatus("Occupied", newRoomId);
+                        request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                    }
                 }
+            } else {
+                request.setAttribute("ERROR", "Đã qua ngày check in, không thể cập nhật booking");
+                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
             }
         }
     }

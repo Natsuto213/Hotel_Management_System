@@ -2,26 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.booking;
 
-import dao.GuestDAO;
+import dao.BookingDAO;
+import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Guest;
 import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "GetGuestsController", urlPatterns = {"/GetGuestsController"})
-public class GetGuestsController extends HttpServlet {
+@WebServlet(name = "AssignRoomsController", urlPatterns = {"/AssignRoomsController"})
+public class AssignRoomsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,11 +35,19 @@ public class GetGuestsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String keyword = request.getParameter("txtsearch");
-            GuestDAO d = new GuestDAO();
-            ArrayList<Guest> list = d.getGuests(keyword);
-            request.setAttribute("GUESTS", list);
-            request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+            String newRoomId = request.getParameter("newRoomId");
+            String oldRoomId = request.getParameter("oldRoomId");
+            String bookingId = request.getParameter("bookingid");
+            if (newRoomId != null && oldRoomId != null) {
+                RoomDAO d = new RoomDAO();
+                BookingDAO b = new BookingDAO();
+                int isChange = b.changeRoomID(Integer.parseInt(newRoomId), Integer.parseInt(bookingId));
+                if (isChange > 0) {
+                    d.changeRoomStatus("Available", Integer.parseInt(oldRoomId));
+                    d.changeRoomStatus("Occupied", Integer.parseInt(newRoomId));
+                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                }
+            }
         }
     }
 

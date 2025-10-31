@@ -1,8 +1,10 @@
-package controller;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller.booking;
 
-import dao.BookingDAO;
 import dao.GuestDAO;
-import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,14 +13,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.BookingDetail;
 import model.Guest;
-import model.Room;
 import utils.IConstants;
 
-@WebServlet(name = "GetBookingsController", urlPatterns = {"/GetBookingsController"})
-public class GetBookingsController extends HttpServlet {
+/**
+ *
+ * @author Admin
+ */
+@WebServlet(name = "GetGuestsController", urlPatterns = {"/GetGuestsController"})
+public class GetGuestsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,47 +36,13 @@ public class GetBookingsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Guest guest = null;
-
-            if (session.getAttribute("USER") == null) {
-                String guestid = request.getParameter("guestid");
-                if (guestid != null) {
-                    GuestDAO d = new GuestDAO();
-                    guest = d.findGuestByGuestID(Integer.parseInt(guestid));
-                    session.setAttribute("USER", guest);
-                }
-            } else {
-                guest = (Guest) session.getAttribute("USER");
-            }
-
-            if (guest == null) {
-                request.setAttribute("ERROR", "Không tìm thấy thông tin khách hàng");
-                request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
-                return;
-            }
-
-            BookingDAO b = new BookingDAO();
-            ArrayList<BookingDetail> bookinglist = b.getBookings(guest.getGuestId());
-            request.setAttribute("BookingList", bookinglist);
-
-            String roomType = request.getParameter("roomType");
-            String assignBookingId = request.getParameter("bookingid");
-            if (roomType != null && assignBookingId != null) {
-                RoomDAO r = new RoomDAO();
-                ArrayList<Room> roomlist = r.getAvailableRoomsByType(roomType);
-                request.setAttribute("assignBookingId", assignBookingId);
-                request.setAttribute("RoomList", roomlist);
-            }
-            
-            request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            String keyword = request.getParameter("txtsearch");
+            GuestDAO d = new GuestDAO();
+            ArrayList<Guest> list = d.getGuests(keyword);
+            request.setAttribute("GUESTS", list);
+            request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
         }
     }
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

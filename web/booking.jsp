@@ -56,7 +56,7 @@
                     <a href="MainController?action=recepDashboard" class="welcome">
                         <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!
                     </a>
-                    <a href="MainController?action=logout" class="nav-button-primary">
+                    <a href="MainController?action=logoutUser" class="nav-button-primary">
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
                     <%

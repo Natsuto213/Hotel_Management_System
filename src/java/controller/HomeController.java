@@ -8,6 +8,7 @@ import dao.RoomDAO;
 import dao.RoomTypeDAO;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +38,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ServletContext context = request.getServletContext();
         HttpSession session = request.getSession();
         Boolean isLogin = false;
 
@@ -44,8 +46,8 @@ public class HomeController extends HttpServlet {
         ArrayList<RoomType> roomTypes = roomTypeDAO.getAllRoomType();
 
         session.setAttribute("isLogin", isLogin);
-        session.setAttribute("rooms", rooms);
-        session.setAttribute("roomTypes", roomTypes);
+        context.setAttribute("rooms", rooms);
+        context.setAttribute("roomTypes", roomTypes);
 
         request.getRequestDispatcher(IConstants.HOME).forward(request, response);
     }

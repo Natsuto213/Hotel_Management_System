@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.booking;
 
 import dao.BookingDAO;
 import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +19,8 @@ import utils.IConstants;
  *
  * @author Admin
  */
-@WebServlet(name = "RemoveBookingController", urlPatterns = {"/RemoveBookingController"})
-public class RemoveBookingController extends HttpServlet {
+@WebServlet(name = "CheckInController", urlPatterns = {"/CheckInController"})
+public class CheckInController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,33 +35,24 @@ public class RemoveBookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String checkinStr = request.getParameter("txtcheckin");
-            LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate now = LocalDate.now();
-            if (checkin.isAfter(now)) {
-                String roomIdStr = request.getParameter("roomid");
-                int roomId = Integer.parseInt(roomIdStr);
-
-                String bookingIdStr = request.getParameter("bookingid");
-                int bookingId = Integer.parseInt(bookingIdStr);
-
-                BookingDAO b = new BookingDAO();
-                RoomDAO r = new RoomDAO();
-
-                int result = 0;
-                result = b.removeBooking(bookingId);
+            String bookingid = request.getParameter("bookingid");
+            String roomidStr = request.getParameter("roomid");
+            int roomid = Integer.parseInt(roomidStr);
+            if (bookingid != null) {
+                BookingDAO d = new BookingDAO();
+                RoomDAO rd = new RoomDAO();
+                int result = d.checkInBooking(Integer.parseInt(bookingid));
                 if (result > 0) {
-                    r.changeRoomStatus("Available", roomId);
+                    rd.changeRoomStatus("Occupied", roomid);
                     request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
                 } else {
-                    request.setAttribute("ERROR", "Xóa booking lỗi");
+                    request.setAttribute("ERROR", "Check-in lỗi");
                     request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
                 }
             } else {
-                request.setAttribute("ERROR", "Đã qua ngày check in, không thể xóa booking");
+                request.setAttribute("ERROR", "Không lấy được booking id");
                 request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
             }
-
         }
     }
 

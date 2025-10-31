@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dao.BookingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,14 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "CheckInController", urlPatterns = {"/CheckInController"})
-public class CheckInController extends HttpServlet {
+@WebServlet(name = "ViewCart", urlPatterns = {"/ViewCart"})
+public class ViewCart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,20 +32,7 @@ public class CheckInController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String bookingid = request.getParameter("bookingid");
-            if (bookingid != null) {
-                BookingDAO d = new BookingDAO();
-                int result = d.checkInBooking(Integer.parseInt(bookingid));
-                if (result > 0) {
-                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
-                } else {
-                    request.setAttribute("ERROR", "Check-in lỗi");
-                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
-                }
-            } else {
-                request.setAttribute("ERROR", "Không lấy được booking id");
-                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
-            }
+     
         }
     }
 

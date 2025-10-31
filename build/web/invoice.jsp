@@ -99,7 +99,7 @@
                 <nav class="main-nav">
                     <% if (isLogin != null && isLogin == true) {%>
                     <span class="welcome">Xin chào, <%= username%>!</span>
-                    <a href="MainController?action=logout" class="nav-button-primary">
+                    <a href="MainController?action=logoutUser" class="nav-button-primary">
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
                     <% } else { %>

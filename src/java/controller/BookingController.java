@@ -85,12 +85,11 @@ public class BookingController extends HttpServlet {
                 RoomTypeDAO rtd = new RoomTypeDAO();
                 int roomId = rd.getAvailableRoomIdByType(roomType);
                 if (roomId != 0) {
-                    if (guestId != 0 && roomId != 0 && checkin != null && checkout != null) {
+                    if (guestId != 0 && roomId != 0) {
                         Booking booking = new Booking(roomId, guestId, roomId, checkinDate, checkoutDate, today, "Reserved");
                         BookingDAO bd = new BookingDAO();
                         int result = bd.createBooking(booking);
                         if (result > 0) {
-                            rd.changeRoomStatus("Occupied", roomId);
                             request.setAttribute("BOOKING", booking);
                             request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
                         } else {

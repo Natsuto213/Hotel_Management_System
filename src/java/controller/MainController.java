@@ -34,6 +34,7 @@ public class MainController extends HttpServlet {
                     action = "home";
                 }
                 switch (action) {
+                    //--------PAGE--------
                     case "home":
                         url = IConstants.HOME;
                         break;
@@ -43,26 +44,35 @@ public class MainController extends HttpServlet {
                     case "register":
                         url = IConstants.REGISTER;
                         break;
-                    case "search":
-                        url = IConstants.CONTROLLER_SEARCH;
+                    case "booking":
+                        url = IConstants.BOOKING;
                         break;
+                    case "cart":
+                        url = IConstants.CART;
+                        break;
+                    //--------DASHBOARD--------
                     case "recepDashboard":
                         url = IConstants.DASHBOARD_RECEPTIONIST;
                         break;
+                    case "guestDashboard":
+                        url = IConstants.DASHBOARD_GUEST;
+                        break;
+
+                    //--------CONTROLLER--------
                     case "loginUser":
                         url = IConstants.CONTROLLER_LOGIN;
                         break;
-                    case "logout":
+                    case "logoutUser":
                         url = IConstants.CONTROLLER_LOGOUT;
-                        break;
-                    case "booking":
-                        url = IConstants.BOOKING;
                         break;
                     case "createStaff":
                         url = IConstants.CONTROLLER_REGIS_STAFF;
                         break;
                     case "createUser":
                         url = IConstants.CONTROLLER_REGIS_GUEST;
+                        break;
+                    case "search":
+                        url = IConstants.CONTROLLER_SEARCH;
                         break;
                     case "searchGuest":
                         url = IConstants.CONTROLLER_GET_GUESTS;
@@ -72,6 +82,9 @@ public class MainController extends HttpServlet {
                         break;
                     case "getBookings":
                         url = IConstants.CONTROLLER_GET_BOOKINGS;
+                        break;
+                    case "findBookings":
+                        url = IConstants.CONTROLLER_FIND_BOOKINGS;
                         break;
                     case "update":
                         url = IConstants.CONTROLLER_UPDATE_BOOKING;
@@ -83,7 +96,7 @@ public class MainController extends HttpServlet {
                         url = IConstants.CONTROLLER_CHECK_IN;
                         break;
                     case "checkout":
-                        url = IConstants.INVOICE;
+                        url = IConstants.CONTROLLER_CHECK_OUT;
                         break;
                     case "assign":
                         url = IConstants.CONTROLLER_GET_BOOKINGS;
@@ -94,6 +107,10 @@ public class MainController extends HttpServlet {
                     case "cancelAssign":
                         url = IConstants.CONTROLLER_GET_BOOKINGS;
                         break;
+                    case "addService":
+                        url = IConstants.CONTROLLER_ADD_SERVICE;
+                        break;
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
