@@ -21,7 +21,7 @@ public class StaffDAO {
                 //step 2
                 String sql = "SELECT *"
                         + "  FROM [HotelManagement].[dbo].[STAFF]"
-                        + "  WHERE [Username] = ? AND [PasswordHash] = ?";
+                        + "  WHERE [Username] = ? AND [Password] = ?";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, username);
                 st.setString(2, password);

@@ -30,14 +30,14 @@ public class GuestDAO {
                 String sql = "SELECT  [GuestID]\n"
                         + "      ,[FullName]\n"
                         + "      ,[Username]\n"
-                        + "      ,[PasswordHash]\n"
+                        + "      ,[Password]\n"
                         + "      ,[Phone]\n"
                         + "      ,[Email]\n"
                         + "      ,[Address]\n"
                         + "      ,[IDNumber]\n"
                         + "      ,[DateOfBirth]\n"
                         + "  FROM [HotelManagement].[dbo].[GUEST]\n"
-                        + "  WHERE [Username] = ? AND [PasswordHash] = ?";
+                        + "  WHERE [Username] = ? AND [Password] = ?";
                 PreparedStatement st = cn.prepareStatement(sql);//ho tro execute
                 st.setString(1, username);
                 st.setString(2, password);
