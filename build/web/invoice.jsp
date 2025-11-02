@@ -62,7 +62,7 @@
                     // Lấy thông tin booking
                     Booking booking = (Booking) request.getAttribute("BOOKING");
                     RoomType roomInfo = (RoomType) request.getAttribute("ROOM_INFO");
-
+                    
                     String bookingId = "BK" + System.currentTimeMillis();
                     String roomType = "";
                     double roomPrice = 0;
@@ -91,8 +91,6 @@
                             capacity = roomInfo.getCapacity();
                             totalAmount = (long) roomPrice * nights;
                         }
-                        roomType = "Single";
-                        roomPrice = 1500000.00;
                     }
                 %>
 
@@ -143,20 +141,20 @@
                     <div class="info-section">
                         <div class="info-block">
                             <h3><i class="fa-solid fa-user"></i> Thông tin khách hàng</h3>
-                            <p><strong>Họ và tên:</strong> <%= username%></p>
+                            <p><strong>Họ và tên: </strong> <%= username%></p>
                             <% if (guest != null) {%>
-                            <p><strong>Email:</strong> <%= guest.getEmail() != null ? guest.getEmail() : "Chưa cập nhật"%></p>
-                            <p><strong>Số điện thoại:</strong> <%= guest.getPhone() != null ? guest.getPhone() : "Chưa cập nhật"%></p>
+                            <p><strong>Email: </strong> <%= guest.getEmail() != null ? guest.getEmail() : "Chưa cập nhật"%></p>
+                            <p><strong>Số điện thoại: </strong> <%= guest.getPhone() != null ? guest.getPhone() : "Chưa cập nhật"%></p>
                             <% }%>
-                            <p><strong>Trạng thái:</strong> <span class="status-badge reserved"><%= status%></span></p>
+                            <p><strong>Trạng thái: </strong> <span class="status-badge reserved"><%= status%></span></p>
                         </div>
 
                         <div class="info-block">
                             <h3><i class="fa-solid fa-calendar-check"></i> Thông tin đặt phòng</h3>
-                            <p><strong>Ngày đặt:</strong> <%= bookingDateStr%></p>
-                            <p><strong>Ngày nhận phòng:</strong> <%= checkinStr%></p>
-                            <p><strong>Ngày trả phòng:</strong> <%= checkoutStr%></p>
-                            <p><strong>Số đêm:</strong> <%= nights%> đêm</p>
+                            <p><strong>Ngày đặt: </strong> <%= bookingDateStr%></p>
+                            <p><strong>Ngày nhận phòng: </strong> <%= checkinStr%></p>
+                            <p><strong>Ngày trả phòng: </strong> <%= checkoutStr%></p>
+                            <p><strong>Số đêm: </strong> <%= nights%> đêm</p>
                         </div>
                     </div>
 
@@ -165,19 +163,19 @@
                         <h3><i class="fa-solid fa-bed"></i> Chi tiết phòng</h3>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <label>Loại phòng:</label>
+                                <label>Loại phòng: </label>
                                 <span>Phòng <%= roomType%></span>
                             </div>
                             <div class="detail-item">
-                                <label>Mã phòng:</label>
+                                <label>Mã phòng: </label>
                                 <span><% if (booking != null) {%>R<%= String.format("%03d", booking.getRoomId())%><% }%></span>
                             </div>
                             <div class="detail-item">
-                                <label>Số khách:</label>
+                                <label>Số khách: </label>
                                 <span>2 người</span>
                             </div>
                             <div class="detail-item">
-                                <label>Diện tích:</label>
+                                <label>Diện tích: </label>
                                 <span>25m²</span>
                             </div>
                         </div>

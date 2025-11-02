@@ -78,10 +78,12 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
-
                                         <td>
                                             <c:choose>
-                                                <c:when test="${b.status != 'Checked-in'}">
+                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out'}">
+                                                    ${b.typeName}
+                                                </c:when>
+                                                <c:otherwise>
                                                     <select name="txtroomType" >
                                                         <option value="Single" ${b.typeName == 'Single' ? 'selected' : ''}>Single</option>
                                                         <option value="Double" ${b.typeName == 'Double' ? 'selected' : ''}>Double</option>
@@ -89,46 +91,45 @@
                                                         <option value="Deluxe" ${b.typeName == 'Deluxe' ? 'selected' : ''}>Deluxe</option>
                                                         <option value="Family" ${b.typeName == 'Family' ? 'selected' : ''}>Family</option>
                                                         <option value="Presidential" ${b.typeName == 'Presidential' ? 'selected' : ''}>Presidential</option>
-                                                    </select>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${b.typeName}
-                                                </c:otherwise>
+                                                    </select>                                                </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <td>       
                                             <c:choose>
-                                                <c:when test="${b.status != 'Checked-in'}">
+                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out'}">
+                                                    ${b.checkInDate}
+                                                </c:when>
+                                                <c:otherwise>
                                                     <input type="date" name="txtcheckin" value="${b.checkInDate}">  
                                                     <input type="hidden" name="txtroomType" value="${b.typeName}">  
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">
                                                     <input type="hidden" name="roomid" value="${b.roomId}">
                                                     <button type="submit" name="action" value="checkin">Check in</button>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${b.checkInDate}
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${b.status != 'Checked-in'}">
-                                                    <input type="date" name="txtcheckout" value="${b.checkOutDate}">
+                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out'}">
+                                                    ${b.checkOutDate}
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${b.checkOutDate}
+                                                    <input type="date" name="txtcheckout" value="${b.checkOutDate}">
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <td>${b.status}</td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${b.status != 'Checked-in'}">
-                                                    <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                                <c:when test="${b.status == 'Checked-out'}">
+                                                    ...
+                                                </c:when>
+                                                <c:when test="${b.status == 'Checked-in'}">
                                                     <input type="hidden" name="roomid" value="${b.roomId}">
-                                                    <input type="hidden" name="txtroomType" value="${b.typeName}">
-                                                    <button type="submit" name="action" value="update" style="margin-right: 10px">Update</button>
-                                                    <button type="submit" name="action" value="remove" onclick="return window.confirm('Xác nhận xóa booking này')">Remove</button>
+                                                    <input type="hidden" name="roomType" value="${b.typeName}">
+                                                    <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                                    <button type="submit" name="action" value="assign">Assign Room</button>
+                                                    <button type="submit" name="action" value="checkout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
                                                 </c:when>
                                                 <c:when test="${requestScope.assignBookingId != null && requestScope.assignBookingId == b.bookingId}">
                                                     <input type="hidden" name="newRoomId" value="${r.roomId}">
@@ -138,11 +139,11 @@
                                                     <button type="submit" name="action" value="cancelAssign">Cancel</button>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="hidden" name="roomid" value="${b.roomId}">
-                                                    <input type="hidden" name="roomType" value="${b.typeName}">
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">
-                                                    <button type="submit" name="action" value="assign">Assign Room</button>
-                                                    <button type="submit" name="action" value="checkout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
+                                                    <input type="hidden" name="roomid" value="${b.roomId}">
+                                                    <input type="hidden" name="txtroomType" value="${b.typeName}">
+                                                    <button type="submit" name="action" value="update" style="margin-right: 10px">Update</button>
+                                                    <button type="submit" name="action" value="remove" onclick="return window.confirm('Xác nhận xóa booking này')">Remove</button>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>

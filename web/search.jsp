@@ -173,9 +173,9 @@
                     <div class="room-card-content">
                         <div class="room-card-image">
                             <img src="<%= imageUrl%>" alt="Phòng <%= room.getRoomNumber()%>">
-                            <div class="room-status-badge <%= !isAvailable ? "unavailable" : ""%>">
-                                <i class="fa-solid fa-<%= isAvailable ? "check-circle" : "times-circle"%>"></i>
-                                <%= isAvailable ? "Còn trống" : "Đã đặt"%>
+                            <div class="room-status-badge">
+                                <i class="fa-solid fa-check-circle"></i>
+                                Còn trống
                             </div>
                             <div class="room-number-badge">
                                 Phòng <%= room.getRoomNumber()%>
@@ -229,13 +229,9 @@
                                     <input type="hidden" name="checkIn" value="<%= checkIn%>">
                                     <input type="hidden" name="checkOut" value="<%= checkOut%>">
                                     <input type="hidden" name="guests" value="<%= guests%>">
-                                    <button type="submit" 
-                                            class="book-room-btn" 
-                                            name="action" 
-                                            value="bookroom"
-                                            <%= !isAvailable ? "disabled" : ""%>>
-                                        <i class="fa-solid fa-<%= isAvailable ? "calendar-check" : "lock"%>"></i>
-                                        <%= isAvailable ? "Đặt phòng ngay" : "Không khả dụng"%>
+                                    <button type="submit" name="action"  value="bookroom" class="book-room-btn">
+                                        <i class="fa-solid fa-calendar-check"></i>
+                                            Đặt phòng ngay
                                     </button>
                                 </form>
                             </div>

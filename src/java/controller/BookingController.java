@@ -91,7 +91,7 @@ public class BookingController extends HttpServlet {
                         int result = bd.createBooking(booking);
                         if (result > 0) {
                             request.setAttribute("BOOKING", booking);
-                            request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+                            request.getRequestDispatcher(IConstants.CONTROLLER_CHECK_OUT).forward(request, response);
                         } else {
                             request.setAttribute("ERROR", "Lỗi đặt phòng");
                             request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);

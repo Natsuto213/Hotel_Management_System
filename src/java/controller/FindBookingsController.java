@@ -35,12 +35,6 @@ public class FindBookingsController extends HttpServlet {
                 request.setAttribute("BookingList", bookinglist);
             }
 
-            if (bookingid != null) {
-                ServiceDAO sd = new ServiceDAO();
-                ArrayList<Service> servicelist = sd.getAllServices();
-                request.setAttribute("ServiceList", servicelist);
-            }
-
             request.getRequestDispatcher(IConstants.DASHBOARD_GUEST).forward(request, response);
 
         } catch (Exception e) {

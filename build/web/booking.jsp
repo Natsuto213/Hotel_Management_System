@@ -30,8 +30,10 @@
                 </a>
 
                 <%
+                    ServletContext context = request.getServletContext();
                     HttpSession sessionObj = request.getSession(false);
-                    List<RoomType> roomTypes = (List<RoomType>) sessionObj.getAttribute("roomTypes");
+
+                    List<RoomType> roomTypes = (List<RoomType>) context.getAttribute("roomTypes");
 
                     Boolean isLogin = false;
                     String username = "";

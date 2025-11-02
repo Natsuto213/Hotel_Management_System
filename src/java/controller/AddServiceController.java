@@ -39,25 +39,26 @@ public class AddServiceController extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             String bookingIdStr = request.getParameter("bookingid");
             String serviceIdStr = request.getParameter("serviceid");
+            String quantityStr = request.getParameter("quantity");
             String bookingDateStr = request.getParameter("serviceDate");
 
             int bookingId = Integer.parseInt(bookingIdStr.trim());
             int serviceId = Integer.parseInt(serviceIdStr.trim());
+            int quantity = Integer.parseInt(quantityStr.trim());
             LocalDate bookingDate = LocalDate.parse(bookingDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             BookingServiceDAO bsd = new BookingServiceDAO();
             BookingService find = bsd.findBookingService(bookingId, serviceId, bookingDate);
-            
             if (find == null) {
-                BookingService newService = new BookingService(bookingId, serviceId, 1, bookingDate, 0);
+                BookingService newService = new BookingService(bookingId, serviceId, quantity, bookingDate, 0);
                 bsd.addService(newService);
             } else {
-                int quantity = find.getQuantity();
-                quantity++;
-                bsd.updateService(quantity, find.getBookingserviceid());
+                quantity += find.getQuantity();
+                int bookingServiceId = bsd.findBookingServiceID(bookingId, serviceId, bookingDate);
+                bsd.updateService(quantity, bookingServiceId);
             }
-            
-            request.getRequestDispatcher(IConstants.CONTROLLER_FIND_BOOKINGS).forward(request, response);
+
+            request.getRequestDispatcher(IConstants.CONTROLLER_GET_CART).forward(request, response);
         }
     }
 

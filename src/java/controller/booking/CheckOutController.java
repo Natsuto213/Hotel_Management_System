@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.booking;
 
 import dao.BookingDAO;
 import dao.RoomDAO;
+import dao.RoomTypeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,24 +10,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Booking;
+import model.RoomType;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
 @WebServlet(name = "CheckOutController", urlPatterns = {"/CheckOutController"})
 public class CheckOutController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -41,12 +27,18 @@ public class CheckOutController extends HttpServlet {
                 int bookingid = Integer.parseInt(bookingidStr);
                 int roomid = Integer.parseInt(roomidStr);
 
-                BookingDAO d = new BookingDAO();
+                BookingDAO bd = new BookingDAO();
                 RoomDAO rd = new RoomDAO();
+                RoomTypeDAO rtd = new RoomTypeDAO();
 
-                int check = d.changeBookingStatus("Checked-out", bookingid);
+                int check = bd.changeBookingStatus("Checked-out", bookingid);
                 if (check > 0) {
+                    Booking booking = bd.getBooking(bookingid);
+                    RoomType roomInfo = rtd.getRoomType(roomid);
                     rd.changeRoomStatus("Available", roomid);
+                    
+                    request.setAttribute("BOOKING", booking);
+                    request.setAttribute("ROOM_INFO", roomInfo);
                     request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
                 }
             } else {

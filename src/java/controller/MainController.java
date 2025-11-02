@@ -47,9 +47,7 @@ public class MainController extends HttpServlet {
                     case "booking":
                         url = IConstants.BOOKING;
                         break;
-                    case "cart":
-                        url = IConstants.CART;
-                        break;
+                        
                     //--------DASHBOARD--------
                     case "recepDashboard":
                         url = IConstants.DASHBOARD_RECEPTIONIST;
@@ -109,6 +107,9 @@ public class MainController extends HttpServlet {
                         break;
                     case "addService":
                         url = IConstants.CONTROLLER_ADD_SERVICE;
+                        break;
+                    case "getCart":
+                        url = IConstants.CONTROLLER_GET_CART;
                         break;
 
                 }

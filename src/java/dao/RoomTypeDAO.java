@@ -18,6 +18,42 @@ import utils.DBUtils;
  */
 public class RoomTypeDAO {
 
+    public RoomType getRoomType(int roomid) {
+        RoomType result = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT rt.RoomTypeID, rt.TypeName, rt.Capacity, rt.PricePerNight\n"
+                        + "FROM ROOM_TYPE rt \n"
+                        + "JOIN ROOM r ON rt.RoomTypeID = r.RoomTypeID\n"
+                        + "WHERE RoomID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, roomid);
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    int roomTypeid = table.getInt("RoomTypeID");
+                    String TypeName = table.getString("TypeName");
+                    int capacity = table.getInt("Capacity");
+                    double price = table.getDouble("Price");
+                    result = new RoomType(roomTypeid, TypeName, capacity, price);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
     public RoomType getRoomTypeById(int roomTypeId) {
         RoomType roomType = null;
         String sql = "SELECT [RoomTypeID]\n"

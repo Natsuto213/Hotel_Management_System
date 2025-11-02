@@ -12,7 +12,7 @@ public interface IConstants {
     public final String INVOICE = "invoice.jsp";
     public final String ASSIGN = "AssignRoom.jsp";
     public final String EDIT_BOOKING = "EditBooking.jsp";
-    public final String CART = "cart.jsp";
+    public final String CART = "service.jsp";
 
     public final String CONTROLLER_LOGIN = "LoginController";
     public final String CONTROLLER_LOGOUT = "LogoutController";
@@ -32,6 +32,7 @@ public interface IConstants {
     public final String CONTROLLER_ASSIGN_ROOMS = "AssignRoomsController";
 
     public final String CONTROLLER_ADD_SERVICE = "AddServiceController";
+    public final String CONTROLLER_GET_CART = "GetCartController";
 
     public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";
     public final String DASHBOARD_GUEST = "GuestDashboard.jsp";

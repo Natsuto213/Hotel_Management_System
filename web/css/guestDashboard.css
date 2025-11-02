@@ -125,6 +125,7 @@
     cursor: pointer;
     font-size: 14px;
     transition: background 0.3s;
+    margin-top: 5px;
 }
 
 .guest-dashboard table button[type="submit"]:hover {
@@ -141,17 +142,17 @@
     flex-wrap: wrap;
 }
 
-/* Khi chỉ có 1 bảng (serviceList == null) → căn giữa bảng */
-.display-table > .booking-list:only-child {
-    width: 85%;
-    margin: 0 auto;
-}
-
 /* Khi có cả 2 bảng → chia đôi màn hình */
 .display-table > div {
     flex: 1;
     max-width: 50%;
     margin: 0 10px;
+}
+
+/* Khi chỉ có 1 bảng (serviceList == null) → căn giữa bảng */
+.display-table > .booking-list:only-child {
+    max-width: 70%;
+    margin: 0 auto;
 }
 
 /* Đảm bảo bảng trong mỗi khối hiển thị đẹp */
@@ -199,3 +200,12 @@
     font-weight: 600;
     color: #666;
 }
+
+.service-date-input {
+    width: 140px;
+    padding: 4px 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+

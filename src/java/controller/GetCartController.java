@@ -4,20 +4,26 @@
  */
 package controller;
 
+import dao.BookingServiceDAO;
+import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.BookingServiceDetail;
+import model.Service;
+import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "ViewCart", urlPatterns = {"/ViewCart"})
-public class ViewCart extends HttpServlet {
+@WebServlet(name = "GetCartController", urlPatterns = {"/GetCartController"})
+public class GetCartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +38,19 @@ public class ViewCart extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-     
+            String roomNumber = request.getParameter("roomNumber");
+            String bookingid = request.getParameter("bookingid");
+            String quantityStr = request.getParameter("quantity");
+
+            ServiceDAO sd = new ServiceDAO();
+            BookingServiceDAO bsd = new BookingServiceDAO();
+
+            ArrayList<Service> servicelist = sd.getAllServices();
+            ArrayList<BookingServiceDetail> cart = bsd.getCart(Integer.parseInt(bookingid.trim()));
+
+            request.setAttribute("CART", cart);
+            request.setAttribute("ServiceList", servicelist);
+            request.getRequestDispatcher(IConstants.CART).forward(request, response);
         }
     }
 

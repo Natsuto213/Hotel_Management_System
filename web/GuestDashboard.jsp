@@ -35,93 +35,58 @@
         </header>
 
         <c:set var="bookinglist" value="${requestScope.BookingList}"/>
-        <c:set var="servicelist" value="${requestScope.ServiceList}"/>
-        
-        
-        <h1 style="margin-top: 80px; text-align: center">Guest Dashboard</h1>
-        
-        <a href="MainController?action=cart" class="view-cart-btn">
+
+        <h1 style="margin-top: 80px; text-align: center">All bookings</h1>
+
+        <a href="MainController?action=getCart&roomNumber=${param.roomNumber}&bookingid=${param.bookingid}" class="view-cart-btn">
             <i class="fa-solid fa-cart-shopping"></i> View Cart
         </a> 
+        <h1>${ERROR}</h1>
 
-        <div class="display-table">
-            <div class="booking-list""> 
-                <c:choose>
-                    <c:when test="${bookinglist != null && not empty bookinglist}">
-                        <h1>All bookings</h1>
-                        <table>
-                            <tr>
-                                <th>Room Number</th>
-                                <th>Room Type</th>
-                                <th>Check-in</th>
-                                <th>Check-out</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            <c:forEach var="b" items="${bookinglist}">
-                                <tr>
-                                    <td>${b.roomNumber}</td>
-                                    <td>${b.typeName}</td>
-                                    <td>${b.checkInDate}</td>
-                                    <td>${b.checkOutDate}</td>
-                                    <td>${b.status}</td>
-                                    <td>
-                                        <form action="MainController" method="post">
-                                            <input type="hidden" name="roomNumber" value="${b.roomNumber}">
-                                            <input type="hidden" name="bookingid" value="${b.bookingId}">
-                                            <button type="submit" name="action" value="findBookings" 
-                                                    ${b.status eq 'Checked-out' ? 'disabled' : ''}>
-                                                Choose
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                </form>
-                            </c:forEach>
-                        </table>
-                    </c:when>
-                    <c:otherwise>
-                        <p class="not-found">Not have any booking yet</p>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-
-            <c:if test="${servicelist != null}">
-                <div>
-                    <h1>Add service for room number ${param.roomNumber}</h1>
+        <div class="booking-list""> 
+            <c:choose>
+                <c:when test="${bookinglist != null && not empty bookinglist}">
                     <table>
                         <tr>
-                            <th>Service</th>
-                            <th>Service Type</th>
-                            <th>Price</th>
+                            <th>Room Number</th>
+                            <th>Room Type</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
-                        <c:forEach var="s" items="${servicelist}">
+                        <c:forEach var="b" items="${bookinglist}">
                             <tr>
-                                <td>${s.servicename}</td>
-                                <td>${s.servicetype}</td>
-                                <td>${s.formattedPrice}</td>
+                                <td>${b.roomNumber}</td>
+                                <td>${b.typeName}</td>
+                                <td>${b.checkInDate}</td>
+                                <td>${b.checkOutDate}</td>
+                                <td>${b.status}</td>
                                 <td>
-                                    <form action="MainController" method="post">
-                                        <input type="hidden" name="bookingid" value="${param.bookingid}">
-                                        <input type="hidden" name="serviceid" value="${s.serviceid}" />
-                                        <input                                             
-                                            type="text" 
-                                            name="serviceDate" 
-                                            placeholder="Service Date" 
-                                            onfocus="(this.type = 'date')" 
-                                            onblur="if (!this.value)
-                                                        this.type = 'text'"
-                                            required=""
-                                            >                                       
-                                        <button type="submit" name="action" value="addService">Add</button>   
-                                    </form>
+                                    <c:choose>
+                                        <c:when test="${b.status != 'Checked-out'}">
+                                            <form action="MainController" method="post">
+                                                <input type="hidden" name="roomid" value="${b.roomId}">
+                                                <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                                <input type="hidden" name="roomNumber" value="${b.roomNumber}">
+                                                <button type="submit" name="action" value="getCart">
+                                                    Choose
+                                                </button>
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p>...</p>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
                     </table>
-                </div>
-            </c:if>
+                </c:when>
+                <c:otherwise>
+                    <p class="not-found">Not have any booking yet</p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </body>
 </html>
