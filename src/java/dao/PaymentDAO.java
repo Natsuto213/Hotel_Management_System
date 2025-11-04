@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import model.Payment;
-import utils.DBUtils;
 
 public class PaymentDAO {
     
