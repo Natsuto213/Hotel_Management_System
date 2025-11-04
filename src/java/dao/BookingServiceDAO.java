@@ -117,11 +117,9 @@ public class BookingServiceDAO {
         return result;
     }
 
-    public int addService(BookingService bs) {
+    public int addService(BookingService bs, Connection cn) {
         int result = 0;
-        Connection cn = null;
         try {
-            cn = DBUtils.getConnection();
             if (cn != null) {
                 String sql = "INSERT INTO BOOKING_SERVICE (BookingID, ServiceID, Quantity, ServiceDate, Status)\n"
                         + "VALUES (?, ?, ?, ?, ?)";
@@ -135,15 +133,7 @@ public class BookingServiceDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        } 
         return result;
     }
 

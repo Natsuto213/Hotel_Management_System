@@ -8,6 +8,7 @@
 <%@page import="model.Guest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -47,7 +48,7 @@
                     </div>
                     <div class="invoice-number">
                         <h3>MÃ ĐẶT PHÒNG</h3>
-                        <div class="number">${booking.bookingId}</div>
+                        <div class="number">#${requestScope.bookingid}</div>
                     </div>
                 </div>
 
@@ -60,7 +61,6 @@
                             <p><strong>Full Name: </strong>${guest.fullname}</p>
                             <p><strong>Phone: </strong>${guest.phone}</p>
                             <p><strong>Email: </strong>${guest.email}</p>
-                            <p><strong>Id Number: </strong>${guest.idNumber}</p>
                         </div>
 
                         <div class="info-block">
@@ -68,7 +68,7 @@
                             <p><strong>Booking Date: </strong> ${booking.bookingDate}</p>
                             <p><strong>Check-in: </strong> ${booking.checkInDate}</p>
                             <p><strong>Check-out: </strong> ${booking.checkOutDate}</p>
-                            <p><strong>Night: </strong> ${requestScope.night} nights</p>
+                            <p><strong>Night: </strong><fmt:formatNumber value="${requestScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</p>
                         </div>
                     </div>
 
@@ -99,20 +99,28 @@
                         <h3><i class="fa-solid fa-file-invoice-dollar"></i> Price Summary</h3>
                         <div class="price-item">
                             <label>Price per night</label>
-                            <span>${booking.price} VND</span>
+                            <span><fmt:formatNumber value="${booking.price}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>Nights: </label>
-                            <span>${requestScope.night}</span>
+                            <span><fmt:formatNumber value="${requestScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</span>
+                        </div>
+                        <hr>
+                        <div class="price-item">
+                            <label>Total Room price: </label>
+                            <span><fmt:formatNumber value="${requestScope.roomTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>Total Service:</label>
-                            <span>${requestScope.serviceTotal} VND</span>
+                            <span><fmt:formatNumber value="${requestScope.serviceTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
-
+                        <div class="price-item">
+                            <label>VAT (8%)</label>
+                            <span><fmt:formatNumber value="${requestScope.total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                        </div>
                         <div class="total-amount">
                             <label>TOTAL AMOUNT (VAT 8%): </label>
-                            <span>${requestScope.total * 0.8} VND</span>
+                            <span><fmt:formatNumber value="${requestScope.total * 1.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                     </div>
 

@@ -8,14 +8,14 @@ public class Payment implements Serializable{
     private int paymentId;
     private int bookingId;
     private LocalDate paymentDate;
-    private int amount;
+    private double amount;
     private String paymentMethod;
     private String status;
 
     public Payment() {
     }
 
-    public Payment(int bookingId, LocalDate paymentDate, int amount, String paymentMethod, String status) {
+    public Payment(int bookingId, LocalDate paymentDate, double amount, String paymentMethod, String status) {
         this.bookingId = bookingId;
         this.paymentDate = paymentDate;
         this.amount = amount;
@@ -47,11 +47,11 @@ public class Payment implements Serializable{
         this.paymentDate = paymentDate;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

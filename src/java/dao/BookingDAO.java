@@ -14,10 +14,6 @@ import model.BookingDetail;
 import utils.DBUtils;
 
 public class BookingDAO {
-
-    public BookingDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     public Booking getBooking(int bookingid) {
         Booking result = null;
@@ -100,11 +96,9 @@ public class BookingDAO {
         return list;
     }
     
-    public int createBooking(Booking booking) {
-        Connection cn = null;
+    public int createBooking(Booking booking, Connection cn) {
         int result = 0;
         try {
-            cn = DBUtils.getConnection();
             if (cn != null) {
                 String sql = "INSERT INTO BOOKING ([GuestID], [RoomID], [CheckInDate], [CheckOutDate], [BookingDate], [Status])\n"
                         + "  VALUES (?, ?, ?, ?, ?, ?);";
@@ -125,15 +119,7 @@ public class BookingDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        } 
         return result;
     }
     

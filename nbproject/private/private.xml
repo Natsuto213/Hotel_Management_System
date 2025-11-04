@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/controller/PreBookingController.java</file>
             <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/web/invoice.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/dao/InvoiceDAO.java</file>
             <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/web/PreBooking.jsp</file>
             <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/controller/BookingController.java</file>
-            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/dao/BookingDAO.java</file>
         </group>
     </open-files>
 </project-private>

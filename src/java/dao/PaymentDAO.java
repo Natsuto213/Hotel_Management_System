@@ -7,32 +7,22 @@ import utils.DBUtils;
 
 public class PaymentDAO {
     
-    public int addService(Payment payment) {
+    public int addService(Payment payment, Connection cn) {
         int result = 0;
-        Connection cn = null;
         try {
-            cn = DBUtils.getConnection();
             if (cn != null) {
                 String sql = "INSERT INTO PAYMENT(BookingID, PaymentDate, Amount, PaymentMethod, Status)\n"
-                        + "VALUE (?, ?, ?, ?, ?)";
+                        + "VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, payment.getBookingId());
                 st.setDate(2, java.sql.Date.valueOf(payment.getPaymentDate()));
-                st.setInt(3, payment.getAmount());
+                st.setDouble(3, payment.getAmount());
                 st.setString(4, payment.getPaymentMethod());
                 st.setString(5, payment.getStatus());
                 result = st.executeUpdate();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }

@@ -135,8 +135,12 @@
                 <hr>
                 <p>Total Amount: <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> VND</p>
             </div>
-            
-            <input type="hidden" name="amount" value="${total}">
+
+            <input type="hidden" name="night" value="${night}">
+            <input type="hidden" name="roomTotal" value="${roomTotal}">
+            <input type="hidden" name="serviceTotal" value="${serviceTotal}">
+            <input type="hidden" name="total" value="${total}">
+
             <button type="submit" name="action" value="home">Back To Home</button>
             <button type="submit" name="action" value="createBooking">Confirm Booking</button>
         </form>

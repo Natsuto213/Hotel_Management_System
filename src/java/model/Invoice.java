@@ -8,13 +8,13 @@ public class Invoice implements Serializable{
     private int invoiceId;
     private int bookingId;
     private LocalDate IssueDate;
-    private int totalAmount;
+    private double totalAmount;
     private String status;
 
     public Invoice() {
     }
 
-    public Invoice(int bookingId, LocalDate IssueDate, int totalAmount, String status) {
+    public Invoice(int bookingId, LocalDate IssueDate, double totalAmount, String status) {
         this.bookingId = bookingId;
         this.IssueDate = IssueDate;
         this.totalAmount = totalAmount;
@@ -45,11 +45,11 @@ public class Invoice implements Serializable{
         this.IssueDate = IssueDate;
     }
 
-    public int getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(int totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
