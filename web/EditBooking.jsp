@@ -91,7 +91,8 @@
                                                         <option value="Deluxe" ${b.typeName == 'Deluxe' ? 'selected' : ''}>Deluxe</option>
                                                         <option value="Family" ${b.typeName == 'Family' ? 'selected' : ''}>Family</option>
                                                         <option value="Presidential" ${b.typeName == 'Presidential' ? 'selected' : ''}>Presidential</option>
-                                                    </select>                                                </c:otherwise>
+                                                    </select>                                               
+                                                </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <td>       

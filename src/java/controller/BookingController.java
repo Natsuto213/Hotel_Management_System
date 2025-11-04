@@ -5,13 +5,14 @@
 package controller;
 
 import dao.BookingDAO;
-import dao.RoomDAO;
-import dao.RoomTypeDAO;
+import dao.BookingServiceDAO;
+import dao.InvoiceDAO;
+import dao.PaymentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Booking;
+import model.BookingDetail;
+import model.BookingService;
+import model.BookingServiceDetail;
 import model.Guest;
+import model.Invoice;
+import model.Payment;
 import utils.IConstants;
 
 /**
@@ -29,82 +35,55 @@ import utils.IConstants;
 @WebServlet(name = "BookingController", urlPatterns = {"/BookingController"})
 public class BookingController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
+
+            //CREATE BOOKING
             Guest guest = (Guest) session.getAttribute("USER");
-            if (guest != null) {
-                int guestId = guest.getGuestId();
-                String roomType = request.getParameter("txtroomtype");
+            BookingDetail bookingdetail = (BookingDetail) session.getAttribute("BOOKING");
 
-                String checkinStr = request.getParameter("checkIn");
-                String checkoutStr = request.getParameter("checkOut");
+            int guestid = guest.getGuestId();
+            int roomid = bookingdetail.getRoomId();
+            LocalDate checkIn = bookingdetail.getCheckInDate();
+            LocalDate checkOut = bookingdetail.getCheckOutDate();
+            LocalDateTime checkinDate = checkIn.atTime(14, 00, 00);
+            LocalDateTime checkoutDate = checkOut.atTime(12, 00, 00);
+            LocalDate today = LocalDate.now();
 
-                //kiểm tra null 
-                if (checkinStr == null || checkinStr.trim().isEmpty()
-                        || checkoutStr == null || checkoutStr.trim().isEmpty()) {
-                    request.setAttribute("ERROR", "Vui lòng nhập đầy đủ ngày nhận phòng và ngày trả phòng!");
-                    request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
-                }
+            Booking booking = new Booking(guestid, roomid, checkinDate, checkoutDate, today, "Reserved");
+            BookingDAO bd = new BookingDAO();
+            bd.createBooking(booking);
 
-                LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                LocalDate checkout = LocalDate.parse(checkoutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            //CREATE BOOKING SERVICE
+            ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
+            BookingServiceDAO bsd = new BookingServiceDAO();
 
-                LocalDateTime checkinDate = checkin.atTime(14, 00, 00);
-                LocalDateTime checkoutDate = checkout.atTime(12, 00, 00);
-
-                LocalDate today = LocalDate.now();
-
-                //validate checkin
-                if (checkin.isBefore(today)) {
-                    request.setAttribute("ERROR", "Ngày nhận phòng phải sau ngày hiện tại ít nhất 1 ngày!");
-                    request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
-                    return;
-                }
-
-                //validate checkout
-                if (!checkout.isAfter(checkin)) {
-                    request.setAttribute("ERROR", "Ngày trả phòng phải sau ngày nhận phòng ít nhất 1 ngày!");
-                    request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
-                    return;
-                }
-
-                //kiểm tra phòng
-                RoomDAO rd = new RoomDAO();
-                RoomTypeDAO rtd = new RoomTypeDAO();
-                int roomId = rd.getAvailableRoomIdByType(roomType);
-                if (roomId != 0) {
-                    if (guestId != 0 && roomId != 0) {
-                        Booking booking = new Booking(roomId, guestId, roomId, checkinDate, checkoutDate, today, "Reserved");
-                        BookingDAO bd = new BookingDAO();
-                        int result = bd.createBooking(booking);
-                        if (result > 0) {
-                            request.setAttribute("BOOKING", booking);
-                            request.getRequestDispatcher(IConstants.CONTROLLER_CHECK_OUT).forward(request, response);
-                        } else {
-                            request.setAttribute("ERROR", "Lỗi đặt phòng");
-                            request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
-                        }
-                    }
-                } else {
-                    request.setAttribute("ERROR", " Không còn phòng trống thuộc loại này!");
-                    request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
-                }
-            } else {
-                request.setAttribute("ERROR", "Không lấy được GUEST từ session");
-                request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
+            int bookingid = booking.getBookingId();
+            for (BookingServiceDetail c : cart) {
+                int serviceid = c.getServiceid();
+                int quantity = c.getQuantity();
+                LocalDate serviceDate = c.getServicedate();
+                BookingService bs = new BookingService(bookingid, serviceid, quantity, serviceDate, 0);
+                bsd.addService(bs);
             }
+
+            //CREATE PAYMENT
+            int amount = Integer.parseInt(request.getParameter("amount").trim());
+            String paymentMethod = request.getParameter("payment");
+            Payment payment = new Payment(bookingid, today, amount, paymentMethod, "Pending");
+
+            PaymentDAO pd = new PaymentDAO();
+            pd.addService(payment);
+
+            //CREATE INVOICE
+            Invoice invoice = new Invoice(bookingid, today, amount, "Paid");
+            InvoiceDAO id = new InvoiceDAO();
+            id.addInvoice(invoice);
+            
+            request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
         }
     }
 

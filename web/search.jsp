@@ -225,13 +225,15 @@
                                 <form action="MainController" method="post" style="display: inline;">
                                     <input type="hidden" name="roomId" value="<%= room.getRoomId()%>">
                                     <input type="hidden" name="roomNumber" value="<%= room.getRoomNumber()%>">
-                                    <input type="hidden" name="txtroomtype" value="<%= roomType.getTypeName()%>">
+                                    <input type="hidden" name="roomType" value="<%= roomType.getTypeName()%>">
                                     <input type="hidden" name="checkIn" value="<%= checkIn%>">
                                     <input type="hidden" name="checkOut" value="<%= checkOut%>">
                                     <input type="hidden" name="guests" value="<%= guests%>">
-                                    <button type="submit" name="action"  value="bookroom" class="book-room-btn">
+                                    <input type="hidden" name="price" value="<%= roomType.getPrice() %>">
+
+                                    <button type="submit" name="action"  value="preBooking" class="book-room-btn">
                                         <i class="fa-solid fa-calendar-check"></i>
-                                            Đặt phòng ngay
+                                        Đặt phòng ngay
                                     </button>
                                 </form>
                             </div>

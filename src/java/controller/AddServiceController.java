@@ -4,17 +4,19 @@
  */
 package controller;
 
-import dao.BookingServiceDAO;
+import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.BookingService;
+import javax.servlet.http.HttpSession;
+import model.BookingServiceDetail;
 import utils.IConstants;
 
 /**
@@ -37,28 +39,44 @@ public class AddServiceController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String bookingIdStr = request.getParameter("bookingid");
+            HttpSession session = request.getSession();
             String serviceIdStr = request.getParameter("serviceid");
             String quantityStr = request.getParameter("quantity");
             String bookingDateStr = request.getParameter("serviceDate");
 
-            int bookingId = Integer.parseInt(bookingIdStr.trim());
             int serviceId = Integer.parseInt(serviceIdStr.trim());
             int quantity = Integer.parseInt(quantityStr.trim());
             LocalDate bookingDate = LocalDate.parse(bookingDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            BookingServiceDAO bsd = new BookingServiceDAO();
-            BookingService find = bsd.findBookingService(bookingId, serviceId, bookingDate);
-            if (find == null) {
-                BookingService newService = new BookingService(bookingId, serviceId, quantity, bookingDate, 0);
-                bsd.addService(newService);
-            } else {
-                quantity += find.getQuantity();
-                int bookingServiceId = bsd.findBookingServiceID(bookingId, serviceId, bookingDate);
-                bsd.updateService(quantity, bookingServiceId);
+            ServiceDAO sd = new ServiceDAO();
+            String serviceName = sd.getName(serviceId);
+            double price = sd.getPrice(serviceId);
+
+            BookingServiceDetail newBooking = new BookingServiceDetail(serviceId, serviceName, quantity, bookingDate, price);
+
+            ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
+            // neu chua co cart thi tao moi
+            if (cart == null) {
+                cart = new ArrayList<>();
+                cart.add(newBooking);
+            } else { //cart da ton tai
+                // xem service vua add co trong cart khong
+                BookingServiceDetail find = null;
+                for (BookingServiceDetail bsd : cart) {
+                    if (bsd.getServiceid() == newBooking.getServiceid() && bsd.getServicedate().equals(newBooking.getServicedate())) {
+                        find = bsd;
+                        break;
+                    }
+                }
+                if (find != null) { // neu co add quantity vua nhap + quantity da co san
+                    find.setQuantity(find.getQuantity() + newBooking.getQuantity());
+                } else { //new khong chi nhap quantity vua nhap
+                    cart.add(newBooking);
+                }
             }
 
-            request.getRequestDispatcher(IConstants.CONTROLLER_GET_CART).forward(request, response);
+            session.setAttribute("CART", cart);
+            request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
         }
     }
 

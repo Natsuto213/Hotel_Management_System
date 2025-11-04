@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 public class BookingServiceDetail implements Serializable{
@@ -19,6 +20,14 @@ public class BookingServiceDetail implements Serializable{
 
     public BookingServiceDetail() {
     
+    }
+
+    public BookingServiceDetail(int serviceid, String servicename, int quantity, LocalDate servicedate, double price) {
+        this.serviceid = serviceid;
+        this.servicename = servicename;
+        this.quantity = quantity;
+        this.servicedate = servicedate;
+        this.price = price;
     }
     
     public BookingServiceDetail(String servicename, String servicetype, int quantity, LocalDate servicedate, double price) {
@@ -100,8 +109,10 @@ public class BookingServiceDetail implements Serializable{
     public void setStatus(int status) {
         this.status = status;
     }
-
     
-    
+    public String getFormattedPrice() {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(this.price);
+    }
     
 }

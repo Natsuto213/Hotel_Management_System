@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +15,10 @@ import utils.DBUtils;
 
 public class BookingDAO {
 
+    public BookingDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
     public Booking getBooking(int bookingid) {
         Booking result = null;
         Connection cn = null;
@@ -47,10 +52,10 @@ public class BookingDAO {
                 e.printStackTrace();
             }
         }
-
+        
         return result;
     }
-
+    
     public ArrayList getBookings(int guestID) {
         ArrayList<BookingDetail> list = new ArrayList<>();
         Connection cn = null;
@@ -94,7 +99,7 @@ public class BookingDAO {
         }
         return list;
     }
-
+    
     public int createBooking(Booking booking) {
         Connection cn = null;
         int result = 0;
@@ -103,7 +108,7 @@ public class BookingDAO {
             if (cn != null) {
                 String sql = "INSERT INTO BOOKING ([GuestID], [RoomID], [CheckInDate], [CheckOutDate], [BookingDate], [Status])\n"
                         + "  VALUES (?, ?, ?, ?, ?, ?);";
-                PreparedStatement st = cn.prepareCall(sql);
+                PreparedStatement st = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 st.setInt(1, booking.getGuestId());
                 st.setInt(2, booking.getRoomId());
                 st.setTimestamp(3, java.sql.Timestamp.valueOf(booking.getCheckInDate()));
@@ -111,6 +116,12 @@ public class BookingDAO {
                 st.setDate(5, java.sql.Date.valueOf(booking.getBookingDate()));
                 st.setString(6, booking.getStatus());
                 result = st.executeUpdate();
+                if (result > 0) {
+                    ResultSet table = st.getGeneratedKeys();
+                    if (table.next()) {
+                        booking.setBookingId(table.getInt(1));
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,10 +136,10 @@ public class BookingDAO {
         }
         return result;
     }
-
+    
     public ArrayList<Booking> getBookingByCheckInCheckOut(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
         ArrayList<Booking> result = new ArrayList<>();
-
+        
         String sql = "SELECT [BookingID]\n"
                 + "      ,[GuestID]\n"
                 + "      ,[RoomID]\n"
@@ -138,18 +149,18 @@ public class BookingDAO {
                 + "      ,[Status]\n"
                 + "FROM [HotelManagement].[dbo].[BOOKING]\n"
                 + "WHERE CheckInDate <= ? AND CheckOutDate >= ?";
-
+        
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-
+        
         try {
             con = DBUtils.getConnection();
             pst = con.prepareStatement(sql);
             pst.setTimestamp(1, java.sql.Timestamp.valueOf(checkInDate));
             pst.setTimestamp(2, java.sql.Timestamp.valueOf(checkOutDate));
             rs = pst.executeQuery();
-
+            
             if (rs != null) {
                 while (rs.next()) {
                     int bookingId = rs.getInt("BookingID");
@@ -172,26 +183,26 @@ public class BookingDAO {
                     }
                 }
             }
-
+            
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        
         ArrayList<Booking> result2 = new ArrayList<>();
         List<LocalDate> datesInRange = new ArrayList<>();
-
+        
         LocalDate currentDate = checkInDate.toLocalDate();
         LocalDate endDate = checkOutDate.toLocalDate();
-
+        
         while (!currentDate.isAfter(endDate)) {
             datesInRange.add(currentDate);
             currentDate = currentDate.plusDays(1);
         }
-
+        
         for (Booking booking : result) {
             LocalDate bookingCheckInDate = booking.getCheckInDate().toLocalDate();
             LocalDate bookingCheckOutDate = booking.getCheckOutDate().toLocalDate();
-
+            
             for (LocalDate date : datesInRange) {
                 if ((date.isEqual(bookingCheckInDate) || date.isAfter(bookingCheckInDate))
                         && (date.isEqual(bookingCheckOutDate) || date.isBefore(bookingCheckOutDate))) {
@@ -199,11 +210,11 @@ public class BookingDAO {
                     break;
                 }
             }
-
+            
         }
         return result2;
     }
-
+    
     public int removeBooking(int bookingID) {
         Connection cn = null;
         int result = 0;
@@ -212,7 +223,7 @@ public class BookingDAO {
             if (cn != null) {
                 String sql = "DELETE FROM BOOKING \n"
                         + "WHERE BookingID = ?";
-                PreparedStatement st = cn.prepareCall(sql);
+                PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, bookingID);
                 result = st.executeUpdate();
             }
@@ -229,7 +240,7 @@ public class BookingDAO {
         }
         return result;
     }
-
+    
     public int updateBooking(Booking b) {
         Connection cn = null;
         int result = 0;
@@ -239,7 +250,7 @@ public class BookingDAO {
                 String sql = "UPDATE BOOKING\n"
                         + "  SET RoomID = ?, CheckInDate = ?, CheckOutDate = ?\n"
                         + "  WHERE BookingID = ?";
-                PreparedStatement st = cn.prepareCall(sql);
+                PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, b.getRoomId());
                 st.setTimestamp(2, java.sql.Timestamp.valueOf(b.getCheckInDate()));
                 st.setTimestamp(3, java.sql.Timestamp.valueOf(b.getCheckOutDate()));
@@ -259,7 +270,7 @@ public class BookingDAO {
         }
         return result;
     }
-
+    
     public int changeRoomID(int newRoomId, int bookingId) {
         int result = 0;
         Connection cn = null;
@@ -287,7 +298,7 @@ public class BookingDAO {
         }
         return result;
     }
-
+    
     public int checkInBooking(int bookingID) {
         int result = 0;
         Connection cn = null;
@@ -314,7 +325,7 @@ public class BookingDAO {
         }
         return result;
     }
-
+    
     public int changeBookingStatus(String status, int bookingid) {
         int result = 0;
         Connection cn = null;
@@ -340,8 +351,8 @@ public class BookingDAO {
                 e.printStackTrace();
             }
         }
-
+        
         return result;
     }
-
+    
 }

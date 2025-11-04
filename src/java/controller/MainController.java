@@ -8,21 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
 public class MainController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -47,7 +34,7 @@ public class MainController extends HttpServlet {
                     case "booking":
                         url = IConstants.BOOKING;
                         break;
-                        
+
                     //--------DASHBOARD--------
                     case "recepDashboard":
                         url = IConstants.DASHBOARD_RECEPTIONIST;
@@ -75,7 +62,10 @@ public class MainController extends HttpServlet {
                     case "searchGuest":
                         url = IConstants.CONTROLLER_GET_GUESTS;
                         break;
-                    case "bookroom":
+                    case "preBooking":
+                        url = IConstants.CONTROLLER_PRE_BOOKING;
+                        break;
+                    case "createBooking":
                         url = IConstants.CONTROLLER_BOOKING;
                         break;
                     case "getBookings":
@@ -107,6 +97,9 @@ public class MainController extends HttpServlet {
                         break;
                     case "addService":
                         url = IConstants.CONTROLLER_ADD_SERVICE;
+                        break;
+                    case "deleteService":
+                        url = IConstants.CONTROLLER_DELETE_SERVICE;
                         break;
                     case "getCart":
                         url = IConstants.CONTROLLER_GET_CART;

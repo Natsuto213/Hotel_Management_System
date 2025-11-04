@@ -1,53 +1,49 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
-import dao.BookingServiceDAO;
 import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.BookingServiceDetail;
+import javax.servlet.http.HttpSession;
+import model.BookingDetail;
 import model.Service;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
-@WebServlet(name = "GetCartController", urlPatterns = {"/GetCartController"})
-public class GetCartController extends HttpServlet {
+@WebServlet(name = "PreBookingController", urlPatterns = {"/PreBookingController"})
+public class PreBookingController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String roomNumber = request.getParameter("roomNumber");
-            String bookingid = request.getParameter("bookingid");
-            String quantityStr = request.getParameter("quantity");
+            HttpSession session = request.getSession();
 
-            BookingServiceDAO bsd = new BookingServiceDAO();
+            if (session.getAttribute("BOOKING") == null) {
+                int roomid = Integer.parseInt(request.getParameter("roomId").trim());
+                String roomNumber = request.getParameter("roomNumber");
+                String roomType = request.getParameter("roomType");
+                LocalDate checkIn = LocalDate.parse(request.getParameter("checkIn"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate checkOut = LocalDate.parse(request.getParameter("checkOut"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate bookingDate = LocalDate.now();
+                int guests = Integer.parseInt(request.getParameter("guests").trim());
+                double price = Double.parseDouble(request.getParameter("price").trim());
 
-            ArrayList<BookingServiceDetail> cart = bsd.getCart(Integer.parseInt(bookingid.trim()));
+                BookingDetail booking = new BookingDetail(roomid, roomNumber, roomType, checkIn, checkOut, bookingDate, price, guests);
+                session.setAttribute("BOOKING", booking);
+            }
 
-            request.setAttribute("CART", cart);
-            request.getRequestDispatcher(IConstants.CART).forward(request, response);
+            ServiceDAO sd = new ServiceDAO();
+            ArrayList<Service> servicelist = sd.getAllServices();
+
+            request.setAttribute("ServiceList", servicelist);
+            request.getRequestDispatcher(IConstants.PREBOOKING).forward(request, response);
         }
     }
 

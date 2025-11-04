@@ -9,6 +9,68 @@ import utils.DBUtils;
 
 public class ServiceDAO {
 
+    public String getName(int id) {
+        String result = "";
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ServiceName\n"
+                        + "FROM SERVICE\n"
+                        + "WHERE ServiceID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, id);
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    result = table.getString("ServiceName");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    public double getPrice(int id) {
+        double result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT Price\n"
+                        + "FROM SERVICE\n"
+                        + "WHERE ServiceID = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, id);
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    result = table.getDouble("Price");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
     public ArrayList getAllServices() {
         ArrayList<Service> result = new ArrayList<>();
         Connection cn = null;

@@ -7,20 +7,7 @@
 <%@page import="model.Staff"%>
 <%@page import="model.Guest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%!
-    // function để tìm tên loại phòng từ ID
-    public String getRoomTypeNameById(int roomTypeId, List<RoomType> allRoomTypes) {
-        if (allRoomTypes == null) {
-            return "Không có loại phòng nào";
-        }
-        for (RoomType rt : allRoomTypes) {
-            if (rt.getRoomTypeId() == roomTypeId) {
-                return rt.getTypeName();
-            }
-        }
-        return "Unknown";
-    }
-%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -37,86 +24,15 @@
 
     </head>
     <body>
-        <header class="main-header">
-            <div class="container">
-                <a href="MainController?action=home" class="logo">
-                    <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
-                </a>
-
-                <%
-                    HttpSession sessionObj = request.getSession(false);
-                    Boolean isLogin = false;
-                    String username = "";
-                    Guest guest = null;
-
-                    if (sessionObj != null) {
-                        isLogin = (Boolean) sessionObj.getAttribute("isLogin");
-
-                        Object user = sessionObj.getAttribute("USER");
-                        if (user instanceof Guest) {
-                            guest = (Guest) user;
-                            username = guest.getUsername();
-                        }
-                    }
-
-                    // Lấy thông tin booking
-                    Booking booking = (Booking) request.getAttribute("BOOKING");
-                    RoomType roomInfo = (RoomType) request.getAttribute("ROOM_INFO");
-                    
-                    String bookingId = "BK" + System.currentTimeMillis();
-                    String roomType = "";
-                    double roomPrice = 0;
-                    int capacity = 0;
-                    long nights = 0;
-                    long totalAmount = 0;
-                    String checkinStr = "";
-                    String checkoutStr = "";
-                    String bookingDateStr = "";
-                    String status = "Reserved";
-
-                    if (booking != null) {
-                        // Lấy thông tin từ booking
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        checkinStr = booking.getCheckInDate().format(formatter);
-                        checkoutStr = booking.getCheckOutDate().format(formatter);
-                        bookingDateStr = booking.getBookingDate().format(formatter);
-                        status = booking.getStatus();
-
-                        // Tính số đêm
-                        nights = ChronoUnit.DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate());
-
-                        if (roomInfo != null) {
-                            roomType = roomInfo.getTypeName();
-                            roomPrice = roomInfo.getPrice();
-                            capacity = roomInfo.getCapacity();
-                            totalAmount = (long) roomPrice * nights;
-                        }
-                    }
-                %>
-
-                <nav class="main-nav">
-                    <% if (isLogin != null && isLogin == true) {%>
-                    <span class="welcome">Xin chào, <%= username%>!</span>
-                    <a href="MainController?action=logoutUser" class="nav-button-primary">
-                        <i class="fa-solid fa-user-minus"></i> Đăng xuất
-                    </a>
-                    <% } else { %>
-                    <a href="MainController?action=login" class="nav-button-secondary">
-                        <i class="fa-solid fa-user"></i> Đăng nhập
-                    </a>
-                    <a href="MainController?action=register" class="nav-button-primary">
-                        <i class="fa-solid fa-user-plus"></i> Đăng ký
-                    </a>
-                    <% }%>
-                </nav>
-            </div>
-        </header>
+        <c:set var="cart" value="${sessionScope.CART}"/>
+        <c:set var="guest" value="${sessionScope.USER}" />
+        <c:set var="booking" value="${sessionScope.BOOKING}"/>
 
         <div class="invoice-container">
             <!-- Success Banner -->
             <div class="success-banner">
                 <i class="fa-solid fa-circle-check"></i>
-                <h1>Đặt phòng thành công!</h1>
+                <h1>Booking Susscessfully!</h1>
                 <p>Cảm ơn bạn đã tin tưởng và lựa chọn Grand Hotel. Chúng tôi rất vui được phục vụ bạn.</p>
             </div>
 
@@ -131,7 +47,7 @@
                     </div>
                     <div class="invoice-number">
                         <h3>MÃ ĐẶT PHÒNG</h3>
-                        <div class="number"><%= bookingId%></div>
+                        <div class="number">${booking.bookingId}</div>
                     </div>
                 </div>
 
@@ -140,39 +56,36 @@
                     <!-- Customer & Booking Info -->
                     <div class="info-section">
                         <div class="info-block">
-                            <h3><i class="fa-solid fa-user"></i> Thông tin khách hàng</h3>
-                            <p><strong>Họ và tên: </strong> <%= username%></p>
-                            <% if (guest != null) {%>
-                            <p><strong>Email: </strong> <%= guest.getEmail() != null ? guest.getEmail() : "Chưa cập nhật"%></p>
-                            <p><strong>Số điện thoại: </strong> <%= guest.getPhone() != null ? guest.getPhone() : "Chưa cập nhật"%></p>
-                            <% }%>
-                            <p><strong>Trạng thái: </strong> <span class="status-badge reserved"><%= status%></span></p>
+                            <h3><i class="fa-solid fa-user"></i> Guest Information </h3>
+                            <p><strong>Full Name: </strong>${guest.fullname}</p>
+                            <p><strong>Phone: </strong>${guest.phone}</p>
+                            <p><strong>Email: </strong>${guest.email}</p>
+                            <p><strong>Id Number: </strong>${guest.idNumber}</p>
                         </div>
 
                         <div class="info-block">
-                            <h3><i class="fa-solid fa-calendar-check"></i> Thông tin đặt phòng</h3>
-                            <p><strong>Ngày đặt: </strong> <%= bookingDateStr%></p>
-                            <p><strong>Ngày nhận phòng: </strong> <%= checkinStr%></p>
-                            <p><strong>Ngày trả phòng: </strong> <%= checkoutStr%></p>
-                            <p><strong>Số đêm: </strong> <%= nights%> đêm</p>
+                            <h3><i class="fa-solid fa-calendar-check"></i> Booking Information </h3>
+                            <p><strong>Booking Date: </strong> ${booking.bookingDate}</p>
+                            <p><strong>Check-in: </strong> ${booking.checkInDate}</p>
+                            <p><strong>Check-out: </strong> ${booking.checkOutDate}</p>
+                            <p><strong>Night: </strong> ${requestScope.night} nights</p>
                         </div>
                     </div>
 
-                    <!-- Booking Details -->
                     <div class="booking-details">
-                        <h3><i class="fa-solid fa-bed"></i> Chi tiết phòng</h3>
+                        <h3><i class="fa-solid fa-bed"></i> Room Information </h3>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <label>Loại phòng: </label>
-                                <span>Phòng <%= roomType%></span>
+                                <label>Room Type: </label>
+                                <span>${booking.typeName}</span>
                             </div>
                             <div class="detail-item">
-                                <label>Mã phòng: </label>
-                                <span><% if (booking != null) {%>R<%= String.format("%03d", booking.getRoomId())%><% }%></span>
+                                <label>Room Number: </label>
+                                <span>${booking.roomNumber}</span>
                             </div>
                             <div class="detail-item">
-                                <label>Số khách: </label>
-                                <span>2 người</span>
+                                <label>Guests: </label>
+                                <span>${booking.guests} guests</span>
                             </div>
                             <div class="detail-item">
                                 <label>Diện tích: </label>
@@ -183,27 +96,23 @@
 
                     <!-- Price Breakdown -->
                     <div class="price-breakdown">
-                        <h3><i class="fa-solid fa-file-invoice-dollar"></i> Chi tiết thanh toán</h3>
+                        <h3><i class="fa-solid fa-file-invoice-dollar"></i> Price Summary</h3>
                         <div class="price-item">
-                            <label>Giá phòng/đêm:</label>
-                            <span><%= String.format("%,.0f", roomPrice)%>đ</span>
+                            <label>Price per night</label>
+                            <span>${booking.price} VND</span>
                         </div>
                         <div class="price-item">
-                            <label>Số đêm:</label>
-                            <span><%= nights%> đêm</span>
+                            <label>Nights: </label>
+                            <span>${requestScope.night}</span>
                         </div>
                         <div class="price-item">
-                            <label>Tạm tính:</label>
-                            <span><%= String.format("%,d", totalAmount)%>đ</span>
-                        </div>
-                        <div class="price-item">
-                            <label>Thuế & Phí dịch vụ (10%):</label>
-                            <span><%= String.format("%,d", (long) (totalAmount * 0.1))%>đ</span>
+                            <label>Total Service:</label>
+                            <span>${requestScope.serviceTotal} VND</span>
                         </div>
 
                         <div class="total-amount">
-                            <label>TỔNG THANH TOÁN:</label>
-                            <span><%= String.format("%,d", (long) (totalAmount * 1.1))%>đ</span>
+                            <label>TOTAL AMOUNT (VAT 8%): </label>
+                            <span>${requestScope.total * 0.8} VND</span>
                         </div>
                     </div>
 

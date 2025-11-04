@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dao.BookingDAO;
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
 import java.io.IOException;

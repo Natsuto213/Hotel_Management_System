@@ -11,6 +11,29 @@ import utils.DBUtils;
 
 public class RoomDAO {
 
+    public Room getRoomById(int id) {
+        Room result = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "";
+                PreparedStatement st = cn.prepareStatement(sql);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public ArrayList<Room> getAllRoom() {
         ArrayList<Room> result = new ArrayList<Room>();
         String sql = "SELECT [RoomID]\n"
@@ -92,7 +115,7 @@ public class RoomDAO {
                 room.setRoomNumber(rs.getString("RoomNumber"));
                 room.setRoomTypeId(rs.getInt("RoomTypeID"));
                 room.setStatus(rs.getString("Status"));
-                
+
                 result.add(room);
             }
         } catch (SQLException e) {

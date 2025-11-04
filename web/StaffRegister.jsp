@@ -1,10 +1,4 @@
 
-<%-- 
-    Document   : register
-    Created on : Oct 4, 2025, 4:50:18 PM
-    Author     : Admin
---%>
-
 <%@page import="utils.IConstants"%>
 <%@page import="model.Staff"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

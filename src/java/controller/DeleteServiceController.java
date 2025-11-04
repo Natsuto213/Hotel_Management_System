@@ -1,29 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
-import dao.BookingServiceDAO;
-import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.BookingServiceDetail;
-import model.Service;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
-@WebServlet(name = "GetCartController", urlPatterns = {"/GetCartController"})
-public class GetCartController extends HttpServlet {
+@WebServlet(name = "DeleteServiceController", urlPatterns = {"/DeleteServiceController"})
+public class DeleteServiceController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,16 +31,26 @@ public class GetCartController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String roomNumber = request.getParameter("roomNumber");
-            String bookingid = request.getParameter("bookingid");
-            String quantityStr = request.getParameter("quantity");
+            HttpSession session = request.getSession();
+            String serviceIdStr = request.getParameter("serviceId");
+            String serviceDateStr = request.getParameter("serviceDate");
 
-            BookingServiceDAO bsd = new BookingServiceDAO();
+            int deleteServiceId = Integer.parseInt(serviceIdStr);
+            LocalDate deleteServiceDate = LocalDate.parse(serviceDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            ArrayList<BookingServiceDetail> cart = bsd.getCart(Integer.parseInt(bookingid.trim()));
+            ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
 
-            request.setAttribute("CART", cart);
-            request.getRequestDispatcher(IConstants.CART).forward(request, response);
+            Iterator<BookingServiceDetail> iterator = cart.iterator();
+            while (iterator.hasNext()) {
+                BookingServiceDetail bsd = iterator.next();
+                if (bsd.getServiceid() == deleteServiceId && bsd.getServicedate().equals(deleteServiceDate)) {
+                    iterator.remove();
+                    break;
+                }
+            }
+
+            session.setAttribute("CART", cart);
+            request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
         }
     }
 
