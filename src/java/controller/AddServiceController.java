@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.BookingServiceDAO;
 import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.BookingService;
 import model.BookingServiceDetail;
 import utils.IConstants;
 
@@ -39,44 +41,63 @@ public class AddServiceController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            String serviceIdStr = request.getParameter("serviceid");
-            String quantityStr = request.getParameter("quantity");
-            String bookingDateStr = request.getParameter("serviceDate");
+            int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
 
-            int serviceId = Integer.parseInt(serviceIdStr.trim());
-            int quantity = Integer.parseInt(quantityStr.trim());
-            LocalDate bookingDate = LocalDate.parse(bookingDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            int serviceId = Integer.parseInt(request.getParameter("serviceid").trim());
+            int quantity = Integer.parseInt(request.getParameter("quantity").trim());
+            LocalDate serviceDate = LocalDate.parse(request.getParameter("serviceDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            ServiceDAO sd = new ServiceDAO();
-            String serviceName = sd.getName(serviceId);
-            double price = sd.getPrice(serviceId);
+            if (bookingid == 0) {
 
-            BookingServiceDetail newBooking = new BookingServiceDetail(serviceId, serviceName, quantity, bookingDate, price);
+                // Add Service tu Prebooking
+                ServiceDAO sd = new ServiceDAO();
+                String serviceName = sd.getName(serviceId);
+                double price = sd.getPrice(serviceId);
+                BookingServiceDetail newBooking = new BookingServiceDetail(serviceId, serviceName, quantity, serviceDate, price);
 
-            ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
-            // neu chua co cart thi tao moi
-            if (cart == null) {
-                cart = new ArrayList<>();
-                cart.add(newBooking);
-            } else { //cart da ton tai
-                // xem service vua add co trong cart khong
-                BookingServiceDetail find = null;
-                for (BookingServiceDetail bsd : cart) {
-                    if (bsd.getServiceid() == newBooking.getServiceid() && bsd.getServicedate().equals(newBooking.getServicedate())) {
-                        find = bsd;
-                        break;
+                HttpSession session = request.getSession();
+                ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
+
+                // neu chua co cart thi tao moi
+                if (cart == null) {
+                    cart = new ArrayList<>();
+                    cart.add(newBooking);
+                } else { //cart da ton tai
+                    // xem service vua add co trong cart khong
+                    BookingServiceDetail find = null;
+                    for (BookingServiceDetail bsd : cart) {
+                        if (bsd.getServiceid() == newBooking.getServiceid() && bsd.getServicedate().equals(newBooking.getServicedate())) {
+                            find = bsd;
+                            break;
+                        }
+                    }
+                    if (find != null) { // neu co add quantity vua nhap + quantity da co san
+                        find.setQuantity(find.getQuantity() + newBooking.getQuantity());
+                    } else { //new khong chi nhap quantity vua nhap
+                        cart.add(newBooking);
                     }
                 }
-                if (find != null) { // neu co add quantity vua nhap + quantity da co san
-                    find.setQuantity(find.getQuantity() + newBooking.getQuantity());
-                } else { //new khong chi nhap quantity vua nhap
-                    cart.add(newBooking);
-                }
-            }
 
-            session.setAttribute("CART", cart);
-            request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
+                session.setAttribute("CART", cart);
+                request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
+            } else {
+
+                // Add Service tu EditBooking
+                int roomid = Integer.parseInt(request.getParameter("roomid").trim());
+                BookingServiceDAO bsd = new BookingServiceDAO();
+                BookingService find = bsd.findBookingService(bookingid, serviceId, serviceDate);
+
+                if (find == null) {
+                    BookingService newBooking = new BookingService(bookingid, serviceId, quantity, serviceDate, 0);
+                    bsd.addService2(newBooking);
+                } else {
+                    quantity += find.getQuantity();
+                    int cartId = bsd.findBookingServiceID(bookingid, serviceId, serviceDate);
+                    bsd.updateService(quantity, cartId);
+                }
+
+                response.sendRedirect("BookingInformation?isEdit=edit&roomid=" + roomid + "&bookingid=" + bookingid);
+            }
         }
     }
 

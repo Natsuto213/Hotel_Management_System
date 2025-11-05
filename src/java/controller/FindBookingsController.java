@@ -1,7 +1,6 @@
 package controller;
 
 import dao.BookingDAO;
-import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.BookingDetail;
 import model.Guest;
-import model.Service;
 import utils.IConstants;
 
 @WebServlet(name = "FindBookingsController", urlPatterns = {"/FindBookingsController"})

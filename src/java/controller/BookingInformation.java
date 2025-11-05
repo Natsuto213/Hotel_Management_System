@@ -4,7 +4,11 @@
  */
 package controller;
 
+import dao.BookingDAO;
 import dao.BookingServiceDAO;
+import dao.PaymentDAO;
+import dao.RoomDAO;
+import dao.RoomTypeDAO;
 import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +18,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Booking;
 import model.BookingServiceDetail;
+import model.Payment;
+import model.Room;
+import model.RoomType;
 import model.Service;
 import utils.IConstants;
 
@@ -22,8 +30,8 @@ import utils.IConstants;
  *
  * @author Admin
  */
-@WebServlet(name = "GetCartController", urlPatterns = {"/GetCartController"})
-public class GetCartController extends HttpServlet {
+@WebServlet(name = "BookingInformation", urlPatterns = {"/BookingInformation"})
+public class BookingInformation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,16 +46,40 @@ public class GetCartController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String roomNumber = request.getParameter("roomNumber");
-            String bookingid = request.getParameter("bookingid");
-            String quantityStr = request.getParameter("quantity");
+            String isEdit = request.getParameter("isEdit");
+            int roomid = Integer.parseInt(request.getParameter("roomid").trim());
+            int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
+
+            RoomDAO rd = new RoomDAO();
+            Room room = rd.getRoom(roomid);
+
+            RoomTypeDAO rtd = new RoomTypeDAO();
+            RoomType roomType = rtd.getRoomType(roomid);
+
+            BookingDAO bd = new BookingDAO();
+            Booking booking = bd.getBooking(bookingid);
+
+            PaymentDAO pd = new PaymentDAO();
+            Payment payment = pd.getPayment(bookingid);
 
             BookingServiceDAO bsd = new BookingServiceDAO();
+            ArrayList<BookingServiceDetail> cart = bsd.getCart(bookingid);
 
-            ArrayList<BookingServiceDetail> cart = bsd.getCart(Integer.parseInt(bookingid.trim()));
-
+            request.setAttribute("ROOM", room);
+            request.setAttribute("ROOMTYPE", roomType);
+            request.setAttribute("BOOKING", booking);
+            request.setAttribute("PAYMENT", payment);
             request.setAttribute("CART", cart);
-            request.getRequestDispatcher(IConstants.CART).forward(request, response);
+
+            if (isEdit == null) {
+                request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
+            } else {
+                ServiceDAO sd = new ServiceDAO();
+                ArrayList<Service> servicelist = sd.getAllServices();
+                request.setAttribute("ServiceList", servicelist);
+                request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+            }
+
         }
     }
 

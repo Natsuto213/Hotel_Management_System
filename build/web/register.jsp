@@ -12,6 +12,7 @@
         <title>Register Page</title>
         <link rel="stylesheet" href="css/homeStyle.css"/>
         <link rel="stylesheet" href="css/pagesStyle.css"/>
+        <link rel="stylesheet" href="css/registerStyle.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     </head>
@@ -19,42 +20,166 @@
         <header class="main-header">
             <div class="container">
                 <a href="MainController?action=home" class="logo">
-                    <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
+                    <i class="fa-solid fa-building fa-lg"></i>
+                    <span>Grand Hotel</span>
                 </a>
                 <nav class="main-nav">
-
-                    <a href="MainController?action=login" class="nav-button-secondary">
+                    <a href="MainController?action=login" class="nav-button-primary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
                     </a>
-                    <a href="MainController?action=register" class="nav-button-primary">
-                        <i class="fa-solid fa-user-plus"></i> Đăng ký
-                    </a>
-
                 </nav>
             </div>
         </header>
 
-        <div class="register-form">
-            <form action="MainController" method="post">
-                <h1 class="register-title">Register</h1>
-                <p><input type="text" name="txtfullname" required="" placeholder="Full Name *"></p>
-                <p><input type="text" name="txtus" required="" placeholder="Username *"></p>
-                <p><input type="password" name="txtpassword" required="" placeholder="Password *"></p>
-                <p><input type="password" name="txtconfirmpassword" required="" placeholder="Confirm Password *"></p>
-                <p><input type="text" name="txtphone" required="" placeholder="Phone *" pattern="^(03|05|07|08|09)\d{8}$"></p>
-                <p><input type="text" name="txtemail" required="" placeholder="Email *" pattern="^[a-zA-Z0-9]+[@][a-zA-Z]+([.][a-zA-Z]+){1,2)$"></p>
-                <p><input type="text" name="txtaddress" placeholder="Address"></p>
-                <p><input type="text" name="txtidnumber" placeholder="ID Number"></p>
-                <p><input type="date" name="txtdob"></p>
-                <p>
+         <div class="register-wrapper">
+            <div class="register-container">
+                <i class="fa-solid fa-user-plus register-icon"></i>
+                <h1 class="register-title">Đăng Ký</h1>
+                <p class="register-subtitle">Tạo tài khoản mới để bắt đầu!</p>
+
+                <form action="MainController" method="post">
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-user"></i>
+                            Họ và tên
+                        </label>
+                        <input 
+                            type="text" 
+                            name="txtfullname" 
+                            class="form-input" 
+                            placeholder="Nhập họ và tên" 
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-user-circle"></i>
+                            Tên đăng nhập
+                        </label>
+                        <input 
+                            type="text" 
+                            name="txtus" 
+                            class="form-input" 
+                            placeholder="Nhập tên đăng nhập" 
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-envelope"></i>
+                            Email
+                        </label>
+                        <input 
+                            type="email" 
+                            name="txtemail" 
+                            class="form-input" 
+                            placeholder="email@example.com" 
+                            required
+                        />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-lock"></i>
+                                Mật khẩu
+                            </label>
+                            <input 
+                                type="password" 
+                                name="txtpassword" 
+                                class="form-input" 
+                                placeholder="Nhập mật khẩu" 
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-lock"></i>
+                                Xác nhận
+                            </label>
+                            <input 
+                                type="password" 
+                                name="txtconfirmpassword" 
+                                class="form-input" 
+                                placeholder="Nhập lại mật khẩu" 
+                                required
+                            />
+                            <div id="password-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-phone"></i>
+                                Số điện thoại
+                            </label>
+                            <input 
+                                type="text" 
+                                name="txtphone" 
+                                class="form-input" 
+                                placeholder="09xxxxxxxx" 
+                                pattern="^(03|05|07|08|09)\d{8}$"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-calendar"></i>
+                                Ngày sinh
+                            </label>
+                            <input 
+                                type="date" 
+                                name="txtdob" 
+                                class="form-input"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Địa chỉ
+                        </label>
+                        <input 
+                            type="text" 
+                            name="txtaddress" 
+                            class="form-input" 
+                            placeholder="Nhập địa chỉ"
+                        />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-id-card"></i>
+                            Số CMND/CCCD
+                        </label>
+                        <input 
+                            type="text" 
+                            name="txtidnumber" 
+                            class="form-input" 
+                            placeholder="Số CMND/CCCD"
+                        />
+                    </div>
                     <%
                         if (request.getAttribute("ERROR") != null) {
                             out.print(request.getAttribute("ERROR"));
                         }
                     %>
+                <button type="submit" name="action" value="createUser" class="register-button">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Đăng ký
+                    </button>
+                </form>
+
+                <p class="login-link">
+                    Đã có tài khoản? <a href="MainController?action=login">Đăng nhập ngay</a>
                 </p>
-                <p><button type="submit" name="action" value="createUser">Submit</button></p>
-            </form>
+            </div>
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {

@@ -35,7 +35,7 @@ public class RoomTypeDAO {
                     int roomTypeid = table.getInt("RoomTypeID");
                     String TypeName = table.getString("TypeName");
                     int capacity = table.getInt("Capacity");
-                    double price = table.getDouble("Price");
+                    double price = table.getDouble("PricePerNight");
                     result = new RoomType(roomTypeid, TypeName, capacity, price);
                 }
             }

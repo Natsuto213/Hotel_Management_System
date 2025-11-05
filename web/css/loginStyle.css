@@ -1,0 +1,251 @@
+:root {
+    --primary-color: #ffb3d9; /* Đã đổi sang light pink */
+    --secondary-color: #ffb6c1; /* Đã đổi sang light pink (nhạt hơn) */
+    --accent-gold: #c9a87c;
+    --text-color-light: #f5f5f5;
+    --text-color-dark: #333;
+    --background-color: #ffffff;
+    --light-gray: #f9f9f9;
+    --border-color: #ddd;
+    --font-family: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background: linear-gradient(135deg, #ffe0f0 0%, #fff0f8 100%); /* Đã đổi sang gradient light pink */
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header Styles */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    padding: 20px 0;
+    background: white;
+    box-shadow: 0 2px 20px rgba(255, 179, 217, 0.15); /* Đã thêm shadow */
+    border-bottom: 2px solid var(--primary-color); /* Đã thêm border */
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color); /* Đã đổi màu logo */
+    text-decoration: none;
+    text-shadow: 0 0 10px rgba(255, 179, 217, 0.3); /* Đã thêm shadow */
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Đặt khoảng cách ở đây */
+}
+
+.main-nav a {
+    text-decoration: none;
+    /* margin-left: 15px; */ /* Xóa dòng này */
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease; /* Đã sửa transition */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-button-secondary {
+    color: var(--primary-color);
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+}
+
+.nav-button-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 179, 217, 0.5); /* Đã đổi màu shadow */
+}
+
+.nav-button-primary {
+    color: white;
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.nav-button-primary:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    box-shadow: 0 5px 15px rgba(255, 179, 217, 0.5); /* Đã đổi màu shadow */
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 60px 20px 40px;
+    margin-top: 80px;
+}
+
+.login-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(255, 179, 217, 0.2); /* Đã đổi màu shadow */
+    border: 2px solid var(--primary-color);
+    max-width: 480px;
+    width: 100%;
+    padding: 50px 40px;
+    text-align: center;
+}
+
+.login-icon {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    display: inline-block;
+    text-shadow: 0 0 20px rgba(255, 179, 217, 0.5); /* Đã đổi màu shadow */
+}
+
+.login-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-color-dark);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.login-subtitle {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.form-label i {
+    font-size: 14px;
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: var(--font-family);
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(255, 179, 217, 0.1); /* Đã đổi màu shadow */
+}
+
+.form-input::placeholder {
+    color: #aaa;
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 5px 20px rgba(255, 179, 217, 0.4); /* Đã đổi màu shadow */
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 179, 217, 0.6); /* Đã đổi màu shadow */
+}
+
+.register-link {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+.error-message {
+    background-color: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 20px;
+    border-left: 4px solid #c33;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .login-container {
+        padding: 40px 30px;
+    }
+
+    .login-title {
+        font-size: 28px;
+    }
+
+    .login-icon {
+        font-size: 40px;
+    }
+}
+

@@ -15,6 +15,17 @@ public class Payment implements Serializable{
     public Payment() {
     }
 
+    public Payment(int paymentId, int bookingId, LocalDate paymentDate, double amount, String paymentMethod, String status) {
+        this.paymentId = paymentId;
+        this.bookingId = bookingId;
+        this.paymentDate = paymentDate;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
+        this.status = status;
+    }
+
+    
+    
     public Payment(int bookingId, LocalDate paymentDate, double amount, String paymentMethod, String status) {
         this.bookingId = bookingId;
         this.paymentDate = paymentDate;

@@ -67,7 +67,7 @@ public class GetBookingsController extends HttpServlet {
                 request.setAttribute("RoomList", roomlist);
             }
             
-            request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+            request.getRequestDispatcher(IConstants.EDIT_BOOKING_RECEP).forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();

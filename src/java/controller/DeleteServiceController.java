@@ -1,5 +1,6 @@
 package controller;
 
+import dao.BookingServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -32,25 +33,39 @@ public class DeleteServiceController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            String serviceIdStr = request.getParameter("serviceId");
-            String serviceDateStr = request.getParameter("serviceDate");
 
-            int deleteServiceId = Integer.parseInt(serviceIdStr);
-            LocalDate deleteServiceDate = LocalDate.parse(serviceDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            int serviceId = Integer.parseInt(request.getParameter("serviceId").trim());
+            LocalDate serviceDate = LocalDate.parse(request.getParameter("serviceDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
+            if (cart != null && !cart.isEmpty()) {
+                
+                // delete service tu PreBooking
+                Iterator<BookingServiceDetail> iterator = cart.iterator();
+                while (iterator.hasNext()) {
+                    BookingServiceDetail bsd = iterator.next();
+                    if (bsd.getServiceid() == serviceId && bsd.getServicedate().equals(serviceDate)) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+                session.setAttribute("CART", cart);
+                request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
+            } else {
 
-            Iterator<BookingServiceDetail> iterator = cart.iterator();
-            while (iterator.hasNext()) {
-                BookingServiceDetail bsd = iterator.next();
-                if (bsd.getServiceid() == deleteServiceId && bsd.getServicedate().equals(deleteServiceDate)) {
-                    iterator.remove();
-                    break;
+                // delete service tu EditBooking
+                int roomid = Integer.parseInt(request.getParameter("roomid").trim());
+                int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
+                BookingServiceDAO bsd = new BookingServiceDAO();
+                int result = bsd.deleteService(serviceId, serviceDate);
+                if (result > 0) {
+                    response.sendRedirect("BookingInformation?isEdit=edit&roomid=" + roomid + "&bookingid=" + bookingid);
+                } else {
+                    session.setAttribute("ERROR", "Delet service fail! Please try again");
+                    request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
                 }
             }
 
-            session.setAttribute("CART", cart);
-            request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
         }
     }
 

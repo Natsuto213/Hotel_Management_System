@@ -93,7 +93,6 @@
                     <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
                 </c:forEach>
             </div>
-
         </div>
 
         <form action="MainController" method="post">

@@ -11,14 +11,24 @@ import utils.DBUtils;
 
 public class RoomDAO {
 
-    public Room getRoomById(int id) {
+    public Room getRoom(int id) {
         Room result = null;
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "";
+                String sql = "SELECT * \n"
+                        + "FROM ROOM\n"
+                        + "WHERE RoomID = ?";
                 PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, id);
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    String roomNumber = table.getString("RoomNumber");
+                    int roomTypeId = table.getInt("RoomTypeID");
+                    String status = table.getString("Status");
+                    result = new Room(id, roomNumber, roomTypeId, status);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

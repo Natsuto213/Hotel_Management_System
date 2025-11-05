@@ -7,12 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Booking</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>View Booking</title>
     </head>
     <body>
         <c:set var="guest" value="${sessionScope.USER}"/>
@@ -20,7 +20,6 @@
         <c:set var="roomType" value="${requestScope.ROOMTYPE}"/>
         <c:set var="booking" value="${requestScope.BOOKING}"/>
         <c:set var="payment" value="${requestScope.PAYMENT}"/>
-
         <c:set var="cart" value="${requestScope.CART}"/>
         <c:set var="servicelist" value="${requestScope.ServiceList}" />
 
@@ -59,47 +58,15 @@
 
         <div class="service-info">
             <h1>Additional Services</h1>
-            <div class="new-service" >
-                <label>Select Service</label>
-                <form action="MainController" method="post">
-                    <select name="serviceid" required="">
-                        <option value="" disabled selected>-- Select Service --</option>
-                        <c:forEach var="s" items="${servicelist}">
-                            <option value="${s.serviceid}">${s.servicename} (+${s.formattedPrice})</option>
-                        </c:forEach>
-                    </select>
-                    <input type="number" name="quantity" placeholder="enter quantity" required="">
-                    <input type="text" name="serviceDate" placeholder="Service Date" 
-                           onfocus="(this.type = 'date')" 
-                           onblur="if (!this.value)
-                                       this.type = 'text'"
-                           required=""
-                           >   
-                    <input type="hidden" name="roomid" value="${param.roomid}" >
-                    <input type="hidden" name="bookingid" value="${param.bookingid}" >
-                    <button type="submit" name="action" value="addService"><i class="fa-solid fa-plus"></i></button>
-                </form>
-            </div>
-
-            <div class="view-service">
-                <c:set var="serviceTotal" value="0" scope="page" />
-                <c:forEach var="c" items="${cart}">
-                    <c:set var="subtotal" value="${c.price * c.quantity}" />
-                    <form action="MainController" method="post">
-                        <span>${c.servicename}</span>
-                        <span>${c.formattedPrice} VNÐ</span>
-                        <span>${c.quantity}</span>
-                        <span>${c.servicedate}</span>
-                        <input type="hidden" name="serviceId" value="${c.serviceid}" >
-                        <input type="hidden" name="serviceDate" value="${c.servicedate}" >
-                        <input type="hidden" name="bookingid" value="${param.bookingid}" >
-                        <input type="hidden" name="roomid" value="${param.roomid}" >
-                        <button type="submit" name="action" value="deleteService"><i class="fa-solid fa-x"></i></button>
-                    </form>
-                    <br>
-                    <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
-                </c:forEach>
-            </div>
+            <c:set var="serviceTotal" value="0" scope="page" />
+            <c:forEach var="c" items="${cart}">
+                <c:set var="subtotal" value="${c.price * c.quantity}" />
+                <span>${c.servicename}</span>
+                <span>${c.formattedPrice} VNÐ</span>
+                <span>${c.quantity}</span>
+                <span>${c.servicedate}</span>
+                <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
+            </c:forEach>
         </div>
 
         <div class="payment-info">

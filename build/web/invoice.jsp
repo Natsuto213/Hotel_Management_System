@@ -48,7 +48,7 @@
                     </div>
                     <div class="invoice-number">
                         <h3>MÃ ĐẶT PHÒNG</h3>
-                        <div class="number">#${requestScope.bookingid}</div>
+                        <div class="number">#${sessionScope.bookingid}</div>
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@
                             <p><strong>Booking Date: </strong> ${booking.bookingDate}</p>
                             <p><strong>Check-in: </strong> ${booking.checkInDate}</p>
                             <p><strong>Check-out: </strong> ${booking.checkOutDate}</p>
-                            <p><strong>Night: </strong><fmt:formatNumber value="${requestScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</p>
+                            <p><strong>Night: </strong><fmt:formatNumber value="${sessionScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</p>
                         </div>
                     </div>
 
@@ -103,24 +103,24 @@
                         </div>
                         <div class="price-item">
                             <label>Nights: </label>
-                            <span><fmt:formatNumber value="${requestScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</span>
+                            <span><fmt:formatNumber value="${sessionScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</span>
                         </div>
                         <hr>
                         <div class="price-item">
                             <label>Total Room price: </label>
-                            <span><fmt:formatNumber value="${requestScope.roomTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${sessionScope.roomTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>Total Service:</label>
-                            <span><fmt:formatNumber value="${requestScope.serviceTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${sessionScope.serviceTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>VAT (8%)</label>
-                            <span><fmt:formatNumber value="${requestScope.total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${sessionScope.total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="total-amount">
                             <label>TOTAL AMOUNT (VAT 8%): </label>
-                            <span><fmt:formatNumber value="${requestScope.total * 1.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${sessionScope.total * 1.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                     </div>
 
@@ -190,5 +190,14 @@
             // Tự động cuộn lên đầu trang khi load
             window.scrollTo(0, 0);
         </script>
+
+        <c:remove var="bookingid" scope="session"/>
+        <c:remove var="night" scope="session"/>
+        <c:remove var="roomTotal" scope="session"/>
+        <c:remove var="serviceTotal" scope="session"/>
+        <c:remove var="total" scope="session"/>
+        <c:remove var="CART" scope="session"/>
+        <c:remove var="BOOKING" scope="session"/>
+
     </body>
 </html>

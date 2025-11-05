@@ -34,7 +34,7 @@ public class BookingDAO {
                     LocalDateTime checkOut = table.getTimestamp("CheckOutDate").toLocalDateTime();
                     LocalDate bookingDate = table.getDate("BookingDate").toLocalDate();
                     String status = table.getString("Status");
-                    result = new Booking(bookingid, guestID, roomID, LocalDateTime.MIN, LocalDateTime.MAX, bookingDate, status);
+                    result = new Booking(bookingid, guestID, roomID, checkIn, checkOut, bookingDate, status);
                 }
             }
         } catch (Exception e) {

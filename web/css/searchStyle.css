@@ -1,6 +1,21 @@
 /* Thêm CSS cho trang search */
+
+:root {
+    --primary-color: #ffb3d9; /* Đã đổi sang light pink */
+    --secondary-color: #ffb6c1; /* Đã đổi sang light pink (nhạt hơn) */
+    --footer-color: #333; /* Đã đổi sang màu tối */
+    --accent-color: #ffb3d9; /* Đã đổi sang light pink */
+    --accent-gold: #c9a87c; /* Đã thêm từ file styles.css */
+    --text-color-light: #f5f5f5;
+    --text-color-dark: #333;
+    --background-color: #ffffff;
+    --light-gray: #f9f9f9;
+    --border-color: #ddd;
+    --font-family: 'Montserrat', sans-serif;
+}
+
 .search-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     padding: 100px 0 60px;
     margin-top: 70px;
     color: white;
@@ -18,7 +33,8 @@
     margin: -30px auto 40px;
     max-width: 1200px;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 60px rgba(255, 179, 217, 0.2); /* Đã đổi shadow */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Giữ nguyên shadow đen */
 }
 
 .search-params {
@@ -47,7 +63,7 @@
 }
 
 .search-param i {
-    color: #667eea;
+    color: var(--primary-color);
     margin-right: 8px;
 }
 
@@ -70,15 +86,15 @@
 }
 
 .results-count span {
-    color: #667eea;
+    color:var(--primary-color);;
     font-weight: 700;
 }
 
 .modify-search-btn {
     padding: 12px 30px;
     background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
+    color: var(--primary-color); /* ĐÃ ĐỔI MÀU */
+    border: 2px solid var(--primary-color); /* ĐÃ ĐỔI MÀU */
     border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
@@ -86,26 +102,29 @@
 }
 
 .modify-search-btn:hover {
-    background: #667eea;
+     background: var(--primary-color); /* ĐÃ ĐỔI MÀU */
     color: white;
 }
 
-.room-card {
+.results-section .room-card {
     background: white;
     border-radius: 15px;
     overflow: hidden;
     margin-bottom: 30px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1); /* Giữ shadow đen */
     transition: transform 0.3s, box-shadow 0.3s;
+    /* Xóa các thuộc tính grid và border hồng đã thêm trước đó */
+    display: block; 
+    border: none;
 }
 
-.room-card:hover {
+.results-section .room-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* Giữ shadow đen */
 }
 
 .room-card-content {
-    display: grid;
+    display: grid; /* Giữ lại grid ở đây */
     grid-template-columns: 400px 1fr;
     gap: 0;
 }
@@ -123,7 +142,7 @@
     transition: transform 0.5s;
 }
 
-.room-card:hover .room-card-image img {
+.results-section .room-card:hover .room-card-image img {
     transform: scale(1.1);
 }
 
@@ -173,18 +192,22 @@
 }
 
 .room-type-category {
-    color: #667eea;
+    color: var(--primary-color); /* ĐÃ ĐỔI MÀU */
     font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 600;
 }
 
-.room-amenities {
+/* Đảm bảo .room-amenities trong search-results không bị xung đột */
+.results-section .room-amenities {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     margin: 20px 0;
+    /* Xóa các thuộc tính kế thừa không mong muốn nếu có */
+    font-size: 1em; /* Khôi phục font-size */
+    color: #666;
 }
 
 .amenity-item {
@@ -195,8 +218,10 @@
 }
 
 .amenity-item i {
-    color: #667eea;
+    color: var(--primary-color); /* ĐÃ ĐỔI MÀU */
     font-size: 1.1em;
+    width: auto; /* Khôi phục width */
+    text-align: left;
 }
 
 .room-card-footer {
@@ -207,10 +232,12 @@
     border-top: 1px solid #eee;
 }
 
-.room-price {
+/* Ghi đè .room-price cho trang search */
+.results-section .room-price {
     font-size: 2em;
     font-weight: 700;
-    color: #667eea;
+    color: var(--primary-color); /* ĐÃ ĐỔI MÀU */
+    margin-bottom: 0; /* Xóa margin */
 }
 
 .room-price-label {
@@ -221,7 +248,7 @@
 
 .book-room-btn {
     padding: 15px 40px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); /* ĐÃ ĐỔI MÀU */
     color: white;
     border: none;
     border-radius: 30px;
@@ -229,16 +256,18 @@
     font-size: 1em;
     cursor: pointer;
     transition: all 0.3s;
+    /* box-shadow: none; */ /* Xóa shadow hồng */
 }
 
 .book-room-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 20px rgba(255, 179, 217, 0.4); /* ĐÃ ĐỔI MÀU */
 }
 
 .book-room-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .no-results {
@@ -265,6 +294,11 @@
 }
 
 @media (max-width: 768px) {
+    /* Ghi đè cho .room-card trang search */
+    .results-section .room-card {
+        /* Phải giữ lại media query này */
+        display: block; /* Đảm bảo nó hiển thị đúng trên mobile */
+    }
     .room-card-content {
         grid-template-columns: 1fr;
     }

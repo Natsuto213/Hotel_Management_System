@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -76,20 +75,20 @@ public class BookingController extends HttpServlet {
                     int quantity = c.getQuantity();
                     LocalDate serviceDate = c.getServicedate();
                     BookingService bs = new BookingService(bookingid, serviceid, quantity, serviceDate, 0);
-                    bsd.addService(bs,cn);
+                    bsd.addService(bs, cn);
                 }
             }
 
             //CREATE PAYMENT
             double amount = Double.parseDouble(request.getParameter("total").trim());
             String paymentMethod = request.getParameter("payment");
-            Payment payment = new Payment(bookingid, today, amount, paymentMethod, "Pending");
+            Payment payment = new Payment(bookingid, today, amount * 1.08, paymentMethod, "Pending");
 
             PaymentDAO pd = new PaymentDAO();
             pd.addService(payment, cn);
 
             //CREATE INVOICE
-            Invoice invoice = new Invoice(bookingid, today, amount, "Paid");
+            Invoice invoice = new Invoice(bookingid, today, amount * 1.08, "Unpaid");
             InvoiceDAO id = new InvoiceDAO();
             id.addInvoice(invoice, cn);
 
@@ -99,19 +98,21 @@ public class BookingController extends HttpServlet {
             double roomTotal = Double.parseDouble(request.getParameter("roomTotal").trim());
             double serviceTotal = Double.parseDouble(request.getParameter("serviceTotal").trim());
 
-            request.setAttribute("bookingid", bookingid);
-            request.setAttribute("night", night);
-            request.setAttribute("roomTotal", roomTotal);
-            request.setAttribute("serviceTotal", serviceTotal);
-            request.setAttribute("total", amount);
-            request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+            session.setAttribute("bookingid", bookingid);
+            session.setAttribute("night", night);
+            session.setAttribute("roomTotal", roomTotal);
+            session.setAttribute("serviceTotal", serviceTotal);
+            session.setAttribute("total", amount);
+
+            response.sendRedirect("invoice.jsp");
         } catch (Exception e) {
             try {
                 cn.rollback();
             } catch (SQLException ex) {
                 e.printStackTrace();
             }
-            e.printStackTrace();
+            request.setAttribute("ERROR", "Booking failed! Please try again");
+            request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
         } finally {
             if (cn != null) {
                 try {

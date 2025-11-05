@@ -36,11 +36,8 @@
 
         <c:set var="bookinglist" value="${requestScope.BookingList}"/>
 
-        <h1 style="margin-top: 80px; text-align: center">All bookings</h1>
+        <h1 style="margin-top: 80px; text-align: center">Bookings History</h1>
 
-        <a href="MainController?action=getCart&roomNumber=${param.roomNumber}&bookingid=${param.bookingid}" class="view-cart-btn">
-            <i class="fa-solid fa-cart-shopping"></i> View Cart
-        </a> 
         <h1>${ERROR}</h1>
 
         <div class="booking-list""> 
@@ -65,14 +62,8 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${b.status != 'Checked-out'}">
-                                            <form action="MainController" method="post">
-                                                <input type="hidden" name="roomid" value="${b.roomId}">
-                                                <input type="hidden" name="bookingid" value="${b.bookingId}">
-                                                <input type="hidden" name="roomNumber" value="${b.roomNumber}">
-                                                <button type="submit" name="action" value="getCart">
-                                                    Choose
-                                                </button>
-                                            </form>
+                                            <a href="MainController?action=viewBooking&roomid=${b.roomId}&bookingid=${b.bookingId}">View</a>
+                                            <a href="MainController?action=viewBooking&roomid=${b.roomId}&bookingid=${b.bookingId}&isEdit=edit">Edit</a>
                                         </c:when>
                                         <c:otherwise>
                                             <p>...</p>

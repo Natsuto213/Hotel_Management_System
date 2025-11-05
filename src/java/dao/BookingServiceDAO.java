@@ -17,7 +17,7 @@ public class BookingServiceDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT s.ServiceName, s.ServiceType, bs.Quantity, bs.ServiceDate, s.Price\n"
+                String sql = "SELECT bs.Booking_Service_ID, s.ServiceID, s.ServiceName, s.ServiceType, bs.Quantity, bs.ServiceDate, s.Price\n"
                         + "FROM BOOKING_SERVICE bs \n"
                         + "JOIN SERVICE s on bs.ServiceID = s.ServiceID\n"
                         + "WHERE BookingID = ?";
@@ -26,12 +26,14 @@ public class BookingServiceDAO {
                 ResultSet table = st.executeQuery();
                 if (table != null) {
                     while (table.next()) {
+                        int bookingServiceId = table.getInt("Booking_Service_ID");
+                        int serviceId = table.getInt("ServiceID");
                         String ServiceName = table.getString("ServiceName");
                         String ServiceType = table.getString("ServiceType");
                         int quantity = table.getInt("Quantity");
                         LocalDate serviceDate = table.getDate("ServiceDate").toLocalDate();
                         double price = table.getDouble("Price");
-                        BookingServiceDetail bsd = new BookingServiceDetail(ServiceName, ServiceType, quantity, serviceDate, price);
+                        BookingServiceDetail bsd = new BookingServiceDetail(bookingServiceId, serviceId, ServiceName, ServiceType, quantity, serviceDate, price);
                         result.add(bsd);
                     }
                 }
@@ -133,7 +135,37 @@ public class BookingServiceDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
+        return result;
+    }
+
+    public int addService2(BookingService bs) {
+        Connection cn = null;
+        int result = 0;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO BOOKING_SERVICE (BookingID, ServiceID, Quantity, ServiceDate, Status)\n"
+                        + "VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, bs.getBookingid());
+                st.setInt(2, bs.getServiceid());
+                st.setInt(3, bs.getQuantity());
+                st.setDate(4, java.sql.Date.valueOf(bs.getServicedate()));
+                st.setInt(5, bs.getStatus());
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return result;
     }
 
@@ -149,6 +181,33 @@ public class BookingServiceDAO {
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, quantity);
                 st.setInt(2, cartId);
+                result = st.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public int deleteService(int serviceId, LocalDate serviceDate) {
+        int result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM BOOKING_SERVICE\n"
+                        + "WHERE ServiceID = ? AND ServiceDate = ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, serviceId);
+                st.setDate(2, java.sql.Date.valueOf(serviceDate));
                 result = st.executeUpdate();
             }
         } catch (Exception e) {

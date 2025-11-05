@@ -101,8 +101,11 @@ public class MainController extends HttpServlet {
                     case "deleteService":
                         url = IConstants.CONTROLLER_DELETE_SERVICE;
                         break;
-                    case "getCart":
-                        url = IConstants.CONTROLLER_GET_CART;
+                    case "viewBooking":
+                        url = IConstants.CONTROLLER_BOOKING_INFO;
+                        break;
+                    case "editBooking":
+                        url = IConstants.CONTROLLER_BOOKING_INFO;
                         break;
 
                 }
