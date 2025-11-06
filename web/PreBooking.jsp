@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Pre Booking Page</title>
+        <title>Pre-Booking Page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
@@ -72,6 +72,7 @@
                                        this.type = 'text'"
                            required=""
                            >   
+                    <input type="hidden" name="isPreBooking" value="true" >
                     <button type="submit" name="action" value="addService"><i class="fa-solid fa-plus"></i></button>
                 </form>
             </div>

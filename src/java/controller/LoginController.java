@@ -54,6 +54,10 @@ public class LoginController extends HttpServlet {
                     case "receptionist":
                         request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
                         break;
+                    case "manager":
+                        request.getRequestDispatcher(IConstants.CONTROLLER_MANAGER).forward(request, response);
+                        break;
+
                 }
                 return;
             }

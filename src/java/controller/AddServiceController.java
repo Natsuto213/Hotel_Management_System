@@ -41,13 +41,13 @@ public class AddServiceController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
+            String isPreBooking = request.getParameter("isPreBooking");
 
             int serviceId = Integer.parseInt(request.getParameter("serviceid").trim());
             int quantity = Integer.parseInt(request.getParameter("quantity").trim());
             LocalDate serviceDate = LocalDate.parse(request.getParameter("serviceDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            if (bookingid == 0) {
+            if (isPreBooking.equalsIgnoreCase("true")) {
 
                 // Add Service tu Prebooking
                 ServiceDAO sd = new ServiceDAO();
@@ -83,6 +83,7 @@ public class AddServiceController extends HttpServlet {
             } else {
 
                 // Add Service tu EditBooking
+                int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
                 int roomid = Integer.parseInt(request.getParameter("roomid").trim());
                 BookingServiceDAO bsd = new BookingServiceDAO();
                 BookingService find = bsd.findBookingService(bookingid, serviceId, serviceDate);

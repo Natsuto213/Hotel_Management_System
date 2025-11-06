@@ -1,8 +1,11 @@
-package controller.booking;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller.receptionist;
 
 import dao.BookingDAO;
 import dao.RoomDAO;
-import dao.RoomTypeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -10,44 +13,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Booking;
-import model.RoomType;
 import utils.IConstants;
 
-@WebServlet(name = "CheckOutController", urlPatterns = {"/CheckOutController"})
-public class CheckOutController extends HttpServlet {
+/**
+ *
+ * @author Admin
+ */
+@WebServlet(name = "AssignRoomsController", urlPatterns = {"/AssignRoomsController"})
+public class AssignRoomsController extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String bookingidStr = request.getParameter("bookingid");
-            String roomidStr = request.getParameter("roomid");
-            if (bookingidStr != null && roomidStr != null) {
-                int bookingid = Integer.parseInt(bookingidStr);
-                int roomid = Integer.parseInt(roomidStr);
-
-                BookingDAO bd = new BookingDAO();
-                RoomDAO rd = new RoomDAO();
-                RoomTypeDAO rtd = new RoomTypeDAO();
-
-                int check = bd.changeBookingStatus("Checked-out", bookingid);
-                if (check > 0) {
-                    Booking booking = bd.getBooking(bookingid);
-                    RoomType roomInfo = rtd.getRoomType(roomid);
-                    rd.changeRoomStatus("Available", roomid);
-                    
-                    request.setAttribute("BOOKING", booking);
-                    request.setAttribute("ROOM_INFO", roomInfo);
-                    request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+            String newRoomId = request.getParameter("newRoomId");
+            String oldRoomId = request.getParameter("oldRoomId");
+            String bookingId = request.getParameter("bookingid");
+            if (newRoomId != null && oldRoomId != null) {
+                RoomDAO d = new RoomDAO();
+                BookingDAO b = new BookingDAO();
+                int isChange = b.changeRoomID(Integer.parseInt(newRoomId), Integer.parseInt(bookingId));
+                if (isChange > 0) {
+                    d.changeRoomStatus("Available", Integer.parseInt(oldRoomId));
+                    d.changeRoomStatus("Occupied", Integer.parseInt(newRoomId));
+                    request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
                 }
-            } else {
-                request.setAttribute("ERROR", "Không lấy được parameter");
-                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

@@ -1,4 +1,4 @@
-package controller.booking;
+package controller.receptionist;
 
 import controller.*;
 import dao.BookingDAO;

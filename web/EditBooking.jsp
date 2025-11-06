@@ -23,7 +23,7 @@
 
         <c:set var="cart" value="${requestScope.CART}"/>
         <c:set var="servicelist" value="${requestScope.ServiceList}" />
-        
+
         <h3>${param.MSG}</h3>
 
 
@@ -79,6 +79,7 @@
                            >   
                     <input type="hidden" name="roomid" value="${param.roomid}" >
                     <input type="hidden" name="bookingid" value="${param.bookingid}" >
+                    <input type="hidden" name="isPreBooking" value="false" >
                     <button type="submit" name="action" value="addService"><i class="fa-solid fa-plus"></i></button>
                 </form>
             </div>

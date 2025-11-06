@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * @author votra
  */
-public class Guest implements Serializable{
+public class Guest implements Serializable {
 
     private int guestId;
     private String fullname;
@@ -23,7 +23,17 @@ public class Guest implements Serializable{
     private String idNumber;
     private LocalDate dateOfBirth;
 
+    private int totalBooking;
+
     public Guest() {
+    }
+
+    public Guest(int guestId, String fullname, String phone, String email, int totalBooking) {
+        this.guestId = guestId;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.email = email;
+        this.totalBooking = totalBooking;
     }
 
     public Guest(int guestId, String fullname, String username, String passwordHash, String phone, String email, String address, String idNumber, LocalDate dateOfBirth) {
@@ -129,6 +139,14 @@ public class Guest implements Serializable{
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getTotalBooking() {
+        return totalBooking;
+    }
+
+    public void setTotalBooking(int totalBooking) {
+        this.totalBooking = totalBooking;
     }
 
 }

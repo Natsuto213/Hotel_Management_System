@@ -64,11 +64,17 @@
                         </div>
 
                         <div class="info-block">
+                            <fmt:parseDate var="checkInDate" value="${booking.checkInDate}" pattern="yyyy-MM-dd" />
+                            <fmt:parseDate var="checkOutDate" value="${booking.checkOutDate}" pattern="yyyy-MM-dd" />
+
+                            <c:set var="night" value="${(checkOutDate.time - checkInDate.time) / (1000*60*60*24)}" />
+
                             <h3><i class="fa-solid fa-calendar-check"></i> Booking Information </h3>
                             <p><strong>Booking Date: </strong> ${booking.bookingDate}</p>
                             <p><strong>Check-in: </strong> ${booking.checkInDate}</p>
                             <p><strong>Check-out: </strong> ${booking.checkOutDate}</p>
-                            <p><strong>Night: </strong><fmt:formatNumber value="${sessionScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</p>
+                            <p><strong>Night: </strong><fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</p>
+                            <p><strong>Status: </strong> ${booking.status}</p>
                         </div>
                     </div>
 
@@ -94,8 +100,34 @@
                         </div>
                     </div>
 
+                    <div class="service-details">
+                        <h3><i class="fa-solid fa-cart"></i> Service Information </h3>
+                        <c:choose>
+                            <c:when test="${cart == null || empty cart}">
+                                <h3>No service</h3>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="serviceTotal" value="0" scope="page" />
+                                <c:forEach var="c" items="${cart}">
+                                    <c:set var="subtotal" value="${c.price * c.quantity}" />
+                                    <span>${c.servicename}</span>
+                                    <span>${c.formattedPrice} VNÐ</span>
+                                    <span>${c.quantity}</span>
+                                    <span>${c.servicedate}</span>
+                                    <br>
+                                    <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
                     <!-- Price Breakdown -->
                     <div class="price-breakdown">
+
+                        <c:set var="roomTotal" value="${night * booking.price}" />
+                        <c:set var="total" value="${roomTotal + serviceTotal}"/>
+
+
                         <h3><i class="fa-solid fa-file-invoice-dollar"></i> Price Summary</h3>
                         <div class="price-item">
                             <label>Price per night</label>
@@ -103,24 +135,24 @@
                         </div>
                         <div class="price-item">
                             <label>Nights: </label>
-                            <span><fmt:formatNumber value="${sessionScope.night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</span>
+                            <span><fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</span>
                         </div>
                         <hr>
                         <div class="price-item">
                             <label>Total Room price: </label>
-                            <span><fmt:formatNumber value="${sessionScope.roomTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>Total Service:</label>
-                            <span><fmt:formatNumber value="${sessionScope.serviceTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>VAT (8%)</label>
-                            <span><fmt:formatNumber value="${sessionScope.total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="total-amount">
                             <label>TOTAL AMOUNT (VAT 8%): </label>
-                            <span><fmt:formatNumber value="${sessionScope.total * 1.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${total * 1.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                     </div>
 
@@ -191,13 +223,9 @@
             window.scrollTo(0, 0);
         </script>
 
-        <c:remove var="bookingid" scope="session"/>
-        <c:remove var="night" scope="session"/>
-        <c:remove var="roomTotal" scope="session"/>
-        <c:remove var="serviceTotal" scope="session"/>
-        <c:remove var="total" scope="session"/>
         <c:remove var="CART" scope="session"/>
         <c:remove var="BOOKING" scope="session"/>
+        <c:remove var="bookingid" scope="session"/>
 
     </body>
 </html>

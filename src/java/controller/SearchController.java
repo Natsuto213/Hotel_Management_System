@@ -64,8 +64,6 @@ public class SearchController extends HttpServlet {
         LocalDateTime checkInDateTime = checkInDate.atStartOfDay();
         LocalDateTime checkOutDateTime = checkOutDate.atTime(23, 59, 59);
 
-        int numberGuests = Integer.parseInt(guests);
-
         ArrayList<Room> availableRooms = roomDAO.getAvailableRooms(roomType, checkInDateTime, checkOutDateTime);
         ArrayList<RoomType> roomTypes = roomTypeDAO.getAllRoomType();
         

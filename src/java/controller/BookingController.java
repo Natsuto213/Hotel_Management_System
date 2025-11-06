@@ -94,17 +94,8 @@ public class BookingController extends HttpServlet {
 
             cn.commit();
 
-            double night = Double.parseDouble(request.getParameter("night").trim());
-            double roomTotal = Double.parseDouble(request.getParameter("roomTotal").trim());
-            double serviceTotal = Double.parseDouble(request.getParameter("serviceTotal").trim());
-
             session.setAttribute("bookingid", bookingid);
-            session.setAttribute("night", night);
-            session.setAttribute("roomTotal", roomTotal);
-            session.setAttribute("serviceTotal", serviceTotal);
-            session.setAttribute("total", amount);
-
-            response.sendRedirect("invoice.jsp");
+            response.sendRedirect(IConstants.INVOICE);
         } catch (Exception e) {
             try {
                 cn.rollback();

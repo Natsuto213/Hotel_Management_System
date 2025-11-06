@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-package controller.booking;
+package controller.receptionist;
 
-import dao.GuestDAO;
+import dao.BookingDAO;
+import dao.BookingServiceDAO;
+import dao.RoomDAO;
+import dao.RoomTypeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,34 +12,49 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Guest;
+import javax.servlet.http.HttpSession;
+import model.Booking;
+import model.BookingServiceDetail;
+import model.RoomType;
 import utils.IConstants;
 
-/**
- *
- * @author Admin
- */
-@WebServlet(name = "GetGuestsController", urlPatterns = {"/GetGuestsController"})
-public class GetGuestsController extends HttpServlet {
+@WebServlet(name = "CheckOutController", urlPatterns = {"/CheckOutController"})
+public class CheckOutController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String keyword = request.getParameter("txtsearch");
-            GuestDAO d = new GuestDAO();
-            ArrayList<Guest> list = d.getGuests(keyword);
-            request.setAttribute("GUESTS", list);
-            request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
+            HttpSession session = request.getSession();
+            String bookingidStr = request.getParameter("bookingid");
+            String roomidStr = request.getParameter("roomid");
+
+            if (bookingidStr != null && roomidStr != null) {
+                int bookingid = Integer.parseInt(bookingidStr);
+                int roomid = Integer.parseInt(roomidStr);
+
+                RoomDAO rd = new RoomDAO();
+                rd.changeRoomStatus("Available", roomid);
+
+                BookingDAO bd = new BookingDAO();
+                bd.changeBookingStatus("Checked-out", bookingid);
+                Booking booking = bd.getBooking(bookingid);
+
+                BookingServiceDAO bsd = new BookingServiceDAO();
+                ArrayList<BookingServiceDetail> cart = bsd.getCart(bookingid);
+
+                session.setAttribute("bookingid", booking.getBookingId());
+                session.setAttribute("BOOKING", booking);
+                session.setAttribute("CART", cart);
+                request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
+
+            } else {
+                request.setAttribute("ERROR", "Không lấy được parameter");
+                request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

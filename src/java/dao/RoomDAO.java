@@ -96,7 +96,7 @@ public class RoomDAO {
     }
 
     public ArrayList<Room> getAvailableRooms(int roomTypeId, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        ArrayList<Room> result = new ArrayList<Room>();
+        ArrayList<Room> result = new ArrayList<>();
         String sql = "SELECT r.RoomID, r.RoomNumber, r.RoomTypeID, r.Status\n"
                 + "FROM ROOM r\n"
                 + "JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID\n"
