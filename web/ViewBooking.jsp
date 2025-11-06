@@ -58,6 +58,9 @@
 
         <div class="service-info">
             <h1>Additional Services</h1>
+            <c:if test="${cart == null || empty cart}">
+                <h3>No service yet</h3>
+            </c:if>
             <c:set var="serviceTotal" value="0" scope="page" />
             <c:forEach var="c" items="${cart}">
                 <c:set var="subtotal" value="${c.price * c.quantity}" />
@@ -65,6 +68,7 @@
                 <span>${c.formattedPrice} VNÐ</span>
                 <span>${c.quantity}</span>
                 <span>${c.servicedate}</span>
+                <br>
                 <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
             </c:forEach>
         </div>

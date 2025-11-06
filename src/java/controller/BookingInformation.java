@@ -77,6 +77,7 @@ public class BookingInformation extends HttpServlet {
                 ServiceDAO sd = new ServiceDAO();
                 ArrayList<Service> servicelist = sd.getAllServices();
                 request.setAttribute("ServiceList", servicelist);
+                String msg = request.getParameter("MSG");
                 request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
             }
 

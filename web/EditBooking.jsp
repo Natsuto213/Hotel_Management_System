@@ -23,6 +23,8 @@
 
         <c:set var="cart" value="${requestScope.CART}"/>
         <c:set var="servicelist" value="${requestScope.ServiceList}" />
+        
+        <h3>${param.MSG}</h3>
 
 
         <div class="guest-info">
