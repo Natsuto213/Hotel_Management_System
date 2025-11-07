@@ -59,10 +59,10 @@ public class StaffDAO {
                     String fullName = rs.getString("FullName");
                     String role = rs.getString("Role");
                     String username = rs.getString("Username");
-                    String passwordHash = rs.getString("PasswordHash");
+                    String passwordHash = rs.getString("Password");
                     String phone = rs.getString("Phone");
                     String email = rs.getString("Email");
-                    Staff staff = new Staff(id, fullName, username, passwordHash, phone, email, role);
+                    Staff staff =new Staff(id, fullName, username, passwordHash, phone, email, role);
                     result.add(staff);
                 }
 

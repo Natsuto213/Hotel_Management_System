@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin Dashboard Preview</title>
-        <link rel="stylesheet" href="css/adminDashbroadStyle.css"/>
+        <link rel="stylesheet" href="css/adminDashboardStyle.css"/>
 
         <style>
             /* --- CSS cho Toolbar B?ng --- */
