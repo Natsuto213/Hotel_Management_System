@@ -79,7 +79,7 @@ public class StaffDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "insert dbo.STAFF(FullName,Role,Username,PasswordHash,Phone,Email) values(?,?,?,?,?,?)";
+                String sql = "insert dbo.STAFF(FullName,Role,Username,Password,Phone,Email) values(?,?,?,?,?,?)";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, staff.getFullname());
                 st.setString(2, staff.getRole());
@@ -162,7 +162,7 @@ public class StaffDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "INSERT INTO [HotelManagement].[dbo].[STAFF] ([FullName] ,[Role] ,[Username] ,[PasswordHash] ,[Phone] ,[Email]) VALUES (?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO [HotelManagement].[dbo].[STAFF] ([FullName] ,[Role] ,[Username] ,[Password] ,[Phone] ,[Email]) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, staff.getFullname());
                 st.setString(2, staff.getRole());
@@ -206,7 +206,7 @@ public class StaffDAO {
     public boolean updateStaff(Staff staff) {
         boolean result = false;
 
-        String sql = "UPDATE [HotelManagement].[dbo].[STAFF] SET [FullName] = ?, [Role] = ?, [Username] = ?, [PasswordHash] = ?, [Phone] = ?, [Email] = ? WHERE [StaffID] = ?";
+        String sql = "UPDATE [HotelManagement].[dbo].[STAFF] SET [FullName] = ?, [Role] = ?, [Username] = ?, [Password] = ?, [Phone] = ?, [Email] = ? WHERE [StaffID] = ?";
 
         try {
             Connection con = DBUtils.getConnection();
@@ -233,7 +233,7 @@ public class StaffDAO {
     public Staff getStaffById(int id) {
         Staff result = null;
         // Lấy tất cả các cột giống như trong hàm getAllStaff
-        String sql = "SELECT [StaffID], [FullName], [Role], [Username], [PasswordHash], [Phone], [Email] "
+        String sql = "SELECT [StaffID], [FullName], [Role], [Username], [Password], [Phone], [Email] "
                 + "FROM [HotelManagement].[dbo].[STAFF] WHERE [StaffID] = ?";
 
         Connection cn = null;
@@ -254,7 +254,7 @@ public class StaffDAO {
                     String fullName = rs.getString("FullName");
                     String role = rs.getString("Role");
                     String username = rs.getString("Username");
-                    String passwordHash = rs.getString("PasswordHash"); // Lấy mật khẩu đã hash
+                    String passwordHash = rs.getString("Password"); // Lấy mật khẩu đã hash
                     String phone = rs.getString("Phone");
                     String email = rs.getString("Email");
 
@@ -296,7 +296,7 @@ public class StaffDAO {
         ArrayList<Staff> result = new ArrayList<>();
 
         // Câu SQL dùng LIKE để tìm kiếm gần đúng
-        String sql = "SELECT [StaffID], [FullName], [Role], [Username], [PasswordHash], [Phone], [Email] "
+        String sql = "SELECT [StaffID], [FullName], [Role], [Username], [Password], [Phone], [Email] "
                 + "FROM [HotelManagement].[dbo].[STAFF] "
                 + "WHERE [FullName] LIKE ?"; // Tìm theo FullName
 
@@ -320,7 +320,7 @@ public class StaffDAO {
                         String fullName = rs.getString("FullName");
                         String role = rs.getString("Role");
                         String username = rs.getString("Username");
-                        String passwordHash = rs.getString("PasswordHash");
+                        String passwordHash = rs.getString("Password");
                         String phone = rs.getString("Phone");
                         String email = rs.getString("Email");
 

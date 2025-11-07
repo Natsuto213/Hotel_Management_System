@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession; // Import Session
 import model.Staff; // Import Model
+import utils.IConstants;
 
 /**
  *
@@ -41,7 +42,7 @@ public class SearchStaffController extends HttpServlet {
 
         // Lấy URL của trang dashboard (tôi đoán tên là adminDashboard.jsp)
         // *** THAY ĐỔI "adminDashboard.jsp" NẾU TÊN FILE CỦA BẠN KHÁC ***
-        String url = "adminDashboard.jsp"; 
+        String url = IConstants.DASHBOARD_ADMIN; 
 
         try {
             // 1. Lấy từ khóa tìm kiếm từ form
@@ -79,7 +80,7 @@ public class SearchStaffController extends HttpServlet {
         } finally {
             // 6. Chuyển tiếp (Forward) về trang JSP để hiển thị kết quả
             // Dùng forward để giữ lại các attribute trong request
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher(IConstants.DASHBOARD_ADMIN).forward(request, response);
         }
     }
 
