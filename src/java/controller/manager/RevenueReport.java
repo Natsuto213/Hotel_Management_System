@@ -7,24 +7,21 @@ package controller.manager;
 import dao.ManagerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.BookingServiceDetail;
-import model.Guest;
 import utils.IConstants;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "ManagerController", urlPatterns = {"/ManagerController"})
-public class ManagerController extends HttpServlet {
+@WebServlet(name = "RevenueReport", urlPatterns = {"/RevenueReport"})
+public class RevenueReport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,18 +36,28 @@ public class ManagerController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            String type = request.getParameter("type");
             ManagerDAO md = new ManagerDAO();
+            switch (type) {
+                case "daily":
+                    LocalDate day = LocalDate.parse(request.getParameter("date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    double dailyRevenue = md.dailyRevenue(day);
+                    request.setAttribute("dailyRevenue", dailyRevenue);
+                    break;
+                case "monthly":
+                    LocalDate month = LocalDate.parse(request.getParameter("month") + "-01");
+                    double monthlyRevenue = md.monthlyRevenue(month);
+                    request.setAttribute("monthlyRevenue", monthlyRevenue);
+                    break;
+                case "yearly":
+                    int year = Integer.parseInt(request.getParameter("year"));
+                    double yearlyRevenue = md.yearlyRevenue(year);
+                    request.setAttribute("yearlyRevenue", yearlyRevenue);
+                    break;
+            }
 
-            ArrayList<Guest> top10guest = md.top10FrequentGuests();
-            ArrayList<BookingServiceDetail> mostUsedService = md.mostUsedService();
-            double occupancyRate = md.roomOccupancyRate();
-
-            request.setAttribute("Top10Guest", top10guest);
-            request.setAttribute("MostUsedService", mostUsedService);
-            request.setAttribute("OccupancyRate", occupancyRate);
-
-            request.getRequestDispatcher(IConstants.DASHBOARD_MANAGER).forward(request, response);
-
+            request.setAttribute("activeTab", type);
+            request.getRequestDispatcher(IConstants.CONTROLLER_MANAGER).forward(request, response);
         }
     }
 

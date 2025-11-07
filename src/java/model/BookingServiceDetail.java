@@ -17,9 +17,17 @@ public class BookingServiceDetail implements Serializable {
     private double price;
 
     private int status;
+    private int totalUsed;
 
     public BookingServiceDetail() {
 
+    }
+
+    public BookingServiceDetail(int serviceid, String servicename, String servicetype, int totalUsed) {
+        this.serviceid = serviceid;
+        this.servicename = servicename;
+        this.servicetype = servicetype;
+        this.totalUsed = totalUsed;
     }
 
     public BookingServiceDetail(int serviceid, String servicename, int quantity, LocalDate servicedate, double price) {
@@ -120,9 +128,16 @@ public class BookingServiceDetail implements Serializable {
         this.status = status;
     }
 
+    public int getTotalUsed() {
+        return totalUsed;
+    }
+
+    public void setTotalUsed(int totalUsed) {
+        this.totalUsed = totalUsed;
+    }
+
     public String getFormattedPrice() {
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(this.price);
     }
-
 }

@@ -26,7 +26,6 @@
 
         <h3>${param.MSG}</h3>
 
-
         <div class="guest-info">
             <h1>Guest Information</h1>
 
@@ -130,6 +129,11 @@
         </div>  
         <form action="MainController">
             <button type="submit" name="action" value="findBookings">Back To History</button>
+
+            <input type="hidden" name="total" value="${total * 1.08}">
+            <input type="hidden" name="roomid" value="${room.roomId}">
+            <input type="hidden" name="bookingid" value="${booking.bookingId}">
+            <button type="submit" name="action" value="confirmEdit">Confirm</button>
         </form>
     </body>
 </html>

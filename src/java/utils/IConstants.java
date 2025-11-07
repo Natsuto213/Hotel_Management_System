@@ -7,6 +7,7 @@ public interface IConstants {
     public final String REGISTER = "register.jsp";
     public final String STAFF_REGISTER = "StaffRegister.jsp";
     public final String BOOKING = "booking.jsp";
+    public final String SUCCESSFUL = "successful.jsp";
     public final String ERROR = "error.jsp";
     public final String SEARCH = "search.jsp";
     public final String INVOICE = "invoice.jsp";
@@ -29,6 +30,7 @@ public interface IConstants {
     public final String CONTROLLER_GET_BOOKINGS = "GetBookingsController";
     public final String CONTROLLER_FIND_BOOKINGS = "FindBookingsController";
     public final String CONTROLLER_UPDATE_BOOKING = "UpdateBookingController";
+    public final String CONTROLLER_CONFIRM_EDIT = "ConfirmEditBooking";
     public final String CONTROLLER_REMOVE_BOOKING = "RemoveBookingController";
     public final String CONTROLLER_CHECK_IN = "CheckInController";
     public final String CONTROLLER_CHECK_OUT = "CheckOutController";
@@ -38,6 +40,7 @@ public interface IConstants {
     public final String CONTROLLER_BOOKING_INFO = "BookingInformation";
     public final String CONTROLLER_ADD_SERVICE = "AddServiceController";
     public final String CONTROLLER_DELETE_SERVICE = "DeleteServiceController";
+    public final String CONTROLLER_REVENUE_REPORT = "RevenueReport";
 
     public final String CONTROLLER_MANAGER = "ManagerController";
     public final String DASHBOARD_MANAGER = "managerDashboard.jsp";

@@ -57,7 +57,6 @@ public class LoginController extends HttpServlet {
                     case "manager":
                         request.getRequestDispatcher(IConstants.CONTROLLER_MANAGER).forward(request, response);
                         break;
-
                 }
                 return;
             }

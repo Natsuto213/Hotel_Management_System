@@ -107,6 +107,12 @@ public class MainController extends HttpServlet {
                     case "editBooking":
                         url = IConstants.CONTROLLER_BOOKING_INFO;
                         break;
+                    case "revenueReport":
+                        url = IConstants.CONTROLLER_REVENUE_REPORT;
+                        break;
+                    case "confirmEdit":
+                        url = IConstants.CONTROLLER_CONFIRM_EDIT;
+                        break;
 
                 }
             } catch (Exception e) {
