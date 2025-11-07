@@ -100,7 +100,7 @@ public class RoomDAO {
         String sql = "SELECT r.RoomID, r.RoomNumber, r.RoomTypeID, r.Status\n"
                 + "FROM ROOM r\n"
                 + "JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID\n"
-                + "WHERE rt.RoomTypeID = ? AND r.Status = 'Available'\n"
+                + "WHERE rt.RoomTypeID = ?\n"
                 + "  AND r.RoomID NOT IN (\n"
                 + "        SELECT b.RoomID\n"
                 + "        FROM BOOKING b\n"

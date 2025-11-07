@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.booking;
 
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
@@ -54,10 +54,6 @@ public class SearchController extends HttpServlet {
             request.getRequestDispatcher(IConstants.HOME).forward(request, response);
         }
 
-        if (roomTypeStr.equals("")) {
-            roomType = 0;
-        }
-
         LocalDate checkInDate = LocalDate.parse(checkIn);
         LocalDate checkOutDate = LocalDate.parse(checkOut);
 
@@ -74,7 +70,7 @@ public class SearchController extends HttpServlet {
         request.setAttribute("guests", guests);
         request.setAttribute("roomType", roomType);
 
-        request.getRequestDispatcher("search.jsp").forward(request, response);
+        request.getRequestDispatcher(IConstants.SEARCH).forward(request, response);
 
     }
 

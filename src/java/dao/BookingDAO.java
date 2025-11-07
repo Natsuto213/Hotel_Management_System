@@ -14,7 +14,7 @@ import model.BookingDetail;
 import utils.DBUtils;
 
 public class BookingDAO {
-    
+
     public Booking getBooking(int bookingid) {
         Booking result = null;
         Connection cn = null;
@@ -48,10 +48,10 @@ public class BookingDAO {
                 e.printStackTrace();
             }
         }
-        
+
         return result;
     }
-    
+
     public ArrayList getBookings(int guestID) {
         ArrayList<BookingDetail> list = new ArrayList<>();
         Connection cn = null;
@@ -95,7 +95,7 @@ public class BookingDAO {
         }
         return list;
     }
-    
+
     public int createBooking(Booking booking, Connection cn) {
         int result = 0;
         try {
@@ -119,13 +119,13 @@ public class BookingDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return result;
     }
-    
+
     public ArrayList<Booking> getBookingByCheckInCheckOut(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
         ArrayList<Booking> result = new ArrayList<>();
-        
+
         String sql = "SELECT [BookingID]\n"
                 + "      ,[GuestID]\n"
                 + "      ,[RoomID]\n"
@@ -135,18 +135,18 @@ public class BookingDAO {
                 + "      ,[Status]\n"
                 + "FROM [HotelManagement].[dbo].[BOOKING]\n"
                 + "WHERE CheckInDate <= ? AND CheckOutDate >= ?";
-        
+
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-        
+
         try {
             con = DBUtils.getConnection();
             pst = con.prepareStatement(sql);
             pst.setTimestamp(1, java.sql.Timestamp.valueOf(checkInDate));
             pst.setTimestamp(2, java.sql.Timestamp.valueOf(checkOutDate));
             rs = pst.executeQuery();
-            
+
             if (rs != null) {
                 while (rs.next()) {
                     int bookingId = rs.getInt("BookingID");
@@ -169,26 +169,26 @@ public class BookingDAO {
                     }
                 }
             }
-            
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
+
         ArrayList<Booking> result2 = new ArrayList<>();
         List<LocalDate> datesInRange = new ArrayList<>();
-        
+
         LocalDate currentDate = checkInDate.toLocalDate();
         LocalDate endDate = checkOutDate.toLocalDate();
-        
+
         while (!currentDate.isAfter(endDate)) {
             datesInRange.add(currentDate);
             currentDate = currentDate.plusDays(1);
         }
-        
+
         for (Booking booking : result) {
             LocalDate bookingCheckInDate = booking.getCheckInDate().toLocalDate();
             LocalDate bookingCheckOutDate = booking.getCheckOutDate().toLocalDate();
-            
+
             for (LocalDate date : datesInRange) {
                 if ((date.isEqual(bookingCheckInDate) || date.isAfter(bookingCheckInDate))
                         && (date.isEqual(bookingCheckOutDate) || date.isBefore(bookingCheckOutDate))) {
@@ -196,18 +196,19 @@ public class BookingDAO {
                     break;
                 }
             }
-            
+
         }
         return result2;
     }
-    
+
     public int removeBooking(int bookingID) {
         Connection cn = null;
         int result = 0;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "DELETE FROM BOOKING \n"
+                String sql = "UPDATE BOOKING\n"
+                        + "SET Status = 'Canceled'\n"
                         + "WHERE BookingID = ?";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, bookingID);
@@ -226,7 +227,7 @@ public class BookingDAO {
         }
         return result;
     }
-    
+
     public int updateBooking(Booking b) {
         Connection cn = null;
         int result = 0;
@@ -256,7 +257,7 @@ public class BookingDAO {
         }
         return result;
     }
-    
+
     public int changeRoomID(int newRoomId, int bookingId) {
         int result = 0;
         Connection cn = null;
@@ -284,7 +285,7 @@ public class BookingDAO {
         }
         return result;
     }
-    
+
     public int checkInBooking(int bookingID) {
         int result = 0;
         Connection cn = null;
@@ -311,7 +312,7 @@ public class BookingDAO {
         }
         return result;
     }
-    
+
     public int changeBookingStatus(String status, int bookingid) {
         int result = 0;
         Connection cn = null;
@@ -337,8 +338,8 @@ public class BookingDAO {
                 e.printStackTrace();
             }
         }
-        
+
         return result;
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package controller;
+package controller.booking;
 
 import dao.ServiceDAO;
 import java.io.IOException;

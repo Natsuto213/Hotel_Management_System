@@ -9,13 +9,8 @@ public interface IConstants {
     public final String BOOKING = "booking.jsp";
     public final String SUCCESSFUL = "successful.jsp";
     public final String ERROR = "error.jsp";
-    public final String SEARCH = "search.jsp";
     public final String INVOICE = "invoice.jsp";
     public final String ASSIGN = "AssignRoom.jsp";
-    public final String PREBOOKING = "PreBooking.jsp";
-    public final String VIEW_BOOKING = "ViewBooking.jsp";
-    public final String EDIT_BOOKING = "EditBooking.jsp";
-    public final String EDIT_BOOKING_RECEP = "EditBooking_Recep.jsp";
 
     public final String CONTROLLER_LOGIN = "LoginController";
     public final String CONTROLLER_LOGOUT = "LogoutController";
@@ -41,14 +36,26 @@ public interface IConstants {
     public final String CONTROLLER_ADD_SERVICE = "AddServiceController";
     public final String CONTROLLER_DELETE_SERVICE = "DeleteServiceController";
     public final String CONTROLLER_REVENUE_REPORT = "RevenueReport";
-    
+
     public final String CONTROLLER_ADMIN = "AdminController";
     public final String CONTROLLER_MANAGER = "ManagerController";
 
-    public final String DASHBOARD_ADMIN = "adminDashboard.jsp";
-    public final String DASHBOARD_GUEST = "GuestDashboard.jsp";
-    public final String DASHBOARD_MANAGER = "managerDashboard.jsp";
-    public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";
+    public final String DASHBOARD_ADMIN = "AdminDashboard.jsp";
+    public final String DASHBOARD_MANAGER = "ManagerDashboard.jsp";
     public final String DASHBOARD_HOUSEKEEPING = "HousekeepingDashboard.jsp";
     public final String DASHBOARD_SERVICE = "ServiceStaffDashboard.jsp";
+
+    //GUEST
+    public final String DASHBOARD_GUEST = "GuestDashboard.jsp";
+    public final String VIEW_BOOKING = "guest/ViewBooking.jsp";
+    public final String EDIT_BOOKING = "guest/EditBooking.jsp";
+
+    //BOOKING
+    public final String PREBOOKING = "booking/PreBooking.jsp";
+    public final String SEARCH = "booking/search.jsp";
+
+    // RECEPTIONIST
+    public final String EDIT_BOOKING_RECEP = "receptionist/EditBooking_Recep.jsp";
+    public final String DASHBOARD_RECEPTIONIST = "receptionist/ReceptionistDashboard.jsp";
+
 }

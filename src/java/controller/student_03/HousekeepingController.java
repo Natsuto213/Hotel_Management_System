@@ -4,7 +4,7 @@
  */
 
         
-package controller;
+package controller.student_03;
 
 import dao.HousekeepingDAO;
 import java.io.IOException;
@@ -57,23 +57,23 @@ public class HousekeepingController extends HttpServlet {
                 break;
             case "dailyReport":
                 request.setAttribute("REPORT", hkDAO.getDailyCleaningReport());
-                request.getRequestDispatcher("dailyReport.jsp").forward(request, response);
+                request.getRequestDispatcher("student_03/dailyReport.jsp").forward(request, response);
                 break;
             case "pendingTasks":
                 request.setAttribute("TASKS", hkDAO.getPendingCleaningTasks());
-                request.getRequestDispatcher("pendingTasks.jsp").forward(request, response);
+                request.getRequestDispatcher("student_03/pendingTasks.jsp").forward(request, response);
                 break;
             case "statusReport":
                 request.setAttribute("ROOMS", hkDAO.getRoomStatusReport());
-                request.getRequestDispatcher("statusReport.jsp").forward(request, response);
+                request.getRequestDispatcher("student_03/statusReport.jsp").forward(request, response);
                 break;
             case "issueReport":
                 request.setAttribute("ISSUES", hkDAO.getMaintenanceIssues());
-                request.getRequestDispatcher("issueReport.jsp").forward(request, response);
+                request.getRequestDispatcher("student_03/issueReport.jsp").forward(request, response);
                 break;
             case "performance":
                 request.setAttribute("PERFORMANCE", hkDAO.getStaffPerformance());
-                request.getRequestDispatcher("performance.jsp").forward(request, response);
+                request.getRequestDispatcher("student_03/performance.jsp").forward(request, response);
                 break;
             default:
                 request.getRequestDispatcher(IConstants.DASHBOARD_HOUSEKEEPING).forward(request, response);

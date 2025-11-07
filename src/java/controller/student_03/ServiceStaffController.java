@@ -1,4 +1,4 @@
-package controller;
+package controller.student_03;
 
 import dao.ServiceDAO;
 import java.io.IOException;
@@ -41,19 +41,19 @@ public class ServiceStaffController extends HttpServlet {
                     break;
                 case "report1":
                     request.setAttribute("LIST", serviceDAO.getTodayServices());
-                    request.getRequestDispatcher("report1.jsp").forward(request, response);
+                    request.getRequestDispatcher("student_03/report1.jsp").forward(request, response);
                     break;
                 case "report2":
                     request.setAttribute("LIST", serviceDAO.getPendingServices());
-                    request.getRequestDispatcher("report2.jsp").forward(request, response);
+                    request.getRequestDispatcher("student_03/report2.jsp").forward(request, response);
                     break;
                 case "report3":
                     request.setAttribute("LIST", serviceDAO.getServiceByStaff());
-                    request.getRequestDispatcher("report3.jsp").forward(request, response);
+                    request.getRequestDispatcher("student_03/report3.jsp").forward(request, response);
                     break;
                 case "report4":
                     request.setAttribute("LIST", serviceDAO.getRevenueReport());
-                    request.getRequestDispatcher("report4.jsp").forward(request, response);
+                    request.getRequestDispatcher("student_03/report4.jsp").forward(request, response);
                     break;
                 default:
                     request.getRequestDispatcher(IConstants.DASHBOARD_SERVICE)

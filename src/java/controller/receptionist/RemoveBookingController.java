@@ -41,11 +41,8 @@ public class RemoveBookingController extends HttpServlet {
             LocalDate checkin = LocalDate.parse(checkinStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             LocalDate now = LocalDate.now();
             if (checkin.isAfter(now)) {
-                String roomIdStr = request.getParameter("roomid");
-                int roomId = Integer.parseInt(roomIdStr);
-
-                String bookingIdStr = request.getParameter("bookingid");
-                int bookingId = Integer.parseInt(bookingIdStr);
+                int roomId = Integer.parseInt(request.getParameter("roomid").trim());
+                int bookingId = Integer.parseInt(request.getParameter("bookingid").trim());
 
                 BookingDAO b = new BookingDAO();
                 RoomDAO r = new RoomDAO();

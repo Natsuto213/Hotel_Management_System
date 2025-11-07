@@ -3,7 +3,6 @@ package controller.receptionist;
 import dao.BookingDAO;
 import dao.BookingServiceDAO;
 import dao.RoomDAO;
-import dao.RoomTypeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Booking;
 import model.BookingServiceDetail;
-import model.RoomType;
 import utils.IConstants;
 
 @WebServlet(name = "CheckOutController", urlPatterns = {"/CheckOutController"})

@@ -80,7 +80,7 @@
                                         </td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out'}">
+                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out' || b.status == 'Canceled'}">
                                                     ${b.typeName}
                                                 </c:when>
                                                 <c:otherwise>
@@ -97,7 +97,7 @@
                                         </td>
                                         <td>       
                                             <c:choose>
-                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out'}">
+                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out' || b.status == 'Canceled'}">
                                                     ${b.checkInDate}
                                                 </c:when>
                                                 <c:otherwise>
@@ -111,7 +111,7 @@
                                         </td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out'}">
+                                                <c:when test="${b.status == 'Checked-in' || b.status == 'Checked-out' || b.status == 'Canceled'}">
                                                     ${b.checkOutDate}
                                                 </c:when>
                                                 <c:otherwise>
@@ -122,7 +122,7 @@
                                         <td>${b.status}</td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${b.status == 'Checked-out'}">
+                                                <c:when test="${b.status == 'Checked-out' || b.status == 'Canceled'}">
                                                     ...
                                                 </c:when>
                                                 <c:when test="${b.status == 'Checked-in'}">
