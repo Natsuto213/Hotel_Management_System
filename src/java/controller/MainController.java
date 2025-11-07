@@ -42,6 +42,12 @@ public class MainController extends HttpServlet {
                     case "guestDashboard":
                         url = IConstants.DASHBOARD_GUEST;
                         break;
+                    case "housekeeping":
+                        url = IConstants.DASHBOARD_HOUSEKEEPING;
+                        break;
+                    case "service":
+                        url = IConstants.DASHBOARD_SERVICE;
+                        break;
 
                     //--------CONTROLLER--------
                     case "loginUser":

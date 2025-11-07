@@ -51,11 +51,20 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("STAFF", staff);
                 String role = staff.getRole().toLowerCase();
                 switch (role) {
+                    case "admin":
+                        request.getRequestDispatcher(IConstants.CONTROLLER_ADMIN).forward(request, response);
+                        break;
                     case "receptionist":
                         request.getRequestDispatcher(IConstants.DASHBOARD_RECEPTIONIST).forward(request, response);
                         break;
                     case "manager":
                         request.getRequestDispatcher(IConstants.CONTROLLER_MANAGER).forward(request, response);
+                        break;
+                    case "housekeeping":
+                        request.getRequestDispatcher(IConstants.DASHBOARD_HOUSEKEEPING).forward(request, response);
+                        break;
+                    case "servicestaff":
+                        request.getRequestDispatcher(IConstants.DASHBOARD_SERVICE).forward(request, response);
                         break;
                 }
                 return;

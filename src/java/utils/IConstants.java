@@ -41,10 +41,14 @@ public interface IConstants {
     public final String CONTROLLER_ADD_SERVICE = "AddServiceController";
     public final String CONTROLLER_DELETE_SERVICE = "DeleteServiceController";
     public final String CONTROLLER_REVENUE_REPORT = "RevenueReport";
-
+    
+    public final String CONTROLLER_ADMIN = "AdminController";
     public final String CONTROLLER_MANAGER = "ManagerController";
-    public final String DASHBOARD_MANAGER = "managerDashboard.jsp";
 
+    public final String DASHBOARD_ADMIN = "adminDashboard.jsp";
     public final String DASHBOARD_GUEST = "GuestDashboard.jsp";
+    public final String DASHBOARD_MANAGER = "managerDashboard.jsp";
     public final String DASHBOARD_RECEPTIONIST = "ReceptionistDashboard.jsp";
+    public final String DASHBOARD_HOUSEKEEPING = "HousekeepingDashboard.jsp";
+    public final String DASHBOARD_SERVICE = "ServiceStaffDashboard.jsp";
 }
