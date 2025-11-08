@@ -25,9 +25,12 @@
 
     </head>
     <body>
-        <c:set var="cart" value="${sessionScope.CART}"/>
         <c:set var="guest" value="${sessionScope.USER}" />
-        <c:set var="booking" value="${sessionScope.BOOKING}"/>
+        <c:set var="room" value="${requestScope.ROOM}"/>
+        <c:set var="roomType" value="${requestScope.ROOMTYPE}"/>
+        <c:set var="booking" value="${requestScope.BOOKING}"/>
+        <c:set var="cart" value="${requestScope.CART}"/>
+        <c:set var="isCheckout" value="${false}" scope="session"/>
 
         <div class="invoice-container">
             <!-- Success Banner -->
@@ -74,7 +77,6 @@
                             <p><strong>Check-in: </strong> ${booking.checkInDate}</p>
                             <p><strong>Check-out: </strong> ${booking.checkOutDate}</p>
                             <p><strong>Night: </strong><fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights</p>
-                            <p><strong>Status: </strong> ${booking.status}</p>
                         </div>
                     </div>
 
@@ -83,15 +85,11 @@
                         <div class="detail-grid">
                             <div class="detail-item">
                                 <label>Room Type: </label>
-                                <span>${booking.typeName}</span>
+                                <span>${roomType.typeName}</span>
                             </div>
                             <div class="detail-item">
                                 <label>Room Number: </label>
-                                <span>${booking.roomNumber}</span>
-                            </div>
-                            <div class="detail-item">
-                                <label>Guests: </label>
-                                <span>${booking.guests} guests</span>
+                                <span>${room.roomNumber}</span>
                             </div>
                             <div class="detail-item">
                                 <label>Diện tích: </label>
@@ -124,14 +122,14 @@
                     <!-- Price Breakdown -->
                     <div class="price-breakdown">
 
-                        <c:set var="roomTotal" value="${night * booking.price}" />
+                        <c:set var="roomTotal" value="${night * roomType.price}" />
                         <c:set var="total" value="${roomTotal + serviceTotal}"/>
 
 
                         <h3><i class="fa-solid fa-file-invoice-dollar"></i> Price Summary</h3>
                         <div class="price-item">
                             <label>Price per night</label>
-                            <span><fmt:formatNumber value="${booking.price}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                            <span><fmt:formatNumber value="${roomType.price}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                         </div>
                         <div class="price-item">
                             <label>Nights: </label>
@@ -223,8 +221,6 @@
             window.scrollTo(0, 0);
         </script>
 
-        <c:remove var="CART" scope="session"/>
-        <c:remove var="BOOKING" scope="session"/>
         <c:remove var="bookingid" scope="session"/>
 
     </body>

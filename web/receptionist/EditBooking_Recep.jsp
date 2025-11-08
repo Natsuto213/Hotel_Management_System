@@ -130,7 +130,7 @@
                                                     <input type="hidden" name="roomType" value="${b.typeName}">
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">
                                                     <button type="submit" name="action" value="assign">Assign Room</button>
-                                                    <button type="submit" name="action" value="checkout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
+                                                    <button type="submit" name="action" value="preCheckout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
                                                 </c:when>
                                                 <c:when test="${requestScope.assignBookingId != null && requestScope.assignBookingId == b.bookingId}">
                                                     <input type="hidden" name="newRoomId" value="${r.roomId}">

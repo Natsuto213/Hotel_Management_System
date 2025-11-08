@@ -420,13 +420,13 @@
 
             <div class="service-info">
                 <h1>Additional Services</h1>
-                
+
                 <div class="new-service" >
                     <form action="MainController" method="post" 
                           onsubmit="return validateServiceDate(this);"
                           data-checkin="${booking.checkInDate}" 
                           data-checkout="${booking.checkOutDate}">
-                        
+
                         <label>Select Service</label> <select name="serviceid" required="">
                             <option value="" disabled selected>-- Select Service --</option>
                             <c:forEach var="s" items="${servicelist}">
@@ -464,30 +464,6 @@
             </div>
 
             <form action="MainController" method="post">
-                <div class="payment-info">
-                    <h1>Payment Method</h1>
-                    <label class="method-option">
-                        <input type="radio" name="payment" value="Credit Card" required="">
-                        <span class="custom-radio"></span>
-                        <i class="fa-solid fa-credit-card icon"></i>
-                        <span>Credit Card</span>
-                    </label><br>
-
-                    <label class="method-option">
-                        <input type="radio" name="payment" value="Debit Card">
-                        <span class="custom-radio"></span>
-                        <i class="fa-regular fa-credit-card icon"></i>
-                        <span>Debit Card</span>
-                    </label><br>
-
-                    <label class="method-option">
-                        <input type="radio" name="payment" value="Transfer">
-                        <span class="custom-radio"></span>
-                        <i class="fa-solid fa-building-columns icon"></i>
-                        <span>Bank Transfer</span>
-                    </label>
-                </div>
-
                 <div class="summary">
                     <h1>Booking Summary</h1>
                     <fmt:parseDate var="checkInDate" value="${booking.checkInDate}" pattern="yyyy-MM-dd" />
@@ -507,14 +483,16 @@
                     <input type="hidden" name="serviceTotal" value="${serviceTotal}">
                     <input type="hidden" name="total" value="${total}">
 
+                    <c:set var="isBooking" value="${true}" scope="session"/>
+
+
                     <button type="submit" name="action" value="home" class="btn btn-outline">Back To Home</button>
                     <button type="submit" name="action" value="createBooking" class="btn btn-primary">Confirm Booking</button>
                 </div>
-                
             </form>
 
         </div>
-        
+
         <script>
             function validateServiceDate(form) {
                 // Lấy ngày check-in và check-out từ data attributes

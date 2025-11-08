@@ -6,7 +6,6 @@ package controller.guest;
 
 import dao.BookingDAO;
 import dao.BookingServiceDAO;
-import dao.PaymentDAO;
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
 import dao.ServiceDAO;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Booking;
 import model.BookingServiceDetail;
-import model.Payment;
 import model.Room;
 import model.RoomType;
 import model.Service;
@@ -46,7 +44,7 @@ public class BookingInformation extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String isEdit = request.getParameter("isEdit");
+            String type = request.getParameter("type");
             int roomid = Integer.parseInt(request.getParameter("roomid").trim());
             int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
 
@@ -59,26 +57,26 @@ public class BookingInformation extends HttpServlet {
             BookingDAO bd = new BookingDAO();
             Booking booking = bd.getBooking(bookingid);
 
-            PaymentDAO pd = new PaymentDAO();
-            Payment payment = pd.getPayment(bookingid);
-
             BookingServiceDAO bsd = new BookingServiceDAO();
             ArrayList<BookingServiceDetail> cart = bsd.getCart(bookingid);
 
             request.setAttribute("ROOM", room);
             request.setAttribute("ROOMTYPE", roomType);
             request.setAttribute("BOOKING", booking);
-            request.setAttribute("PAYMENT", payment);
             request.setAttribute("CART", cart);
 
-            if (isEdit == null) {
-                request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
-            } else {
-                ServiceDAO sd = new ServiceDAO();
-                ArrayList<Service> servicelist = sd.getAllServices();
-                request.setAttribute("ServiceList", servicelist);
-                String msg = request.getParameter("MSG");
-                request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+            switch (type) {
+                case "view":
+                    request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
+                case "edit":
+                    ServiceDAO sd = new ServiceDAO();
+                    ArrayList<Service> servicelist = sd.getAllServices();
+                    request.setAttribute("ServiceList", servicelist);
+                    String msg = request.getParameter("MSG");
+                    request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+                default:
+                    request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
+
             }
 
         }

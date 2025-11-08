@@ -6,8 +6,8 @@ package controller.booking;
 
 import dao.BookingDAO;
 import dao.BookingServiceDAO;
-import dao.InvoiceDAO;
-import dao.PaymentDAO;
+import dao.RoomDAO;
+import dao.RoomTypeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -28,8 +28,8 @@ import model.BookingDetail;
 import model.BookingService;
 import model.BookingServiceDetail;
 import model.Guest;
-import model.Invoice;
-import model.Payment;
+import model.Room;
+import model.RoomType;
 import utils.DBUtils;
 import utils.IConstants;
 
@@ -47,6 +47,7 @@ public class BookingController extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             cn.setAutoCommit(false);
             HttpSession session = request.getSession();
+            boolean isBooking = (boolean) session.getAttribute("isBooking");
 
             //CREATE BOOKING
             Guest guest = (Guest) session.getAttribute("USER");
@@ -62,13 +63,16 @@ public class BookingController extends HttpServlet {
 
             Booking booking = new Booking(guestid, roomid, checkinDate, checkoutDate, today, "Reserved");
             BookingDAO bd = new BookingDAO();
+            
             bd.createBooking(booking, cn);
+            int bookingid = booking.getBookingId();
 
             //CREATE BOOKING SERVICE
-            ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
             BookingServiceDAO bsd = new BookingServiceDAO();
-
-            int bookingid = booking.getBookingId();
+            ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
+            if (cart == null || cart.isEmpty()) {
+                cart = bsd.getCart(bookingid);
+            }
             if (cart != null) {
                 for (BookingServiceDetail c : cart) {
                     int serviceid = c.getServiceid();
@@ -78,24 +82,24 @@ public class BookingController extends HttpServlet {
                     bsd.addService(bs, cn);
                 }
             }
+            
+            if (isBooking) {
+                cn.commit();
+            }
 
-            //CREATE PAYMENT
-            double amount = Double.parseDouble(request.getParameter("total").trim());
-            String paymentMethod = request.getParameter("payment");
-            Payment payment = new Payment(bookingid, today, amount * 1.08, paymentMethod, "Pending");
+            RoomDAO rd = new RoomDAO();
+            Room room = rd.getRoom(roomid);
 
-            PaymentDAO pd = new PaymentDAO();
-            pd.addService(payment, cn);
+            RoomTypeDAO rtd = new RoomTypeDAO();
+            RoomType roomType = rtd.getRoomType(roomid);
 
-            //CREATE INVOICE
-            Invoice invoice = new Invoice(bookingid, today, amount * 1.08, "Unpaid");
-            InvoiceDAO id = new InvoiceDAO();
-            id.addInvoice(invoice, cn);
-
-            cn.commit();
-
+            request.setAttribute("ROOM", room);
+            request.setAttribute("ROOMTYPE", roomType);
+            request.setAttribute("BOOKING", booking);
             session.setAttribute("bookingid", bookingid);
-            response.sendRedirect(IConstants.INVOICE);
+            request.setAttribute("BookingSuccessfull", "Booking Sucessful! Enjoy your vacation!");
+
+            request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
         } catch (Exception e) {
             try {
                 cn.rollback();
@@ -130,10 +134,14 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
-            Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -150,10 +158,14 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
-            Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

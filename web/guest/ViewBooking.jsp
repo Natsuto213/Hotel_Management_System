@@ -15,14 +15,14 @@
         <title>View Booking</title>
     </head>
     <body>
+        <h3>${BookingSuccessfull}</h3>
+
         <c:set var="guest" value="${sessionScope.USER}"/>
         <c:set var="room" value="${requestScope.ROOM}"/>
         <c:set var="roomType" value="${requestScope.ROOMTYPE}"/>
         <c:set var="booking" value="${requestScope.BOOKING}"/>
-        <c:set var="payment" value="${requestScope.PAYMENT}"/>
-        <c:set var="cart" value="${requestScope.CART}"/>
-        <c:set var="servicelist" value="${requestScope.ServiceList}" />
-
+        <c:set var="cart" value="${CART}"/>
+        <c:set var="isBooking" value="${false}" scope="session"/>
 
         <div class="guest-info">
             <h1>Guest Information</h1>
@@ -73,14 +73,6 @@
             </c:forEach>
         </div>
 
-        <div class="payment-info">
-            <h1>Payment Information</h1>
-            <label>Method</label>
-            <p>${payment.paymentMethod}</p>
-            <label>Status</label>
-            <p>${payment.status}</p>
-        </div>
-
         <div class="summary">
             <h1>Booking Summary</h1>
 
@@ -97,7 +89,14 @@
             <p>Total Amount: <fmt:formatNumber value="${total * 1.08}" type="number" groupingUsed="true"/> VND</p>
         </div>  
         <form action="MainController">
-            <button type="submit" name="action" value="findBookings">Back To History</button>
+            <c:choose>
+                <c:when test="${BookingSuccessfull != null}">
+                    <button type="submit" name="action" value="home">Back To Home</button>
+                </c:when>
+                <c:otherwise>
+                    <button type="submit" name="action" value="findBookings">Back To History</button>
+                </c:otherwise>
+            </c:choose>
         </form>
     </body>
 </html>

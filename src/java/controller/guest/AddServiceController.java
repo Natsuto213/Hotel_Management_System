@@ -96,7 +96,7 @@ public class AddServiceController extends HttpServlet {
                     int cartId = bsd.findBookingServiceID(bookingid, serviceId, serviceDate);
                     bsd.updateService(quantity, cartId);
                 }
-                response.sendRedirect("BookingInformation?isEdit=edit&MSG=Update Successfull&roomid=" + roomid + "&bookingid=" + bookingid);
+                response.sendRedirect("BookingInformation?type=edit&MSG=Update Successfull&roomid=" + roomid + "&bookingid=" + bookingid);
             }
         }
     }

@@ -5,7 +5,6 @@ public interface IConstants {
     public final String HOME = "home.jsp";
     public final String LOGIN = "login.jsp";
     public final String REGISTER = "register.jsp";
-    public final String STAFF_REGISTER = "StaffRegister.jsp";
     public final String BOOKING = "booking.jsp";
     public final String ERROR = "error.jsp";
     public final String INVOICE = "invoice.jsp";
@@ -14,14 +13,16 @@ public interface IConstants {
     public final String CONTROLLER_LOGOUT = "LogoutController";
     public final String CONTROLLER_REGIS_GUEST = "RegisterController";
     public final String CONTROLLER_REGIS_STAFF = "StaffRegisterController";
+    public final String CONTROLLER_PRE_CHECKOUT = "PreCheckOutController";
+    public final String PRE_CHECKOUT = "PreCheckout.jsp";
 
     public final String CONTROLLER_ADMIN = "AdminController";
-    public final String DASHBOARD_ADMIN = "AdminDashboard.jsp";
+    public final String DASHBOARD_ADMIN = "adminDashboard.jsp";
     public final String DASHBOARD_HOUSEKEEPING = "HousekeepingDashboard.jsp";
     public final String DASHBOARD_SERVICE = "ServiceStaffDashboard.jsp";
 
     //GUEST
-    public final String DASHBOARD_GUEST = "GuestDashboard.jsp";
+    public final String DASHBOARD_GUEST = "guest/GuestDashboard.jsp";
     public final String VIEW_BOOKING = "guest/ViewBooking.jsp";
     public final String EDIT_BOOKING = "guest/EditBooking.jsp";
 
@@ -32,15 +33,16 @@ public interface IConstants {
     public final String CONTROLLER_CONFIRM_EDIT = "ConfirmEditBooking";
 
     //BOOKING
-    public final String PREBOOKING = "booking/PreBooking.jsp";
+    public final String PRE_BOOKING = "booking/PreBooking.jsp";
     public final String SEARCH = "booking/search.jsp";
+    public final String BOOKING_SUCCESSFUL = "booking/BookingSuccessful.jsp";
 
     public final String CONTROLLER_SEARCH = "SearchController";
     public final String CONTROLLER_BOOKING = "BookingController";
     public final String CONTROLLER_PRE_BOOKING = "PreBookingController";
 
     // MANAGER
-    public final String DASHBOARD_MANAGER = "ManagerDashboard.jsp";
+    public final String DASHBOARD_MANAGER = "managerDashboard.jsp";
     public final String CONTROLLER_MANAGER = "ManagerController";
     public final String CONTROLLER_REVENUE_REPORT = "RevenueReport";
 

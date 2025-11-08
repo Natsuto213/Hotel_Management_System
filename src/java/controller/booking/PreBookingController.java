@@ -43,7 +43,7 @@ public class PreBookingController extends HttpServlet {
             ArrayList<Service> servicelist = sd.getAllServices();
 
             request.setAttribute("ServiceList", servicelist);
-            request.getRequestDispatcher(IConstants.PREBOOKING).forward(request, response);
+            request.getRequestDispatcher(IConstants.PRE_BOOKING).forward(request, response);
         }
     }
 
