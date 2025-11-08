@@ -9,6 +9,7 @@ package controller.student_03;
 import dao.HousekeepingDAO;
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ import utils.IConstants;
  *
  * @author Admin
  */
-
+@WebServlet(name = "HousekeepingController", urlPatterns = {"/HousekeepingController"})
 public class HousekeepingController extends HttpServlet {
     private HousekeepingDAO hkDAO;
     
@@ -34,6 +35,7 @@ public class HousekeepingController extends HttpServlet {
        
         HttpSession session = request.getSession();
         Staff staff = (Staff) session.getAttribute("STAFF");
+        String type = request.getParameter("type");
         
         if (staff == null || !"housekeeping".equalsIgnoreCase(staff.getRole())){
             response.sendRedirect("login.jsp");
@@ -44,7 +46,7 @@ public class HousekeepingController extends HttpServlet {
         if (action == null) action = "dashboard";
                 
         
-        switch (action){
+        switch (type){
             case "dashboard":
                 request.getRequestDispatcher(IConstants.DASHBOARD_HOUSEKEEPING).forward(request, response);
                 break;

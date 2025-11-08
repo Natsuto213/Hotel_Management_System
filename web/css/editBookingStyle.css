@@ -176,11 +176,11 @@
     background-color: #218838;
 }
 
-.receptionish-dashboard table button[value="checkout"] {
+.receptionish-dashboard table button[value="preCheckout"] {
     background-color: #dc3545;
 }
 
-.receptionish-dashboard table button[value="checkout"]:hover {
+.receptionish-dashboard table button[value="preCheckout"]:hover {
     background-color: #b02a37;
 }
 

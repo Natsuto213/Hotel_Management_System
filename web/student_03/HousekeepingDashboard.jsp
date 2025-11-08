@@ -79,22 +79,23 @@
             <p style="color: #555;">Chọn loại báo cáo bạn muốn xem:</p>
 
             <div class="report-buttons">
-                <a href="${pageContext.request.contextPath}/HousekeepingController?action=updateStatus" class="create-btn">
-                    <i class="fa-solid fa-bed"></i> Cập nhật trạng thái phòng
-                </a>
-                <a href="${pageContext.request.contextPath}/HousekeepingController?action=dailyReport" class="create-btn">
+                <a href="MainController?action=housekeeping&type=dailyReport" class="create-btn">
                     <i class="fa-solid fa-calendar-day"></i> Báo cáo vệ sinh hằng ngày
                 </a>
-                <a href="${pageContext.request.contextPath}/HousekeepingController?action=pendingTasks" class="create-btn">
+
+                <a href="MainController?action=housekeeping&type=pendingTasks" class="create-btn">
                     <i class="fa-solid fa-list-check"></i> Phòng cần vệ sinh
                 </a>
-                <a href="${pageContext.request.contextPath}/HousekeepingController?action=statusReport" class="create-btn">
+
+                <a href="MainController?action=housekeeping&type=statusReport" class="create-btn">
                     <i class="fa-solid fa-chart-bar"></i> Trạng thái phòng
                 </a>
-                <a href="${pageContext.request.contextPath}/HousekeepingController?action=issueReport" class="create-btn">
+
+                <a href="MainController?action=housekeeping&type=issueReport" class="create-btn">
                     <i class="fa-solid fa-tools"></i> Yêu cầu bảo trì
                 </a>
-                <a href="${pageContext.request.contextPath}/HousekeepingController?action=performance" class="create-btn">
+
+                <a href="MainController?action=housekeeping&type=performance" class="create-btn">
                     <i class="fa-solid fa-star"></i> Đánh giá hiệu suất
                 </a>
             </div>
