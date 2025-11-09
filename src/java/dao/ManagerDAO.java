@@ -246,4 +246,35 @@ public class ManagerDAO {
 
         return result;
     }
+
+    public double cancellationRate() {
+        double result = 0;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT \n"
+                        + "    COUNT(CASE WHEN Status = 'Canceled' THEN 1 END) * 100.0 / COUNT(*) AS [CancellationRate]\n"
+                        + "FROM BOOKING\n"
+                        + "GROUP BY YEAR(BookingDate), MONTH(BookingDate)";
+                PreparedStatement st = cn.prepareStatement(sql);
+                ResultSet table = st.executeQuery();
+                if (table != null && table.next()) {
+                    result = table.getDouble("CancellationRate");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
 }

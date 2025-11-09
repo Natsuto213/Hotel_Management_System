@@ -13,6 +13,321 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Checkout Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #ffb3d1 0%, #ff8db3 100%);
+                min-height: 100vh;
+                padding: 20px;
+                color: #333;
+            }
+
+            body > h1 {
+                text-align: center;
+                color: white;
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            }
+
+            .guest-info,
+            .booking-info,
+            .service-info,
+            .payment-info,
+            .summary {
+                background: white;
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                max-width: 900px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .guest-info h1,
+            .booking-info h1,
+            .service-info h1,
+            .payment-info h1,
+            .summary h1 {
+                color: #ff6b9d;
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 3px solid #ff6b9d;
+            }
+
+            .service-info h3 {
+                color: #999;
+                font-style: italic;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .guest-info > div {
+                display: grid;
+                grid-template-columns: 150px 1fr;
+                gap: 10px;
+                padding: 12px 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .guest-info > div:last-child {
+                border-bottom: none;
+            }
+
+            .guest-info label {
+                font-weight: 600;
+                color: #555;
+            }
+
+            .guest-info p {
+                color: #333;
+            }
+
+            /* CSS MỚI CHO BOOKING INFO (DÙNG GRID) */
+            .booking-info {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 5px 20px;
+            }
+
+            .booking-info h1 {
+                grid-column: 1 / -1;
+                color: #ff6b9d;
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 3px solid #ff6b9d;
+            }
+
+            .booking-info div {
+                margin-bottom: 10px;
+            }
+
+            .booking-info label {
+                display: block;
+                font-weight: 600;
+                color: #555;
+                font-size: 0.9rem;
+            }
+
+            .booking-info p {
+                display: block;
+                font-size: 1.1rem;
+                margin: 0;
+                color: #000;
+            }
+
+            .service-info {
+                overflow-x: auto;
+            }
+
+            /* =================================
+               ĐOẠN NÀY ĐÃ ĐƯỢC DI CHUYỂN RA NGOÀI
+               ================================= */
+
+            .service-list {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .service-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #fff5f8;
+                padding: 15px 20px;
+                border-radius: 8px;
+                border: 1px solid #ffe0eb;
+            }
+
+            .service-item .service-name {
+                font-weight: 600;
+                font-size: 1.1rem;
+                color: #c44569;
+                flex: 2;
+            }
+
+            .service-item .service-details {
+                flex: 3;
+                color: #555;
+                text-align: center;
+                font-size: 0.95rem;
+            }
+
+            .service-item .service-subtotal {
+                flex: 1.5;
+                font-weight: 600;
+                color: #333;
+                text-align: right;
+                font-size: 1.05rem;
+            }
+
+            .service-info > span,
+            .service-info > br {
+                display: none;
+            }
+
+            /* CSS CHO PAYMENT (ĐÃ SỬA) */
+            .method-option {
+                display: flex;
+                align-items: center;
+                padding: 15px;
+                margin: 10px 0;
+                border: 2px solid #ffe0eb;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: #fff5f8;
+            }
+
+            .method-option:hover {
+                border-color: #ff6b9d;
+                background: #ffe0eb;
+            }
+
+            .method-option input[type="radio"] {
+                margin-right: 15px;
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                accent-color: #ff6b9d;
+            }
+
+            .method-option .icon {
+                font-size: 1.5rem;
+                margin-right: 10px;
+                color: #ff6b9d;
+            }
+
+            .method-option span:last-child {
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+
+            /* CSS CHO SUMMARY (ĐÃ SỬA) */
+            .summary p {
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                font-size: 1.05rem;
+            }
+
+            .summary p span {
+                font-weight: 600;
+                color: #ff6b9d;
+            }
+
+            .summary hr {
+                margin: 20px 0;
+                border: none;
+                border-top: 2px solid #ff6b9d;
+            }
+
+            .summary p:last-of-type {
+                font-size: 1.3rem;
+                font-weight: bold;
+                color: #ff6b9d;
+                margin-top: 10px;
+            }
+
+            .summary p:last-of-type span {
+                color: #c44569;
+                font-size: 1.4rem;
+            }
+
+            /* CSS CHO BUTTONS (ĐÃ SỬA) */
+            .btn {
+                padding: 14px 30px;
+                font-size: 1.1rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 600;
+                margin: 10px 5px;
+            }
+
+            .btn-outline {
+                background: white;
+                color: #ff6b9d;
+                border: 2px solid #ff6b9d;
+            }
+
+            .btn-outline:hover {
+                background: #ff6b9d;
+                color: white;
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+                color: white;
+                border: none;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(255, 107, 157, 0.4);
+            }
+
+            /* CSS CHO BUTTON CONTAINER (ĐÃ THÊM) */
+            .summary .button-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 25px;
+            }
+            .summary .button-container .btn {
+                margin: 0; /* Ghi đè margin cũ */
+            }
+
+            /* CSS CHO FORM (ĐÃ SỬA) */
+            form {
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+            /* CSS CHO MEDIA QUERY (ĐÃ SỬA) */
+            @media (max-width: 768px) {
+                body {
+                    padding: 10px;
+                }
+
+                body > h1 {
+                    font-size: 2rem;
+                }
+
+                .guest-info > div {
+                    grid-template-columns: 1fr;
+                }
+
+                .booking-info label {
+                    display: block;
+                    width: 100%;
+                }
+
+                .booking-info p {
+                    display: block;
+                    margin-left: 0;
+                    margin-bottom: 10px;
+                }
+
+                .btn {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+            }
+        </style>
     </head>
     <body>
         <h1>Checkout Page</h1>
@@ -46,20 +361,30 @@
         <div class="booking-info">
             <h1>Booking Information</h1>
 
-            <label>Room Number</label>
-            <p>${room.roomNumber}</p>
+            <div>
+                <label>Room Number</label>
+                <p>${room.roomNumber}</p>
+            </div>
 
-            <label>Room Type</label>
-            <p>${roomType.typeName}</p>
+            <div>
+                <label>Room Type</label>
+                <p>${roomType.typeName}</p>
+            </div>
 
-            <label>Check-in</label>
-            <p>${booking.checkInDate}</p>
+            <div>
+                <label>Check-in</label>
+                <p>${booking.checkInDate}</p>
+            </div>
 
-            <label>Check-out</label>
-            <p>${booking.checkOutDate}</p>
+            <div>
+                <label>Check-out</label>
+                <p>${booking.checkOutDate}</p>
+            </div>
 
-            <label>Price per night</label>
-            <p>${roomType.formattedPrice} VND</p>
+            <div>
+                <label>Price per night</label>
+                <p>${roomType.formattedPrice} VND</p>
+            </div>
         </div>
 
         <div class="service-info">
@@ -67,16 +392,28 @@
             <c:if test="${cart == null || empty cart}">
                 <h3>No service yet</h3>
             </c:if>
+
             <c:set var="serviceTotal" value="0" scope="page" />
-            <c:forEach var="c" items="${cart}">
-                <c:set var="subtotal" value="${c.price * c.quantity}" />
-                <span>${c.servicename}</span>
-                <span>${c.formattedPrice} VNÐ</span>
-                <span>${c.quantity}</span>
-                <span>${c.servicedate}</span>
-                <br>
-                <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
-            </c:forEach>
+
+            <%-- Thêm một container cho danh sách --%>
+            <div class="service-list">
+                <c:forEach var="c" items="${cart}">
+                    <c:set var="subtotal" value="${c.price * c.quantity}" />
+
+                    <%-- Đây là "khung chữ nhật" cho mỗi service --%>
+                    <div class="service-item">
+                        <span class="service-name">${c.servicename}</span>
+                        <span class="service-details">
+                            <fmt:formatNumber value="${c.price}" type="number" groupingUsed="true"/> VNĐ x ${c.quantity} | ${c.servicedate}
+                        </span>
+                        <span class="service-subtotal">
+                            <fmt:formatNumber value="${subtotal}" type="number" groupingUsed="true"/> VNĐ
+                        </span>
+                    </div>
+
+                    <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
+                </c:forEach>
+            </div> <%-- Đóng service-list --%>
         </div>
 
         <form action="MainController" method="post">
@@ -128,9 +465,10 @@
                 <input type="hidden" name="bookingid" value="${booking.bookingId}">
 
                 <c:set var="isCheckout" value="${true}" scope="session"/>
-
-                <button type="submit" name="action" value="home" class="btn btn-outline">Back To Home</button>
-                <button type="submit" name="action" value="checkout" class="btn btn-primary">Confirm Checkout</button>
+                <div class="button-container">
+                    <button type="submit" name="action" value="home" class="btn btn-outline">Back To Home</button>
+                    <button type="submit" name="action" value="checkout" class="btn btn-primary">Confirm Checkout</button>
+                </div>
             </div>
         </form>
 

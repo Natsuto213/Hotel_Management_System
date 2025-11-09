@@ -44,10 +44,12 @@ public class ManagerController extends HttpServlet {
             ArrayList<Guest> top10guest = md.top10FrequentGuests();
             ArrayList<BookingServiceDetail> mostUsedService = md.mostUsedService();
             double occupancyRate = md.roomOccupancyRate();
+            double cancellationRate = md.cancellationRate();
 
             request.setAttribute("Top10Guest", top10guest);
             request.setAttribute("MostUsedService", mostUsedService);
             request.setAttribute("OccupancyRate", occupancyRate);
+            request.setAttribute("CancellationRate", cancellationRate);
 
             request.getRequestDispatcher(IConstants.DASHBOARD_MANAGER).forward(request, response);
 
