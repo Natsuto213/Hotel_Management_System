@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Booking</title>
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             /* =================================
@@ -264,7 +264,7 @@
         </style>
     </head>
     <body>
-        
+
 
         <c:set var="guest" value="${sessionScope.USER}"/>
         <c:set var="room" value="${requestScope.ROOM}"/>
@@ -342,12 +342,13 @@
                 <c:set var="night" value="${(checkOutDate.time - checkInDate.time) / (1000*60*60*24)}" />
                 <c:set var="roomTotal" value="${night * roomType.price}" />
                 <c:set var="total" value="${roomTotal + serviceTotal}"/>
+                <c:set var="tax" value="${requestScope.TAX}"/>
 
                 <p>Room (<fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights):  <fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</p>
                 <p>Total Service: <fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</p>
-                <p>VAT (8%): <fmt:formatNumber value="${total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</p>
+                <p>VAT (<fmt:formatNumber value="${tax*100}" type="number" groupingUsed="true" maxFractionDigits="0"/>%): <fmt:formatNumber value="${total * tax}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</p>
                 <hr>
-                <p>Total Amount: <fmt:formatNumber value="${total * 1.08}" type="number" groupingUsed="true"/> VND</p>
+                <p>Total Amount: <fmt:formatNumber value="${total * (1 + tax)}" type="number" groupingUsed="true"/> VND</p>
             </div>  
 
             <div class="btn-container">

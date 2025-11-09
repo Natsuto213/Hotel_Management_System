@@ -449,12 +449,13 @@
                 <c:set var="night" value="${(checkOutDate.time - checkInDate.time) / (1000*60*60*24)}" />
                 <c:set var="roomTotal" value="${night * roomType.price}" />
                 <c:set var="total" value="${roomTotal + serviceTotal}"/>
+                <c:set var="tax" value="${requestScope.TAX}"/>
 
-                <p>Room (${night} nights): <span><fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</span></p>
-                <p>Total Service: <span><fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</span></p>
-                <p>VAT (8%): <fmt:formatNumber value="${total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</p>
+                <p>Room (<fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights):  <fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</p>
+                <p>Total Service: <fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</p>
+                <p>VAT (<fmt:formatNumber value="${tax*100}" type="number" groupingUsed="true" maxFractionDigits="0"/>%): <fmt:formatNumber value="${total * tax}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</p>
                 <hr>
-                <p>Total Amount: <span><fmt:formatNumber value="${total * 1.08}" type="number" groupingUsed="true"/> VND</span></p>
+                <p>Total Amount: <fmt:formatNumber value="${total * (1 + tax)}" type="number" groupingUsed="true"/> VND</p>
 
                 <input type="hidden" name="night" value="${night}">
                 <input type="hidden" name="roomTotal" value="${roomTotal}">

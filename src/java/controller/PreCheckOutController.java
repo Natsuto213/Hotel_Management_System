@@ -8,6 +8,7 @@ import dao.BookingDAO;
 import dao.BookingServiceDAO;
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
+import dao.SystemConfigDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -57,10 +58,14 @@ public class PreCheckOutController extends HttpServlet {
             BookingServiceDAO bsd = new BookingServiceDAO();
             ArrayList<BookingServiceDetail> cart = bsd.getCart(bookingid);
 
+            SystemConfigDAO scd = new SystemConfigDAO();
+            double tax = scd.getTax();
+
             request.setAttribute("ROOM", room);
             request.setAttribute("ROOMTYPE", roomType);
             request.setAttribute("BOOKING", booking);
             request.setAttribute("CART", cart);
+            request.setAttribute("TAX", tax);
             request.getRequestDispatcher(IConstants.PRE_CHECKOUT).forward(request, response);
         }
     }

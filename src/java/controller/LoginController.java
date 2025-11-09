@@ -77,7 +77,7 @@ public class LoginController extends HttpServlet {
             }
 
             // Nếu cả hai đều null
-            request.setAttribute("ERROR", "Invalid username or password");
+            request.setAttribute("ERROR", "Tên đăng nhập hoặc mật khẩu không đúng!");
             request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
         } else {
             request.setAttribute("ERROR", "Username and password are required.");

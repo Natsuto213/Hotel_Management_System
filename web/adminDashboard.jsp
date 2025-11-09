@@ -1,5 +1,6 @@
 <%@page import="model.Staff"%>
 <%@page import="java.util.ArrayList"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -77,6 +78,11 @@
                 background-color: #157347; /* Màu xanh lá ??m h?n khi hover */
             }
 
+            .tax{
+                text-align: center;
+                margin-top: 20px;
+            }
+
         </style>
     </head>
     <body>
@@ -96,6 +102,14 @@
                 <a href="#">Housekeeping Statistic</a>
                 <a href="MainController?action=logoutUser">Logout</a>
             </div>
+        </div>
+
+        <div class="tax">
+            <h2>Current tax: <fmt:formatNumber value="${requestScope.tax * 100}" type="number" groupingUsed="true" maxFractionDigits="0"/>%</h2>
+            <form action="MainController" method="post">
+                <input type="number" name="newTax" min="0" placeholder="Enter new tax (%)">
+                <button type="submit" name="action" value="updateTax">update tax</button>
+            </form>
         </div>
 
         <div class="container">

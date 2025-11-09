@@ -5,6 +5,7 @@
 package controller.admin;
 
 import dao.StaffDAO;
+import dao.SystemConfigDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-
             HttpSession session = request.getSession(false);
             Staff admin = null;
             if (session != null) {
@@ -49,12 +49,16 @@ public class AdminController extends HttpServlet {
                 response.sendRedirect("./" + IConstants.LOGIN);
                 return;
             }
-
             request.setAttribute("admin", admin);
+
             StaffDAO staffDAO = new StaffDAO();
             ArrayList<Staff> staffs = staffDAO.getAllStaff();
             request.setAttribute("staffs", staffs);
 
+            SystemConfigDAO scd = new SystemConfigDAO();
+            double tax = scd.getTax();
+            request.setAttribute("tax", tax);
+            
             request.getRequestDispatcher(IConstants.DASHBOARD_ADMIN).forward(request, response);
         }
     }

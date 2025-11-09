@@ -6,6 +6,7 @@ import dao.InvoiceDAO;
 import dao.PaymentDAO;
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
+import dao.SystemConfigDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -53,13 +54,16 @@ public class CheckOutController extends HttpServlet {
             BookingDAO bd = new BookingDAO();
             bd.changeBookingStatus("Checked-out", bookingid);
 
+            SystemConfigDAO scd = new SystemConfigDAO();
+            double tax = scd.getTax();
+
             //CREATE PAYMENT
-            Payment payment = new Payment(bookingid, today, amount * 1.08, paymentMethod, "Pending");
+            Payment payment = new Payment(bookingid, today, amount * (1 + tax), paymentMethod, "Pending");
             PaymentDAO pd = new PaymentDAO();
             pd.addService(payment, cn);
 
             //CREATE INVOICE
-            Invoice invoice = new Invoice(bookingid, today, amount * 1.08, "Unpaid");
+            Invoice invoice = new Invoice(bookingid, today, amount * (1 + tax), "Unpaid");
             InvoiceDAO id = new InvoiceDAO();
             id.addInvoice(invoice, cn);
 
@@ -81,6 +85,7 @@ public class CheckOutController extends HttpServlet {
             request.setAttribute("ROOMTYPE", roomType);
             request.setAttribute("BOOKING", booking);
             request.setAttribute("CART", cart);
+            request.setAttribute("TAX", tax);
 
             request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
 
@@ -102,6 +107,9 @@ public class CheckOutController extends HttpServlet {
                 }
             }
         }
+    }
+
+    public CheckOutController() {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

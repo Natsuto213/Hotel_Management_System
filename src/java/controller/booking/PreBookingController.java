@@ -1,6 +1,7 @@
 package controller.booking;
 
 import dao.ServiceDAO;
+import dao.SystemConfigDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -42,8 +43,11 @@ public class PreBookingController extends HttpServlet {
             ServiceDAO sd = new ServiceDAO();
             ArrayList<Service> servicelist = sd.getAllServices();
 
-            request.setAttribute("ServiceList", servicelist);
+            SystemConfigDAO scd = new SystemConfigDAO();
+            double tax = scd.getTax();
 
+            request.setAttribute("ServiceList", servicelist);
+            request.setAttribute("TAX", tax);
             request.getRequestDispatcher(IConstants.PRE_BOOKING).forward(request, response);
         }
     }

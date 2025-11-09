@@ -8,9 +8,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Pre Booking Page</title>
-
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -475,11 +473,13 @@
                     <c:set var="night" value="${(checkOutDate.time - checkInDate.time) / (1000*60*60*24)}" />
                     <c:set var="roomTotal" value="${night * booking.price}" />
                     <c:set var="total" value="${roomTotal + serviceTotal}"/>
+                    <c:set var="tax" value="${requestScope.TAX}"/>
 
-                    <p>Room (${night} nights): <span><fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</span></p>
-                    <p>Total Service: <span><fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</span></p>
+                    <p>Room (<fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights):  <fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</p>
+                    <p>Total Service: <fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</p>
+                    <p>VAT (<fmt:formatNumber value="${tax * 100}" type="number" groupingUsed="true" maxFractionDigits="0"/>%): <fmt:formatNumber value="${total * tax}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</p>
                     <hr>
-                    <p>Total Amount: <span><fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> VND</span></p>
+                    <p>Total Amount: <fmt:formatNumber value="${total * (1 + tax)}" type="number" groupingUsed="true"/> VND</p>
 
                     <input type="hidden" name="night" value="${night}">
                     <input type="hidden" name="roomTotal" value="${roomTotal}">

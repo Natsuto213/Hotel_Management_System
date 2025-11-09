@@ -16,9 +16,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Invoice Page</title>
-        
+
         <%-- Bỏ link CSS cũ, thay bằng <style> trực tiếp --%>
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
                 --primary-color: #a91370;
                 --primary-color-dark: #c71585;
             }
-            
+
             body {
                 font-family: 'Montserrat', sans-serif;
                 background-color: #f7f4f6;
@@ -161,7 +161,7 @@
                 color: var(--primary-color);
                 margin: 0;
             }
-            
+
             /* =================================
                 SERVICE LIST (MỚI)
             ================================= */
@@ -241,7 +241,7 @@
                 color: white;
                 font-size: 1.4rem;
             }
-            
+
             /* =================================
                 BUTTONS (ĐÃ SỬA)
             ================================= */
@@ -271,7 +271,7 @@
                 transform: translateY(-2px);
                 box-shadow: 0 4px 10px rgba(199, 21, 133, 0.3);
             }
-            
+
             /* =================================
                 NOTES SECTION (ĐÃ STYLE LẠI)
             ================================= */
@@ -330,7 +330,7 @@
             </div>
 
             <!-- Invoice Card -->
-            
+
             <!-- Guest & Booking Info -->
             <div class="card">
                 <div class="info-grid">
@@ -377,14 +377,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Service Information (MỚI) -->
             <div class="card service-info">
                 <div class="section-header">
                     <i class="fa-solid fa-concierge-bell"></i>
                     <h2>Service Information</h2>
                 </div>
-                
+
                 <c:choose>
                     <c:when test="${cart == null || empty cart}">
                         <h3 class="no-service">No service</h3>
@@ -420,6 +420,7 @@
 
                 <c:set var="roomTotal" value="${night * roomType.price}" />
                 <c:set var="total" value="${roomTotal + serviceTotal}"/>
+                <c:set var="tax" value="${requestScope.TAX}"/>
 
                 <p>Room (<fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights): 
                     <span><fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</span>
@@ -427,13 +428,13 @@
                 <p>Total Service: 
                     <span><fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</span>
                 </p>
-                <p>VAT (8%): 
-                    <span><fmt:formatNumber value="${total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
+                <p>VAT (<fmt:formatNumber value="${tax*100}" type="number" groupingUsed="true" maxFractionDigits="0"/>%): 
+                    <span><fmt:formatNumber value="${total * tax}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span>
                 </p>
-                
+
                 <div class="total-amount">
                     <label>TOTAL AMOUNT:</label>
-                    <span><fmt:formatNumber value="${total * 1.08}" type="number" groupingUsed="true"/> VND</span>
+                    <span><fmt:formatNumber value="${total * (1+tax)}" type="number" groupingUsed="true"/> VND</span>
                 </div>
             </div>
 

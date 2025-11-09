@@ -8,6 +8,7 @@ import dao.BookingDAO;
 import dao.BookingServiceDAO;
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
+import dao.SystemConfigDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -63,7 +64,7 @@ public class BookingController extends HttpServlet {
 
             Booking booking = new Booking(guestid, roomid, checkinDate, checkoutDate, today, "Reserved");
             BookingDAO bd = new BookingDAO();
-            
+
             bd.createBooking(booking, cn);
             int bookingid = booking.getBookingId();
 
@@ -82,7 +83,7 @@ public class BookingController extends HttpServlet {
                     bsd.addService(bs, cn);
                 }
             }
-            
+
             if (isBooking) {
                 cn.commit();
             }
@@ -93,10 +94,14 @@ public class BookingController extends HttpServlet {
             RoomTypeDAO rtd = new RoomTypeDAO();
             RoomType roomType = rtd.getRoomType(roomid);
 
+            SystemConfigDAO scd = new SystemConfigDAO();
+            double tax = scd.getTax();
+
             request.setAttribute("ROOM", room);
             request.setAttribute("ROOMTYPE", roomType);
             request.setAttribute("BOOKING", booking);
             session.setAttribute("bookingid", bookingid);
+            request.setAttribute("TAX", tax);
             request.setAttribute("BookingSuccessfull", "Booking Sucessful! Enjoy your vacation!");
 
             request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);

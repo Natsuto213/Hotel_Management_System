@@ -13,9 +13,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Booking</title>
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,14 +50,14 @@
                 font-size: 1.1rem;
                 margin-bottom: 25px;
             }
-            
+
             /* Thông báo thành công (màu xanh) */
             .info-message {
                 background-color: #d4edda;
                 color: #155724;
                 border: 1px solid #c3e6cb;
             }
-            
+
             /* Thông báo lỗi (màu đỏ) */
             .error-message {
                 background-color: #f8d7da;
@@ -96,19 +96,29 @@
                 gap: 12px;
             }
             .guest-info h1::before {
-                font-family: "Font Awesome 6 Free"; font-weight: 900; content: "\f007"; /* fa-user */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                content: "\f007"; /* fa-user */
             }
             .booking-info h1::before {
-                font-family: "Font Awesome 6 Free"; font-weight: 900; content: "\f236"; /* fa-bed */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                content: "\f236"; /* fa-bed */
             }
             .service-info h1::before {
-                font-family: "Font Awesome 6 Free"; font-weight: 900; content: "\f560"; /* fa-concierge-bell */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                content: "\f560"; /* fa-concierge-bell */
             }
             .payment-info h1::before {
-                font-family: "Font Awesome 6 Free"; font-weight: 900; content: "\f09d"; /* fa-credit-card */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                content: "\f09d"; /* fa-credit-card */
             }
             .summary h1::before {
-                font-family: "Font Awesome 6 Free"; font-weight: 900; content: "\f570"; /* fa-file-invoice-dollar */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                content: "\f570"; /* fa-file-invoice-dollar */
             }
 
             /* =================================
@@ -210,10 +220,22 @@
             .view-service form span {
                 font-size: 0.95rem;
             }
-            .view-service form span:nth-child(1) { flex: 3; font-weight: 500; } /* Tên */
-            .view-service form span:nth-child(2) { flex: 2; color: #555; } /* Giá */
-            .view-service form span:nth-child(3) { flex: 1; text-align: center; } /* SL */
-            .view-service form span:nth-child(4) { flex: 2; color: #555; } /* Ngày */
+            .view-service form span:nth-child(1) {
+                flex: 3;
+                font-weight: 500;
+            } /* Tên */
+            .view-service form span:nth-child(2) {
+                flex: 2;
+                color: #555;
+            } /* Giá */
+            .view-service form span:nth-child(3) {
+                flex: 1;
+                text-align: center;
+            } /* SL */
+            .view-service form span:nth-child(4) {
+                flex: 2;
+                color: #555;
+            } /* Ngày */
 
             .view-service form button {
                 background: #e74c3c;
@@ -271,7 +293,7 @@
                 text-align: center;
                 margin-top: 20px;
                 /* Thêm để xử lý float (nếu dùng) */
-                overflow: hidden; 
+                overflow: hidden;
                 padding: 10px 0;
             }
 
@@ -325,16 +347,16 @@
         <c:set var="servicelist" value="${requestScope.ServiceList}" />
 
         <div class="booking-form-container">
-            
-            
+
+
             <c:if test="${param.MSG != null && !empty param.MSG}">
-               
+
                 <c:choose>
                     <c:when test="${param.MSG.contains('Error') || param.MSG.contains('Failed')}">
                         <h3 class="error-message">${param.MSG}</h3>
                     </c:when>
                     <c:otherwise>
-                         <h3 class="info-message">${param.MSG}</h3>
+                        <h3 class="info-message">${param.MSG}</h3>
                     </c:otherwise>
                 </c:choose>
             </c:if>
@@ -393,16 +415,17 @@
                         <input type="number" name="quantity" min="1" value="1" placeholder="Quantity" required="">
                         <input type="text" name="serviceDate" placeholder="Service Date" 
                                onfocus="
-                                   this.type = 'date'; 
-                                   this.min = '${booking.checkInDate}'; 
-                                   this.max = '${booking.checkOutDate}';
+                                       this.type = 'date';
+                                       this.min = '${booking.checkInDate}';
+                                       this.max = '${booking.checkOutDate}';
                                " 
-                               onblur="if (!this.value) this.type = 'text'"
+                               onblur="if (!this.value)
+                                           this.type = 'text'"
                                required=""
                                >   
                         <input type="hidden" name="roomid" value="${param.roomid}" >
                         <input type="hidden" name="bookingid" value="${param.bookingid}" >
-                        <input type="hidden" name="isPreBooking" value="false" >
+                        <input type="hidden" name="type" value="editBooking" >  
                         <button type="submit" name="action" value="addService"><i class="fa-solid fa-plus"></i></button>
                     </form>
                 </div>
@@ -448,15 +471,16 @@
                 <c:set var="night" value="${(checkOutDate.time - checkInDate.time) / (1000*60*60*24)}" />
                 <c:set var="roomTotal" value="${night * roomType.price}" />
                 <c:set var="total" value="${roomTotal + serviceTotal}"/>
+                <c:set var="tax" value="${requestScope.TAX}"/>
 
-                <p>Room (<fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights): <span><fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</span></p>
-                <p>Total Service: <span><fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</span></p>
-                <p>VAT (8%): <span><fmt:formatNumber value="${total * 0.08}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</span></p>
+                <p>Room (<fmt:formatNumber value="${night}" type="number" groupingUsed="true" maxFractionDigits="0"/> nights):  <fmt:formatNumber value="${roomTotal}" type="number" groupingUsed="true"/> VND</p>
+                <p>Total Service: <fmt:formatNumber value="${serviceTotal}" type="number" groupingUsed="true"/> VND</p>
+                <p>VAT (<fmt:formatNumber value="${tax * 100}" type="number" groupingUsed="true" maxFractionDigits="0"/>%): <fmt:formatNumber value="${total * tax}" type="number" groupingUsed="true" maxFractionDigits="0"/> VND</p>
                 <hr>
-                <p>Total Amount: <span><fmt:formatNumber value="${total * 1.08}" type="number" groupingUsed="true"/> VND</span></p>
+                <p>Total Amount: <fmt:formatNumber value="${total * (1 + tax)}" type="number" groupingUsed="true"/> VND</p>
             </div>  
-            
-            
+
+
             <div class="btn-container">
                 <form action="MainController">
                     <button type="submit" name="action" value="findBookings" class="btn btn-outline">Back To History</button>

@@ -58,6 +58,9 @@ public class MainController extends HttpServlet {
                     case "housekeeping":
                         url = IConstants.CONTROLLER_HOUSEKEEPING;
                         break;
+                    case "updateTax":
+                        url = IConstants.CONTROLLER_UPDATE_TAX;
+                        break;
 
                     //--------CONTROLLER--------
                     case "loginUser":

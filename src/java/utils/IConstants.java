@@ -18,6 +18,7 @@ public interface IConstants {
 
     public final String CONTROLLER_ADMIN = "AdminController";
     public final String DASHBOARD_ADMIN = "adminDashboard.jsp";
+    public final String CONTROLLER_UPDATE_TAX = "UpdateTaxController";
     public final String DASHBOARD_HOUSEKEEPING = "student_03/HousekeepingDashboard.jsp";
     public final String CONTROLLER_HOUSEKEEPING = "HousekeepingController";
     public final String DASHBOARD_SERVICE = "student_03/ServiceStaffDashboard.jsp";
