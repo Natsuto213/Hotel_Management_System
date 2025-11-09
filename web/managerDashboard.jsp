@@ -12,7 +12,185 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manager Dashboard Page</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe0e8 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d63384;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.1);
+        }
+
+        h2 {
+            color: #c2185b;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #ffb3d9;
+            padding-bottom: 10px;
+        }
+
+        .revenue-report, .top10_guests_report, .most_used_services, .room_occupancy_rate {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.15);
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-buttons button {
+            padding: 12px 30px;
+            border: none;
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff85c1 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(255, 133, 193, 0.3);
+        }
+
+        .tab-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 133, 193, 0.4);
+            background: linear-gradient(135deg, #ff85c1 0%, #ff5ca8 100%);
+        }
+
+        .tab-content {
+            background: #fff5f7;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #ffcce0;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        label {
+            color: #c2185b;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        input[type="date"], input[type="month"], input[type="number"] {
+            padding: 10px 15px;
+            border: 2px solid #ffb3d9;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="date"]:focus, input[type="month"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #ff85c1;
+            box-shadow: 0 0 10px rgba(255, 133, 193, 0.3);
+        }
+
+        button[type="submit"] {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #d63384 0%, #c2185b 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(214, 51, 132, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+            background: linear-gradient(135deg, #c2185b 0%, #a01549 100%);
+        }
+
+        .tab-content p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .tab-content p b {
+            color: #d63384;
+            font-size: 22px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff85c1 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ffcce0;
+            color: #555;
+        }
+
+        tr:hover {
+            background: #fff5f7;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .room_occupancy_rate span {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff85c1 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(255, 133, 193, 0.3);
+        }
+
+        p {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
     </head>
+    
     <body>
         <c:set var="top10" value="${requestScope.Top10Guest}"/>
         <c:set var="mostUseService" value="${requestScope.MostUsedService}"/>

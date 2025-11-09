@@ -134,7 +134,7 @@ public class BookingDAO {
                 + "      ,[BookingDate]\n"
                 + "      ,[Status]\n"
                 + "FROM [HotelManagement].[dbo].[BOOKING]\n"
-                + "WHERE CheckInDate <= ? AND CheckOutDate >= ?";
+                + "WHERE CheckInDate < ? AND CheckOutDate > ?";
 
         Connection con = null;
         PreparedStatement pst = null;

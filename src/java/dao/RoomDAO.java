@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Room;
@@ -154,6 +155,49 @@ public class RoomDAO {
         return result;
     }
 
+    public ArrayList<Room> getAvailableRoomsByType(String type, LocalDate checkIn, LocalDate checkOut) {
+        ArrayList<Room> result = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT r.RoomID, r.RoomNumber\n"
+                        + "  FROM ROOM r \n"
+                        + "  JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID\n"
+                        + "  WHERE rt.TypeName = ?"
+                        + "  AND r.RoomID NOT IN (\n"
+                        + "        SELECT b.RoomID\n"
+                        + "        FROM BOOKING b\n"
+                        + "        WHERE (b.CheckInDate < ?) AND (b.CheckOutDate > ?)\n"
+                        + "    );";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, type);
+                st.setDate(2, java.sql.Date.valueOf(checkOut));
+                st.setDate(3, java.sql.Date.valueOf(checkIn));
+                ResultSet table = st.executeQuery();
+                if (table != null) {
+                    while (table.next()) {
+                        int roomId = table.getInt("RoomID");
+                        String roomNumber = table.getString("RoomNumber");
+                        Room room = new Room(roomId, roomNumber);
+                        result.add(room);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public int getAvailableRoomIdByType(String type) {
         Connection cn = null;
         int roomId = 0;
@@ -211,39 +255,4 @@ public class RoomDAO {
         return result;
     }
 
-    public ArrayList<Room> getAvailableRoomsByType(String type) {
-        ArrayList<Room> result = new ArrayList<>();
-        Connection cn = null;
-        try {
-            cn = DBUtils.getConnection();
-            if (cn != null) {
-                String sql = "  SELECT r.RoomID, r.RoomNumber\n"
-                        + "  FROM ROOM r \n"
-                        + "  JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID\n"
-                        + "  WHERE rt.TypeName = ? and r.Status = 'Available'";
-                PreparedStatement st = cn.prepareStatement(sql);
-                st.setString(1, type);
-                ResultSet table = st.executeQuery();
-                if (table != null) {
-                    while (table.next()) {
-                        int roomId = table.getInt("RoomID");
-                        String roomNumber = table.getString("RoomNumber");
-                        Room room = new Room(roomId, roomNumber);
-                        result.add(room);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
 }

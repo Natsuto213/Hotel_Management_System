@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.guest;
+package controller.booking;
 
 import dao.BookingServiceDAO;
 import dao.ServiceDAO;
@@ -41,62 +41,64 @@ public class AddServiceController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String isPreBooking = request.getParameter("isPreBooking");
+            String type = request.getParameter("type");
 
             int serviceId = Integer.parseInt(request.getParameter("serviceid").trim());
             int quantity = Integer.parseInt(request.getParameter("quantity").trim());
             LocalDate serviceDate = LocalDate.parse(request.getParameter("serviceDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            if (isPreBooking.equalsIgnoreCase("true")) {
+            switch (type) {
+                case "preBooking":
+                    // Add Service tu Prebooking
+                    ServiceDAO sd = new ServiceDAO();
+                    String serviceName = sd.getName(serviceId);
+                    double price = sd.getPrice(serviceId);
+                    BookingServiceDetail newBooking = new BookingServiceDetail(serviceId, serviceName, quantity, serviceDate, price);
 
-                // Add Service tu Prebooking
-                ServiceDAO sd = new ServiceDAO();
-                String serviceName = sd.getName(serviceId);
-                double price = sd.getPrice(serviceId);
-                BookingServiceDetail newBooking = new BookingServiceDetail(serviceId, serviceName, quantity, serviceDate, price);
+                    HttpSession session = request.getSession();
+                    ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
 
-                HttpSession session = request.getSession();
-                ArrayList<BookingServiceDetail> cart = (ArrayList<BookingServiceDetail>) session.getAttribute("CART");
-
-                // neu chua co cart thi tao moi
-                if (cart == null) {
-                    cart = new ArrayList<>();
-                    cart.add(newBooking);
-                } else { //cart da ton tai
-                    // xem service vua add co trong cart khong
-                    BookingServiceDetail find = null;
-                    for (BookingServiceDetail bsd : cart) {
-                        if (bsd.getServiceid() == newBooking.getServiceid() && bsd.getServicedate().equals(newBooking.getServicedate())) {
-                            find = bsd;
-                            break;
+                    // neu chua co cart thi tao moi
+                    if (cart == null) {
+                        cart = new ArrayList<>();
+                        cart.add(newBooking);
+                    } else { //cart da ton tai
+                        // xem service vua add co trong cart khong
+                        BookingServiceDetail find = null;
+                        for (BookingServiceDetail bsd : cart) {
+                            if (bsd.getServiceid() == newBooking.getServiceid() && bsd.getServicedate().equals(newBooking.getServicedate())) {
+                                find = bsd;
+                                break;
+                            }
+                        }
+                        if (find != null) { // neu co add quantity vua nhap + quantity da co san
+                            find.setQuantity(find.getQuantity() + newBooking.getQuantity());
+                        } else { //new khong chi nhap quantity vua nhap
+                            cart.add(newBooking);
                         }
                     }
-                    if (find != null) { // neu co add quantity vua nhap + quantity da co san
-                        find.setQuantity(find.getQuantity() + newBooking.getQuantity());
-                    } else { //new khong chi nhap quantity vua nhap
-                        cart.add(newBooking);
+
+                    session.setAttribute("CART", cart);
+                    request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
+                    break;
+
+                case "editBooking":
+                    // Add Service tu EditBooking
+                    int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
+                    int roomid = Integer.parseInt(request.getParameter("roomid").trim());
+                    BookingServiceDAO bsd = new BookingServiceDAO();
+                    BookingService find = bsd.findBookingService(bookingid, serviceId, serviceDate);
+
+                    if (find == null) {
+                        BookingService newBooking2 = new BookingService(bookingid, serviceId, quantity, serviceDate, 0);
+                        bsd.addService2(newBooking2);
+                    } else {
+                        quantity += find.getQuantity();
+                        int cartId = bsd.findBookingServiceID(bookingid, serviceId, serviceDate);
+                        bsd.updateService(quantity, cartId);
                     }
-                }
-
-                session.setAttribute("CART", cart);
-                request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
-            } else {
-
-                // Add Service tu EditBooking
-                int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
-                int roomid = Integer.parseInt(request.getParameter("roomid").trim());
-                BookingServiceDAO bsd = new BookingServiceDAO();
-                BookingService find = bsd.findBookingService(bookingid, serviceId, serviceDate);
-
-                if (find == null) {
-                    BookingService newBooking = new BookingService(bookingid, serviceId, quantity, serviceDate, 0);
-                    bsd.addService2(newBooking);
-                } else {
-                    quantity += find.getQuantity();
-                    int cartId = bsd.findBookingServiceID(bookingid, serviceId, serviceDate);
-                    bsd.updateService(quantity, cartId);
-                }
-                response.sendRedirect("BookingInformation?type=edit&MSG=Update Successfull&roomid=" + roomid + "&bookingid=" + bookingid);
+                    response.sendRedirect("BookingInformation?type=edit&MSG=Update Successfull&roomid=" + roomid + "&bookingid=" + bookingid);
+                    break;
             }
         }
     }

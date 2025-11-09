@@ -27,10 +27,12 @@
     font-weight: 600;
     color: var(--primary-color, #4f6ef7);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
+/* Logo hover màu hotpink */
 .guest-dashboard .logo:hover {
-    color: #2c48c7;
+    color: hotpink;
 }
 
 .guest-dashboard .main-nav {
@@ -72,7 +74,6 @@
     width: fit-content;
     font-weight: 500;
     transition: background 0.3s;
-
 }
 
 .guest-dashboard .view-cart-btn:hover {
@@ -113,6 +114,105 @@
 
 .guest-dashboard tr:hover {
     background-color: #eef5ff;
+}
+
+/* --- Status Badge Styling --- */
+.guest-dashboard td .status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Status: Confirmed */
+.guest-dashboard td .status-confirmed {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #90caf9;
+}
+
+/* Status: Checked-in */
+.guest-dashboard td .status-checked-in {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #81c784;
+}
+
+/* Status: Checked-out */
+.guest-dashboard td .status-checked-out {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+    border: 1px solid #ba68c8;
+}
+
+/* Status: Cancelled */
+.guest-dashboard td .status-cancelled {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef5350;
+}
+
+/* Status: Pending */
+.guest-dashboard td .status-pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border: 1px solid #ffb74d;
+}
+
+/* --- Action Buttons (View, Edit, Checkout) --- */
+.guest-dashboard td .action-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 3px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+/* View Button - Blue */
+.guest-dashboard td .btn-view {
+    background-color: #2196f3;
+    color: white;
+    border: 1px solid #2196f3;
+}
+
+.guest-dashboard td .btn-view:hover {
+    background-color: #1976d2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+/* Edit Button - Orange */
+.guest-dashboard td .btn-edit {
+    background-color: #ff9800;
+    color: white;
+    border: 1px solid #ff9800;
+}
+
+.guest-dashboard td .btn-edit:hover {
+    background-color: #f57c00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+/* Checkout Button - Green */
+.guest-dashboard td .btn-checkout {
+    background-color: #4caf50;
+    color: white;
+    border: 1px solid #4caf50;
+}
+
+.guest-dashboard td .btn-checkout:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
 }
 
 /* --- Button inside table --- */
@@ -208,4 +308,3 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-

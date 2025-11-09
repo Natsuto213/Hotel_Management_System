@@ -58,22 +58,38 @@
                                 <td>${b.typeName}</td>
                                 <td>${b.checkInDate}</td>
                                 <td>${b.checkOutDate}</td>
-                                <td>${b.status}</td>
                                 <td>
                                     <c:choose>
-
-                                        <c:when test="${b.status != 'Checked-out'}">
-                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=view">View</a>
-                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=edit">Edit</a>
+                                        <c:when test="${b.status == 'Reserved'}">
+                                            <span class="status-badge status-confirmed">${b.status}</span>
                                         </c:when>
                                         <c:when test="${b.status == 'Checked-in'}">
-                                            <a href="MainController?action=preCheckout&roomid=${b.roomId}&bookingid=${b.bookingId}">Checkout</a>
+                                            <span class="status-badge status-checked-in">${b.status}</span>
+                                        </c:when>
+                                        <c:when test="${b.status == 'Checked-out'}">
+                                            <span class="status-badge status-checked-out">${b.status}</span>
+                                        </c:when>
+                                        <c:when test="${b.status == 'Cancelled'}">
+                                            <span class="status-badge status-cancelled">${b.status}</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="status-badge status-pending">${b.status}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${b.status != 'Checked-out'}">
+                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=view" class="action-btn btn-view">View</a>
+                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=edit" class="action-btn btn-edit">Edit</a>
+                                            <a href="MainController?action=preCheckout&roomid=${b.roomId}&bookingid=${b.bookingId}" class="action-btn btn-checkout">Checkout</a>
                                         </c:when>
                                         <c:otherwise>
                                             <p>...</p>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
+
                             </tr>
                         </c:forEach>
                     </table>

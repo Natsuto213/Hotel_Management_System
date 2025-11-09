@@ -125,19 +125,22 @@
                                                 <c:when test="${b.status == 'Checked-out' || b.status == 'Canceled'}">
                                                     ...
                                                 </c:when>
-                                                <c:when test="${b.status == 'Checked-in'}">
-                                                    <input type="hidden" name="roomid" value="${b.roomId}">
-                                                    <input type="hidden" name="roomType" value="${b.typeName}">
-                                                    <input type="hidden" name="bookingid" value="${b.bookingId}">
-                                                    <button type="submit" name="action" value="assign">Assign Room</button>
-                                                    <button type="submit" name="action" value="preCheckout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
-                                                </c:when>
                                                 <c:when test="${requestScope.assignBookingId != null && requestScope.assignBookingId == b.bookingId}">
                                                     <input type="hidden" name="newRoomId" value="${r.roomId}">
                                                     <input type="hidden" name="oldRoomId" value="${b.roomId}">
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">
                                                     <button type="submit" name="action" value="confirmAssign">Confirm</button>
                                                     <button type="submit" name="action" value="cancelAssign">Cancel</button>
+                                                </c:when>
+                                                <c:when test="${b.status == 'Checked-in'}">
+                                                    <input type="hidden" name="roomid" value="${b.roomId}">
+                                                    <input type="hidden" name="roomType" value="${b.typeName}">
+                                                    <input type="hidden" name="bookingid" value="${b.bookingId}">
+                                                    <input type="hidden" name="txtcheckin" value="${b.checkInDate}">  
+                                                    <input type="hidden" name="txtcheckout" value="${b.checkOutDate}">  
+
+                                                    <button type="submit" name="action" value="assign">Assign Room</button>
+                                                    <button type="submit" name="action" value="preCheckout" onclick="return window.confirm('Xác nhận checkout booking này')">Check out</button>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <input type="hidden" name="bookingid" value="${b.bookingId}">

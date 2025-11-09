@@ -1,11 +1,12 @@
 package controller.receptionist;
 
-import controller.*;
 import dao.BookingDAO;
 import dao.GuestDAO;
 import dao.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,23 +59,26 @@ public class GetBookingsController extends HttpServlet {
             ArrayList<BookingDetail> bookinglist = b.getBookings(guest.getGuestId());
             request.setAttribute("BookingList", bookinglist);
 
+            String checkInStr = request.getParameter("txtcheckin");
+            String checkOutStr = request.getParameter("txtcheckout");
             String roomType = request.getParameter("roomType");
             String assignBookingId = request.getParameter("bookingid");
             if (roomType != null && assignBookingId != null) {
                 RoomDAO r = new RoomDAO();
-                ArrayList<Room> roomlist = r.getAvailableRoomsByType(roomType);
-                request.setAttribute("assignBookingId", assignBookingId);
+                LocalDate checkIn = LocalDate.parse(checkInStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate checkOut = LocalDate.parse(checkOutStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                ArrayList<Room> roomlist = r.getAvailableRoomsByType(roomType, checkIn, checkOut);
                 request.setAttribute("RoomList", roomlist);
+                request.setAttribute("assignBookingId", assignBookingId);
             }
-            
+
             request.getRequestDispatcher(IConstants.EDIT_BOOKING_RECEP).forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -39,7 +39,6 @@ public class UpdateBookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            int result = 0;
             String roomType = request.getParameter("txtroomType");
 
             String checkinStr = request.getParameter("txtcheckin");
@@ -66,7 +65,7 @@ public class UpdateBookingController extends HttpServlet {
                     int newRoomId = r.getAvailableRoomIdByType(roomType);
 
                     Booking booking = new Booking(bookingId, newRoomId, checkinDate, checkoutDate);
-                    result = b.updateBooking(booking);
+                    int result = b.updateBooking(booking);
                     if (result > 0) {
                         r.changeRoomStatus("Available", oldRoomId);
                         r.changeRoomStatus("Occupied", newRoomId);

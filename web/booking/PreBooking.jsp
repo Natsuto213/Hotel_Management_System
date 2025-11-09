@@ -435,12 +435,15 @@
                         </select>
                         <input type="number" name="quantity" min="1" value="1" placeholder="enter quantity" required="">
                         <input type="text" name="serviceDate" placeholder="Service Date" 
-                               onfocus="(this.type = 'date')" 
+                               onfocus="this.type = 'date';
+                                       this.min = '${booking.checkInDate}';
+                                       this.max = '${booking.checkOutDate}';" 
                                onblur="if (!this.value)
                                            this.type = 'text'"
                                required=""
                                id="service-date-input" >  
-                        <input type="hidden" name="isPreBooking" value="true" >  
+
+                        <input type="hidden" name="type" value="preBooking" >  
                         <button type="submit" name="action" value="addService"><i class="fa-solid fa-plus"></i></button>
                     </form>
                 </div>
@@ -485,7 +488,6 @@
 
                     <c:set var="isBooking" value="${true}" scope="session"/>
 
-
                     <button type="submit" name="action" value="home" class="btn btn-outline">Back To Home</button>
                     <button type="submit" name="action" value="createBooking" class="btn btn-primary">Confirm Booking</button>
                 </div>
@@ -514,8 +516,8 @@
 
                 // Điều kiện: Ngày dịch vụ PHẢI nằm TRONG KHOẢNG [checkIn, checkOut]
                 if (serviceDate < checkInDate || serviceDate > checkOutDate) {
-                    // Hiển thị thông báo lỗi (với dấu \ như bạn yêu cầu)
-                    alert('Ngày dịch vụ phải nằm trong khoảng thời gian Check-in (${booking.checkInDate}) và Check-out (${booking.checkOutDate}).');
+                    // SỬA LẠI NHƯ SAU:
+                    alert('Ngày dịch vụ phải nằm trong khoảng thời gian Check-in (' + checkInString + ') và Check-out (' + checkOutString + ').');
                     return false;
                 }
 
