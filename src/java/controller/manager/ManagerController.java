@@ -15,8 +15,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.BookingServiceDetail;
 import model.Guest;
+import model.Staff;
 import utils.IConstants;
 
 /**
@@ -39,20 +41,26 @@ public class ManagerController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            ManagerDAO md = new ManagerDAO();
+            HttpSession session = request.getSession();
+            boolean isLogin = (boolean) session.getAttribute("isLogin");
+            Staff staff = (Staff) session.getAttribute("STAFF");
+            if (isLogin != true || !staff.getRole().equalsIgnoreCase("manager")) {
+                request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+            } else {
+                ManagerDAO md = new ManagerDAO();
 
-            ArrayList<Guest> top10guest = md.top10FrequentGuests();
-            ArrayList<BookingServiceDetail> mostUsedService = md.mostUsedService();
-            double occupancyRate = md.roomOccupancyRate();
-            double cancellationRate = md.cancellationRate();
+                ArrayList<Guest> top10guest = md.top10FrequentGuests();
+                ArrayList<BookingServiceDetail> mostUsedService = md.mostUsedService();
+                double occupancyRate = md.roomOccupancyRate();
+                double cancellationRate = md.cancellationRate();
 
-            request.setAttribute("Top10Guest", top10guest);
-            request.setAttribute("MostUsedService", mostUsedService);
-            request.setAttribute("OccupancyRate", occupancyRate);
-            request.setAttribute("CancellationRate", cancellationRate);
+                request.setAttribute("Top10Guest", top10guest);
+                request.setAttribute("MostUsedService", mostUsedService);
+                request.setAttribute("OccupancyRate", occupancyRate);
+                request.setAttribute("CancellationRate", cancellationRate);
 
-            request.getRequestDispatcher(IConstants.DASHBOARD_MANAGER).forward(request, response);
-
+                request.getRequestDispatcher(IConstants.DASHBOARD_MANAGER).forward(request, response);
+            }
         }
     }
 

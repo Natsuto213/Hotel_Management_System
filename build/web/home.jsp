@@ -57,6 +57,15 @@
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
                     <%
+                    } else if (staff.getRole().equalsIgnoreCase("manager")) {
+                    %>
+                    <a href="MainController?action=managerDashboard" class="welcome">
+                        <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!
+                    </a>
+                    <a href="MainController?action=logoutUser" class="nav-button-primary">
+                        <i class="fa-solid fa-user-minus"></i> Đăng xuất
+                    </a>
+                    <%
                     } else {
                     %>
                     <a href="MainController?action=findBookings" class="welcome">

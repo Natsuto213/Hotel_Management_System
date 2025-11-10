@@ -52,16 +52,15 @@ public class DeleteServiceController extends HttpServlet {
                 session.setAttribute("CART", cart);
                 request.getRequestDispatcher(IConstants.CONTROLLER_PRE_BOOKING).forward(request, response);
             } else {
-
                 // delete service tu EditBooking
                 int roomid = Integer.parseInt(request.getParameter("roomid").trim());
                 int bookingid = Integer.parseInt(request.getParameter("bookingid").trim());
                 BookingServiceDAO bsd = new BookingServiceDAO();
                 int result = bsd.deleteService(serviceId, serviceDate);
                 if (result > 0) {
-                    response.sendRedirect("BookingInformation?type=edit&roomid=" + roomid + "&bookingid=" + bookingid);
+                    response.sendRedirect("BookingInformation?type=edit&MSG=Delete Successfull&roomid=" + roomid + "&bookingid=" + bookingid);
                 } else {
-                    session.setAttribute("ERROR", "Delet service fail! Please try again");
+                    session.setAttribute("ERROR", "Delete service fail! Please try again");
                     request.getRequestDispatcher(IConstants.ERROR).forward(request, response);
                 }
             }

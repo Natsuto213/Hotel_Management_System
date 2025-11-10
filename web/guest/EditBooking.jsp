@@ -349,14 +349,13 @@
         <div class="booking-form-container">
 
 
-            <c:if test="${param.MSG != null && !empty param.MSG}">
-
+            <c:if test="${requestScope.MSG != null && not empty requestScope.MSG}">
                 <c:choose>
-                    <c:when test="${param.MSG.contains('Error') || param.MSG.contains('Failed')}">
-                        <h3 class="error-message">${param.MSG}</h3>
+                    <c:when test="${requestScope.MSG.contains('Error') || requestScope.MSG.contains('Failed')}">
+                        <h3 class="error-message">${requestScope.MSG}</h3>
                     </c:when>
                     <c:otherwise>
-                        <h3 class="info-message">${param.MSG}</h3>
+                        <h3 class="info-message">${requestScope.MSG}</h3>
                     </c:otherwise>
                 </c:choose>
             </c:if>
@@ -484,8 +483,8 @@
             <div class="btn-container">
                 <form action="MainController">
                     <button type="submit" name="action" value="findBookings" class="btn btn-outline">Back To History</button>
-
-                    <input type="hidden" name="total" value="${total * 1.08}">
+                    
+                    <input type="hidden" name="total" value="${total * (1 + tax)}">
                     <input type="hidden" name="roomid" value="${room.roomId}">
                     <input type="hidden" name="bookingid" value="${booking.bookingId}">
                     <button type="submit" name="action" value="confirmEdit" class="btn btn-primary">Confirm</button>

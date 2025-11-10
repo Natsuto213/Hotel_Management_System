@@ -3,6 +3,7 @@
 <%@page import="model.Guest"%>
 <%@page import="model.Staff"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,10 @@
 
     <body class="receptionish-dashboard">
         <c:set var="staff" value="${sessionScope.STAFF}" />
+        <c:if test="${sessionScope.isLogin != true or fn:toLowerCase(staff.role) ne 'receptionist'}">
+            <jsp:forward page="/home.jsp"/>
+        </c:if>
+
         <c:choose>
             <c:when test="${staff!=null}">
                 <header class="main-header">

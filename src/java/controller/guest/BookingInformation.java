@@ -73,12 +73,14 @@ public class BookingInformation extends HttpServlet {
             switch (type) {
                 case "view":
                     request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
+                    break;
                 case "edit":
                     ServiceDAO sd = new ServiceDAO();
                     ArrayList<Service> servicelist = sd.getAllServices();
                     request.setAttribute("ServiceList", servicelist);
                     String msg = request.getParameter("MSG");
                     request.getRequestDispatcher(IConstants.EDIT_BOOKING).forward(request, response);
+                    break;
                 default:
                     request.getRequestDispatcher(IConstants.VIEW_BOOKING).forward(request, response);
 

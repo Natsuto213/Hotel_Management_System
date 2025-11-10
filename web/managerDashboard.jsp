@@ -237,11 +237,11 @@
             tr:last-child td {
                 border-bottom: none;
             }
-            
+
             .room_occupancy_rate{
                 height: fit-content;
             }
-            
+
             .room_occupancy_rate span {
                 display: inline-block;
                 padding: 15px 30px;
@@ -261,14 +261,17 @@
     </head>
 
     <body>
-
+        <c:if test="${sessionScope.isLogin != true}">
+            <jsp:forward page="/home.jsp"/>
+        </c:if>
+        
         <c:set var="staff" value="${sessionScope.STAFF}"/>
         <c:choose>
             <c:when test="${staff != null && staff.role == 'Manager'}">
 
                 <header class="main-header">
                     <div class="container">
-                        <a href="#" class="logo">
+                        <a href="MainController?action=home" class="logo">
                             <i class="fa-solid fa-building fa-lg"></i> Grand Hotel
                         </a>
                         <nav class="main-nav">
@@ -305,7 +308,7 @@
                                 <form action="MainController" method="post">
                                     <input type="hidden" name="type" value="daily">
                                     <label>Select Date:</label>
-                                    <input type="date" name="date" required="">
+                                    <input type="date" name="date" required="" value="${param.date}">
                                     <button type="submit" name="action" value="revenueReport">View Revenue</button>
                                 </form>
                                 <c:if test="${not empty dailyRevenue}">
@@ -317,7 +320,7 @@
                                 <form action="MainController" method="post">
                                     <input type="hidden" name="type" value="monthly">
                                     <label>Select Month:</label>
-                                    <input type="month" name="month" required="">
+                                    <input type="month" name="month" required="" value="${param.month}">
                                     <button type="submit" name="action" value="revenueReport">View Revenue</button>
                                 </form>
                                 <c:if test="${not empty monthlyRevenue}">
@@ -329,7 +332,7 @@
                                 <form action="MainController" method="post">
                                     <input type="hidden" name="type" value="yearly">
                                     <label>Select Year:</label>
-                                    <input type="number" name="year" min="2000" max="2100" required="">
+                                    <input type="number" name="year" min="2000" max="2100" required=""value="${param.year}">
                                     <button type="submit" name="action" value="revenueReport">View Revenue</button>
                                 </form>
                                 <c:if test="${not empty yearlyRevenue}">
@@ -342,7 +345,7 @@
                             <h2>Room occupancy rate per month: </h2>
                             <c:choose>
                                 <c:when test="${occupancyRate != null}">
-                                    <span>${occupancyRate}</span>
+                                    <span><fmt:formatNumber value="${occupancyRate}" type="number" groupingUsed="true" maxFractionDigits="1"/>%</span>
                                 </c:when>
                                 <c:otherwise>
                                     <p>No data</p>
@@ -354,7 +357,7 @@
                             <h2>Cancellation rate: </h2>
                             <c:choose>
                                 <c:when test="${cancellationRate != null}">
-                                    <span>${cancellationRate}</span>
+                                    <span><fmt:formatNumber value="${cancellationRate}" type="number" groupingUsed="true" maxFractionDigits="0"/>%</span>
                                 </c:when>
                                 <c:otherwise>
                                     <p>No data</p>

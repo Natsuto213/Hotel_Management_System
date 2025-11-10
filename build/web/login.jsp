@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -43,8 +44,6 @@
                 <h1 class="login-title">Đăng Nhập</h1>
                 <p class="login-subtitle">Chào mừng quay trở lại!</p>
 
-                <p style="margin-bottom: 20px; color: red">${ERROR}</p>
-
                 <form action="MainController" method="post">
                     <div class="form-group">
                         <label class="form-label">
@@ -73,6 +72,10 @@
                             required
                             />
                     </div>
+
+                    <c:if test="${ERROR != null}">
+                        <p class="error-message">${ERROR}</p>
+                    </c:if>
 
                     <button type="submit" name="action" value="loginUser" class="login-button">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
