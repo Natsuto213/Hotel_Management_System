@@ -55,13 +55,13 @@ public class EmailSender {
         if (smtpPort == 465) {
             // SSL Mode (Port 465)
             props.put("mail.smtp.ssl.enable", "true");
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2 TLSv1.3");
+            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
             props.put("mail.smtp.ssl.trust", smtpHost);
         } else {
             // STARTTLS Mode (Port 587)
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.starttls.required", "true");
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2 TLSv1.3");
+            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
             props.put("mail.smtp.ssl.trust", smtpHost);
         }
         

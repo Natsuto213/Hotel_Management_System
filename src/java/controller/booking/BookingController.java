@@ -4,24 +4,19 @@
  */
 package controller.booking;
 
-import controller.feature.EmailSender;
 import dao.BookingDAO;
 import dao.BookingServiceDAO;
-import dao.GuestDAO;
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
 import dao.SystemConfigDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -37,7 +32,6 @@ import model.BookingServiceDetail;
 import model.Guest;
 import model.Room;
 import model.RoomType;
-import model.Service;
 import utils.DBUtils;
 import utils.IConstants;
 import controller.feature.EmailSender;
@@ -48,7 +42,7 @@ import controller.feature.EmailSender;
  */
 @WebServlet(name = "BookingController", urlPatterns = {"/BookingController"})
 public class BookingController extends HttpServlet {
-    
+
     protected boolean sendBookingConfirmationEmail(String recipientEmail, int bookingId) {
         try {
             BookingDAO bookingDAO = new BookingDAO();
@@ -60,10 +54,10 @@ public class BookingController extends HttpServlet {
                 System.err.println("Không tìm thấy booking với ID: " + bookingId);
                 return false;
             }
-            
+
             // Lấy thông tin room
             Room room = roomDAO.getRoom(booking.getRoomId());
-            
+
             // Format ngày tháng
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
             String checkIn = booking.getCheckInDate().format(dateTimeFormatter);
@@ -71,33 +65,36 @@ public class BookingController extends HttpServlet {
 
             // Tạo nội dung email đơn giản
             String emailBody = String.format(
-                "Đăng kí thành công. Số phòng: %s, Check-in: %s, Check-out: %s",
-                room.getRoomNumber(),
-                checkIn,
-                checkOut
+                    "Your booking was completed successfully.\n"
+                    + "Room number: %s\n"
+                    + "Check-in date: %s\n"
+                    + "Check-out date: %s",
+                    room.getRoomNumber(),
+                    checkIn,
+                    checkOut
             );
-            
+
             // Gửi email
             EmailSender emailSender = new EmailSender();
             boolean result = emailSender.sendTextEmail(
-                recipientEmail, 
-                "Xác nhận đặt phòng thành công #" + bookingId,
-                emailBody
+                    recipientEmail,
+                    "Booking Confirmation – Thank you for choosing us! #" + bookingId,
+                    emailBody
             );
-            
+
             if (result) {
                 System.out.println("✓ Đã gửi email xác nhận đơn giản booking #" + bookingId + " đến: " + recipientEmail);
             }
-            
+
             return result;
-            
+
         } catch (Exception e) {
             System.err.println("✗ Lỗi khi gửi email xác nhận booking: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");

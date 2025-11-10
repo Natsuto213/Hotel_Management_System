@@ -404,10 +404,10 @@
                     <div class="service-item">
                         <span class="service-name">${c.servicename}</span>
                         <span class="service-details">
-                            <fmt:formatNumber value="${c.price}" type="number" groupingUsed="true"/> VNĐ x ${c.quantity} | ${c.servicedate}
+                            <fmt:formatNumber value="${c.price}" type="number" groupingUsed="true"/> VND x ${c.quantity} | ${c.servicedate}
                         </span>
                         <span class="service-subtotal">
-                            <fmt:formatNumber value="${subtotal}" type="number" groupingUsed="true"/> VNĐ
+                            <fmt:formatNumber value="${subtotal}" type="number" groupingUsed="true"/> VND
                         </span>
                     </div>
 

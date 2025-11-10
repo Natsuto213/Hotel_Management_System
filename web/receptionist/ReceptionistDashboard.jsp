@@ -16,13 +16,9 @@
     </head>
 
     <body class="receptionish-dashboard">
-        <c:set var="staff" value="${sessionScope.STAFF}" />
-        <c:if test="${sessionScope.isLogin != true or fn:toLowerCase(staff.role) ne 'receptionist'}">
-            <jsp:forward page="/home.jsp"/>
-        </c:if>
-
+        <c:set var="staff" value="${sessionScope.STAFF}" scope="page"/>
         <c:choose>
-            <c:when test="${staff!=null}">
+            <c:when test="${staff != null && fn:toLowerCase(staff.role) eq 'receptionist'}">
                 <header class="main-header">
                     <div class="container">
                         <a href="MainController?action=home" class="logo">
@@ -42,7 +38,7 @@
                 <h1 style="margin-top: 100px; text-align: center">Receptionist Dashboard</h1>
 
                 <h2>${requestScope.ERROR}</h2>
-
+                
                 <a href="MainController?action=register" class="create-btn">
                     <i class="fa-solid fa-user-plus"></i> Create account for customer
                 </a>   
@@ -93,7 +89,7 @@
                 <%}%>
             </c:when>
             <c:otherwise >
-                <jsp:forward page="home.jsp"/>
+                <jsp:forward page="/home.jsp"/>
             </c:otherwise>
         </c:choose>
     </body>

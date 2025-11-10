@@ -79,10 +79,14 @@
                                 </td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${b.status != 'Checked-out' && b.status != 'Canceled'}">
+                                        <c:when test="${b.status == 'Checked-in'}">
                                             <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=view" class="action-btn btn-view">View</a>
                                             <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=edit" class="action-btn btn-edit">Edit</a>
                                             <a href="MainController?action=preCheckout&roomid=${b.roomId}&bookingid=${b.bookingId}" class="action-btn btn-checkout">Checkout</a>
+                                        </c:when>
+                                        <c:when test="${b.status != 'Checked-out' && b.status != 'Canceled'}">
+                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=view" class="action-btn btn-view">View</a>
+                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=edit" class="action-btn btn-edit">Edit</a>
                                         </c:when>
                                         <c:otherwise>
                                             <p>...</p>

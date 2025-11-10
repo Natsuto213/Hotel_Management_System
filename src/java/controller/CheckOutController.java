@@ -1,5 +1,6 @@
 package controller;
 
+import controller.feature.EmailSender;
 import dao.BookingDAO;
 import dao.BookingServiceDAO;
 import dao.InvoiceDAO;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Booking;
 import model.BookingServiceDetail;
+import model.Guest;
 import model.Invoice;
 import model.Payment;
 import model.Room;
@@ -33,12 +36,66 @@ import utils.IConstants;
 @WebServlet(name = "CheckOutController", urlPatterns = {"/CheckOutController"})
 public class CheckOutController extends HttpServlet {
 
+    protected boolean sendBookingConfirmationEmail(String recipientEmail, int bookingId) {
+        try {
+            BookingDAO bookingDAO = new BookingDAO();
+            RoomDAO roomDAO = new RoomDAO();
+
+            // Lấy thông tin booking
+            Booking booking = bookingDAO.getBooking(bookingId);
+            if (booking == null) {
+                System.err.println("Không tìm thấy booking với ID: " + bookingId);
+                return false;
+            }
+
+            // Lấy thông tin room
+            Room room = roomDAO.getRoom(booking.getRoomId());
+
+            // Format ngày tháng
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            String checkIn = booking.getCheckInDate().format(dateTimeFormatter);
+            String checkOut = booking.getCheckOutDate().format(dateTimeFormatter);
+            
+            // Tạo nội dung email đơn giản
+            String emailBody = String.format(
+                    "Your check-out was completed successfully.\n"
+                    + "Room number: %s\n"
+                    + "Check-in date: %s\n"
+                    + "Check-out date: %s",
+                    room.getRoomNumber(),
+                    checkIn,
+                    checkOut
+            );
+
+            // Gửi email
+            EmailSender emailSender = new EmailSender();
+            boolean result = emailSender.sendTextEmail(
+                    recipientEmail,
+                    "Check-out Confirmation – Thank you for staying with us! #" + bookingId,
+                    emailBody
+            );
+
+            if (result) {
+                System.out.println("✓ Đã gửi email xác nhận đơn giản booking #" + bookingId + " đến: " + recipientEmail);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            System.err.println("✗ Lỗi khi gửi email xác nhận booking: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         Connection cn = DBUtils.getConnection();
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
+            Guest guest = (Guest) session.getAttribute("USER");
+
             boolean isCheckout = (boolean) session.getAttribute("isCheckout");
             cn.setAutoCommit(false);
 
@@ -87,6 +144,7 @@ public class CheckOutController extends HttpServlet {
             request.setAttribute("CART", cart);
             request.setAttribute("TAX", tax);
 
+            sendBookingConfirmationEmail(guest.getEmail(), bookingid);
             request.getRequestDispatcher(IConstants.INVOICE).forward(request, response);
 
         } catch (Exception e) {
