@@ -79,8 +79,9 @@ public class ServiceDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT * "
-                        + "FROM SERVICE";
+                String sql = "SELECT *\n"
+                        + "FROM SERVICE\n"
+                        + "ORDER BY ServiceName ASC;";
                 PreparedStatement st = cn.prepareStatement(sql);
                 ResultSet table = st.executeQuery();
                 if (table != null) {

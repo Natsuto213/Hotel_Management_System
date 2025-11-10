@@ -66,7 +66,7 @@ public class RegisterController extends HttpServlet {
                             if (result > 0) {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("USER", guest);
-                                request.getRequestDispatcher(IConstants.HOME).forward(request, response);
+                                request.getRequestDispatcher(IConstants.LOGIN).forward(request, response);
                             } else {
                                 request.setAttribute("ERROR", "Tạo tài khoản thất bại");
                                 request.getRequestDispatcher(IConstants.REGISTER).forward(request, response);
