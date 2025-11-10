@@ -36,7 +36,7 @@
 
         <c:set var="bookinglist" value="${requestScope.BookingList}"/>
 
-        <h1 style="margin-top: 80px; text-align: center">Bookings History</h1>
+        <h1 style="margin-top: 80px; margin-bottom: 20px; text-align: center">Bookings History</h1>
 
         <h1>${ERROR}</h1>
 
@@ -79,7 +79,7 @@
                                 </td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${b.status != 'Checked-out'}">
+                                        <c:when test="${b.status != 'Checked-out' && b.status != 'Canceled'}">
                                             <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=view" class="action-btn btn-view">View</a>
                                             <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=edit" class="action-btn btn-edit">Edit</a>
                                             <a href="MainController?action=preCheckout&roomid=${b.roomId}&bookingid=${b.bookingId}" class="action-btn btn-checkout">Checkout</a>

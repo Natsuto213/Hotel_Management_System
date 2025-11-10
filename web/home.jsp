@@ -57,7 +57,7 @@
                         <i class="fa-solid fa-user-minus"></i> Đăng xuất
                     </a>
                     <%
-                    } else if (staff.getRole().equalsIgnoreCase("manager")) {
+                    } else if (staff != null && staff.getRole().equalsIgnoreCase("manager")) {
                     %>
                     <a href="MainController?action=managerDashboard" class="welcome">
                         <i class="fa-solid fa-user"></i> Xin chào, <%= username%>!
@@ -76,7 +76,8 @@
                     </a>
                     <%
                         }
-                    } else { %>
+                    } else {
+                    %>
                     <a href="MainController?action=login" class="nav-button-secondary">
                         <i class="fa-solid fa-user"></i> Đăng nhập
                     </a>
