@@ -41,12 +41,12 @@
                 </header>
                 <c:set var="guest" value="${sessionScope.USER}"/>
                 <h1 style="margin-top: 100px; text-align: center">Edit booking for ${guest.fullname}, id: ${guest.guestId}</h1>
-                <p style="margin-top: 12px; font-size: 20px; text-align: center">${requestScope.ERROR}</p>
+                <p style="margin-top: 12px; font-size: 20px; text-align: center">${ERROR}</p>
 
                 <form action="MainController" method="post" class="create-booking-form">
                     <button class="create-btn" name="action" value="booking">Create booking for customer</button>
                 </form>
-
+                
                 <c:set var="list" value="${requestScope.BookingList}"/>
                 <c:set var="roomList" value="${requestScope.RoomList}"/>
                 <c:choose>

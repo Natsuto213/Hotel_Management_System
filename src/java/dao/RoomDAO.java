@@ -198,7 +198,7 @@ public class RoomDAO {
         return result;
     }
 
-    public int getAvailableRoomIdByType(String type) {
+    public int getAvailableRoomIdByType(String type, LocalDate checkIn, LocalDate checkOut) {
         Connection cn = null;
         int roomId = 0;
         try {
@@ -207,9 +207,16 @@ public class RoomDAO {
                 String sql = "SELECT TOP 1 r.RoomID "
                         + "FROM ROOM r "
                         + "JOIN ROOM_TYPE rt ON r.RoomTypeID = rt.RoomTypeID "
-                        + "WHERE rt.TypeName = ? AND r.Status = 'Available'";
+                        + "WHERE rt.TypeName = ?"
+                        + "  AND r.RoomID NOT IN (\n"
+                        + "        SELECT b.RoomID\n"
+                        + "        FROM BOOKING b\n"
+                        + "        WHERE (b.CheckInDate < ?) AND (b.CheckOutDate > ?)\n"
+                        + "    );";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, type);
+                st.setDate(2, java.sql.Date.valueOf(checkOut));
+                st.setDate(3, java.sql.Date.valueOf(checkIn));
                 ResultSet table = st.executeQuery();
                 if (table != null && table.next()) {
                     roomId = table.getInt("RoomID");

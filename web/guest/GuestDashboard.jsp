@@ -89,7 +89,7 @@
                                             <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=edit" class="action-btn btn-edit">Edit</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <p>...</p>
+                                            <a href="MainController?action=bookingInformation&roomid=${b.roomId}&bookingid=${b.bookingId}&type=view" class="action-btn btn-view">View</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>

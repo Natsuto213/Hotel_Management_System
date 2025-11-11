@@ -98,6 +98,10 @@ public class Service implements Serializable {
         this.status = status;
     }
 
+    public String getStatus() {
+        return status;
+    }
+    
     public Date getServiceDate() {
         return serviceDate;
     }
@@ -113,5 +117,15 @@ public class Service implements Serializable {
     public void setStaffName(String staffName) {
         this.staffName = staffName;
     }
+
+    public String getAssignedStaff() {
+        return AssignedStaff;
+    }
+
+    public void setAssignedStaff(String AssignedStaff) {
+        this.AssignedStaff = AssignedStaff;
+    }
+    
+    
 
 }

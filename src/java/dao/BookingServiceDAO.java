@@ -17,7 +17,7 @@ public class BookingServiceDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT bs.Booking_Service_ID, s.ServiceID, s.ServiceName, s.ServiceType, bs.Quantity, bs.ServiceDate, s.Price\n"
+                String sql = "SELECT bs.Booking_Service_ID, s.ServiceID, s.ServiceName, s.ServiceType, bs.Quantity, bs.ServiceDate, s.Price, bs.Status\n"
                         + "FROM BOOKING_SERVICE bs \n"
                         + "JOIN SERVICE s on bs.ServiceID = s.ServiceID\n"
                         + "WHERE BookingID = ?";
@@ -33,7 +33,8 @@ public class BookingServiceDAO {
                         int quantity = table.getInt("Quantity");
                         LocalDate serviceDate = table.getDate("ServiceDate").toLocalDate();
                         double price = table.getDouble("Price");
-                        BookingServiceDetail bsd = new BookingServiceDetail(bookingServiceId, serviceId, ServiceName, ServiceType, quantity, serviceDate, price);
+                        int status = table.getInt("Status");
+                        BookingServiceDetail bsd = new BookingServiceDetail(bookingServiceId, serviceId, ServiceName, ServiceType, quantity, serviceDate, price, status);
                         result.add(bsd);
                     }
                 }

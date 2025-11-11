@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/controller/CheckOutController.java</file>
-            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/controller/booking/BookingController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/web/guest/EditBooking.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/web/booking/PreBooking.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/web/receptionist/EditBooking_Recep.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Hotel_Management_System/src/java/controller/guest/BookingInformation.java</file>
         </group>
     </open-files>
 </project-private>

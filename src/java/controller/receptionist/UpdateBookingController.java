@@ -62,14 +62,18 @@ public class UpdateBookingController extends HttpServlet {
                     BookingDAO b = new BookingDAO();
                     RoomDAO r = new RoomDAO();
 
-                    int newRoomId = r.getAvailableRoomIdByType(roomType);
-
-                    Booking booking = new Booking(bookingId, newRoomId, checkinDate, checkoutDate);
-                    int result = b.updateBooking(booking);
-                    if (result > 0) {
-                        r.changeRoomStatus("Available", oldRoomId);
-                        r.changeRoomStatus("Occupied", newRoomId);
+                    int newRoomId = r.getAvailableRoomIdByType(roomType, checkin, checkout);
+                    if (newRoomId == 0) {
+                        request.setAttribute("ERROR", "No suitable rooms available.");
                         request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                    } else {
+                        Booking booking = new Booking(bookingId, newRoomId, checkinDate, checkoutDate);
+                        int result = b.updateBooking(booking);
+                        if (result > 0) {
+                            r.changeRoomStatus("Available", oldRoomId);
+                            r.changeRoomStatus("Occupied", newRoomId);
+                            request.getRequestDispatcher(IConstants.CONTROLLER_GET_BOOKINGS).forward(request, response);
+                        }
                     }
                 }
             } else {

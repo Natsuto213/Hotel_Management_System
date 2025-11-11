@@ -442,7 +442,17 @@
                             <input type="hidden" name="serviceDate" value="${c.servicedate}" >
                             <input type="hidden" name="bookingid" value="${param.bookingid}" >
                             <input type="hidden" name="roomid" value="${param.roomid}" >
-                            <button type="submit" name="action" value="deleteService"><i class="fa-solid fa-x"></i></button>
+                            <c:choose>
+                                <c:when test="${c.status == 1}">
+                                    <p style="color: #28a745">On-going</p>
+                                </c:when>
+                                <c:when test="${c.status == 2}">
+                                    <p style="color: #28a745">Completed</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="submit" name="action" value="deleteService"><i class="fa-solid fa-x"></i></button>
+                                    </c:otherwise>
+                                </c:choose>
                         </form>
                         <%-- XÓA <br> --%>
                         <c:set var="serviceTotal" value="${serviceTotal + subtotal}" />
@@ -483,7 +493,7 @@
             <div class="btn-container">
                 <form action="MainController">
                     <button type="submit" name="action" value="findBookings" class="btn btn-outline">Back To History</button>
-                    
+
                     <input type="hidden" name="total" value="${total * (1 + tax)}">
                     <input type="hidden" name="roomid" value="${room.roomId}">
                     <input type="hidden" name="bookingid" value="${booking.bookingId}">

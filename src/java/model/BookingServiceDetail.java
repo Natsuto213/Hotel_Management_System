@@ -38,7 +38,7 @@ public class BookingServiceDetail implements Serializable {
         this.price = price;
     }
 
-    public BookingServiceDetail(int bookingserviceid, int serviceid, String servicename, String servicetype, int quantity, LocalDate servicedate, double price) {
+    public BookingServiceDetail(int bookingserviceid, int serviceid, String servicename, String servicetype, int quantity, LocalDate servicedate, double price, int status) {
         this.bookingserviceid = bookingserviceid;
         this.serviceid = serviceid;
         this.servicename = servicename;
@@ -46,6 +46,7 @@ public class BookingServiceDetail implements Serializable {
         this.quantity = quantity;
         this.servicedate = servicedate;
         this.price = price;
+        this.status = status;
     }
 
     public BookingServiceDetail(String servicename, String servicetype, int quantity, LocalDate servicedate, double price) {
