@@ -11,7 +11,7 @@
 
         <style>
             /* --- CSS cho Toolbar B?ng --- */
-            /* --- CSS cho Toolbar B?ng (?ã c?p nh?t) --- */
+            /* --- CSS cho Toolbar B?ng (?? c?p nh?t) --- */
             .table-toolbar {
                 display: flex;
                 justify-content: space-between;
@@ -29,7 +29,7 @@
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 outline: none;
-                /* --- C?P NH?T: T?ng ?? r?ng ? ?ây --- */
+                /* --- C?P NH?T: T?ng ?? r?ng ? ??y --- */
                 min-width: 650px;
                 margin-right: 10px;
             }
@@ -37,9 +37,9 @@
             .search-form button {
                 padding: 8px 12px;
                 font-size: 14px;
-                /* --- C?P NH?T: ??i sang màu tím --- */
+                /* --- C?P NH?T: ??i sang m?u t?m --- */
                 border: 1px solid #6f42c1;
-                background-color: #6f42c1; /* Mã màu tím */
+                background-color: #6f42c1; /* M? m?u t?m */
                 color: white;
                 cursor: pointer;
                 border-radius: 4px;
@@ -47,7 +47,7 @@
             }
 
             .search-form button:hover {
-                /* --- C?P NH?T: ??i sang màu tím ??m h?n --- */
+                /* --- C?P NH?T: ??i sang m?u t?m ??m h?n --- */
                 background-color: #59369a;
                 border-color: #59369a;
             }
@@ -57,7 +57,7 @@
             }
 
             /* * =========================================
-             * MODIFIED: Thêm style cho nút "Add New Staff"
+             * MODIFIED: Th?m style cho n?t "Add New Staff"
              * =========================================
             */
             .add-button {
@@ -66,7 +66,7 @@
                 font-size: 14px;
                 font-weight: 600;
                 color: #fff;
-                background-color: #198754; /* Màu xanh lá cho "Add" */
+                background-color: #198754; /* M?u xanh l? cho "Add" */
                 border: 1px solid #198754;
                 border-radius: 4px;
                 text-decoration: none;
@@ -75,12 +75,66 @@
             }
 
             .add-button:hover {
-                background-color: #157347; /* Màu xanh lá ??m h?n khi hover */
+                background-color: #157347; /* M?u xanh l? ??m h?n khi hover */
             }
 
-            .tax{
+            /* === CSS C?P NH?T CHO PH?N TAX === */
+
+            /* S?a l?i .tax c? th?nh m?t card ri?ng bi?t */
+            .tax {
                 text-align: center;
-                margin-top: 20px;
+                max-width: 500px; /* Gi?i h?n chi?u r?ng */
+                margin: 20px auto 25px auto; /* C?n gi?a v? t?o kho?ng c?ch */
+                padding: 25px 30px; /* T?ng kho?ng c?ch b?n trong */
+                background-color: #fff; /* N?n tr?ng */
+                border-radius: 8px; /* Bo g?c */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Th?m b?ng ?? nh? */
+            }
+
+            /* Style cho H2 b?n trong tax */
+            .tax h2 {
+                color: #6f42c1; /* M?u t?m ch? ??o (gi?ng search) */
+                margin-top: 0;
+                margin-bottom: 20px;
+                font-size: 1.5rem; /* 24px */
+            }
+
+            /* Style cho form b?n trong tax (d?ng flexbox ?? c?n ch?nh) */
+            .tax form {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px; /* Kho?ng c?ch gi?a input v? button */
+            }
+
+            /* Style cho input b?n trong tax */
+            .tax input[type="number"] {
+                padding: 10px 15px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-family: inherit;
+                width: 200px; /* Cho chi?u r?ng c? ??nh */
+            }
+
+            /* Style cho button b?n trong tax (gi?ng n?t .add-button) */
+            .tax button {
+                padding: 10px 18px;
+                font-size: 14px;
+                font-weight: 600;
+                color: #fff;
+                background-color: #198754; /* M?u xanh l? (Update) */
+                border: 1px solid #198754;
+                border-radius: 4px;
+                text-decoration: none;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+                text-transform: capitalize; /* Vi?t hoa ch? ??u: "Update tax" */
+            }
+
+            /* Hi?u ?ng hover cho button */
+            .tax button:hover {
+                background-color: #157347; /* M?u xanh l? ??m h?n */
             }
 
         </style>
@@ -98,8 +152,7 @@
                 <% }%>
             </div>
             <div class="header-actions">
-                <a href="#">Change System Info</a>
-                <a href="#">Housekeeping Statistic</a>
+
                 <a href="MainController?action=logoutUser">Logout</a>
             </div>
         </div>
@@ -324,3 +377,4 @@
 
     </body>
 </html>
+

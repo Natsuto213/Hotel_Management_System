@@ -136,6 +136,7 @@
                                 type="date" 
                                 name="txtdob" 
                                 class="form-input"
+                                required
                             />
                         </div>
                     </div>
@@ -150,6 +151,7 @@
                             name="txtaddress" 
                             class="form-input" 
                             placeholder="Nhập địa chỉ"
+                            required
                         />
                     </div>
 
@@ -163,6 +165,7 @@
                             name="txtidnumber" 
                             class="form-input" 
                             placeholder="Số CMND/CCCD"
+                            required
                         />
                     </div>
                     <%
